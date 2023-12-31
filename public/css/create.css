@@ -1,0 +1,29 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3em 5em;
+    background-color: var(--glass-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 60%;
+    margin: 0 auto;
+}  
+
+.form-container form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1.2em;
+}
+
+
+.form-container .form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+}
+
+

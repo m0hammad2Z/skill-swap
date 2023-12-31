@@ -1,0 +1,33 @@
+.table-titles{
+    margin : 3em 0;
+    font-size: 1.1em;
+    border-bottom: 0.1em solid var(--dark-color);
+    background-color: var(--dark-color);
+    padding: 1em 0;
+    border-radius: var(--border-radius);
+}
+
+.vcard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+    text-align: center;
+    border-radius: var(--border-radius);
+    padding: 1em 2em;
+}
+
+.vcard *{
+    width: 100%;
+}
+
+.vcard .action{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+

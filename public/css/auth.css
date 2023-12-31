@@ -1,0 +1,21 @@
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3em 5em;
+    background-color: var(--glass-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 70%;
+    margin: 0 auto;
+}  
+
+.login-container form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.2em;
+}
+
+

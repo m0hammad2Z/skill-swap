@@ -1,0 +1,32 @@
+.rooms-container {
+    margin-top: 5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+.rooms-container .room-card{  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--glass-color);
+    padding: 1.2em 2em;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    box-shadow: var(--shadow);
+    border: 0.2em solid var(--glass-color);
+    
+    transition: all 0.3s ease-in-out;
+}
+
+
+img {
+    width: 20em;
+    height: 15em;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+

@@ -1,0 +1,316 @@
+:root{
+    --font-family-sans-serif: 'Inter', sans-serif;
+
+    --main-color: #3B82F6;
+    --darkest-color: #0F172A;
+    --dark-color: #304065;
+    --mid-color: #769cf5;
+    --light-color: #CBD5E1;
+    --lightest-color: #FFFFFF;
+    --glass-color: rgba(66, 64, 64, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    --red-color: #EF4444;
+
+    --shadow: 0 1em 3em 0.01em  var(--shadow-color);
+
+    --border-radius: 0.5em;
+}
+
+body{
+    font-family: var(--font-family-sans-serif);
+    background-image: linear-gradient(135deg, var(--darkest-color), var(--dark-color));
+    color: var(--light-color);
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+h1{
+    color:var(--lightest-color);
+}
+
+h2{
+    color:var(--mid-color);
+}
+
+h3, h4, p{
+    color:var(--light-color);
+}
+
+
+.fas{
+    font-size: 2.5em;
+    color: var(--mid-color);
+}
+
+a{
+    color:var(--light-color);
+    text-decoration: none;
+}
+
+hr{
+    border: 0.1em solid var(--dark-color);
+    margin: 2em 0;
+    margin: 10em auto;
+}
+
+.section-title{
+    font-size: 2.2em;
+    font-weight: 900;
+    color: var(--lightest-color);
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: var(--main-color);
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.3em;
+}
+
+.subtitle{
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--light-color);
+    text-align: center;
+}
+
+.cta-button{
+    padding: 0.8em 1.6em !important;
+    background-color: var(--main-color);
+    color: var(--lightest-color);
+    transition: all 0.3s ease-in-out;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+
+}
+
+.cta-button:hover{
+    background-color: var(--dark-color);
+    color: var(--lightest-color);
+}
+
+.red-button{
+    padding: 0.8em 1.6em !important;
+    background-color: transparent;
+    color: var(--red-color);
+    transition: all 0.3s ease-in-out;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    border: 0.1em solid var(--red-color);
+    cursor: pointer;
+    text-align: center;
+}
+
+.red-button:hover{
+    background-color: var(--red-color);
+    color: var(--lightest-color);
+}
+
+.logo a{
+    font-size: 2.2em;
+    font-weight: 600;
+    color: var(--lightest-color);
+    border-left: 0.15em solid var(--main-color);
+    padding: 0;
+    border-radius: 0;
+    padding-left: 0.2em;
+}
+
+.room-card-tags{
+    margin-top: -1em;
+}
+
+.room-card-tag{
+    background-color: var(--main-color);
+    color: var(--lightest-color);
+    padding: 0.2em 0.5em;
+    border-radius: var(--border-radius);
+    font-size: 0.8em;
+}
+
+
+/* inputs */
+input{
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    box-shadow: var(--shadow);
+    border: 0.2em solid var(--glass-color);
+    outline: none;
+    font-weight:800;
+    background-color: var(--light-color);
+    margin: 0.2em 0;
+    color: var(--dark-color);
+}
+
+label{
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--light-color);
+    
+}
+
+textarea{
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    box-shadow: var(--shadow);
+    border: 0.2em solid var(--glass-color);
+    outline: none;
+    font-weight:900;
+    padding: 0.5em 1em;
+    background-color: var(--light-color);
+    width: 100%;
+    font-size: 1.2em;
+    margin: 0.2em 0 ;
+    color: var(--dark-color);
+}
+
+select{
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    box-shadow: var(--shadow);
+    border: 0.2em solid var(--glass-color);
+    outline: none;
+    background-color: var(--light-color);
+    width: 100%;
+    color: var(--darkest-color);
+    padding: 0.5em 1em;
+}
+
+
+
+/* navbar */
+
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap : 1em;
+    z-index: 100;
+    margin-bottom: 10em;
+    border-bottom: 0.1em solid var(--dark-color);
+    padding-bottom: 1em;
+}
+
+
+nav .navbar-links{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap : 1em;
+}
+
+nav  a{
+    font-size: 1em;
+    font-weight: 600;
+    padding: 0.5em 1em;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease-in-out;
+}
+
+nav  a:hover{
+    color: var(--main-color);
+}
+
+nav #dropdown-content{
+   display: none;
+    position: absolute;
+    background-color: var(--dark-color);
+    min-width: 10em;
+    box-shadow: var(--shadow);
+    z-index: 1;
+    border-radius: var(--border-radius);
+    padding: 0.5em 1em;
+    margin-top: 0.5em;
+    right: 8vw;
+    transition: all 0.3s ease-in-out;
+}
+
+nav #dropdown-content .fas{
+    font-size: 1.3em;
+    color: var(--light-color);
+    margin-right: 0.5em;
+}
+
+nav .show{
+   display: flex!important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+}
+
+nav  .dropbtn{
+    font-size: 0.6em;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    /* Center the dropdown */
+
+}
+
+nav  .dropbtn:hover{
+    scale: 1.1;
+}
+
+nav .right-side{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+/* Footer */
+footer {
+    color: var(--light-color);
+    padding: 50px 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    max-width: 400px;
+    margin-bottom: 30px;
+}
+
+.socials{
+    align-self: center
+}
+
+
+.socials a {
+    display: inline-block;
+    margin-right: 15px;
+    color: var(--light-color);
+    font-size: 1.5em;
+    transition: color 0.3s ease-in-out;
+
+}
+
+.socials a:hover {
+    color: var(--main-color);
+}
+
+
+/* Footer Bottom */
+.footer-bottom {
+    margin-top: 4em;
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--light-color);
+    border-top: 1px solid var(--dark-color  );
+    padding-top: 1em
+}
+
+
