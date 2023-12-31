@@ -49,3 +49,21 @@ Route::get('/myrequests', function () {
 Route::get('/myoffers', function () {
     return view('website.myoffers');
 });
+
+
+// Admin Routes
+Route::get('/dashboard', function () {
+    return view('admin.dashboard');
+});
+Route::get('/dashboard/rooms', function () {
+    return view('admin.rooms');
+});
+Route::get('/dashboard/users', function () {
+    return view('admin.users');
+});
+Route::get('/dashboard/bookings', function () {
+    return view('admin.bookings');
+});
+Route::get('/dashboard/skills', function () {
+    return view('admin.skills');
+});
