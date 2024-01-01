@@ -170,7 +170,7 @@ textarea{
     color: var(--dark-color);
 }
 
-select{
+select, .select2 {
     font-size: 1.1em;
     font-weight: 600;
     border-radius: var(--border-radius);
@@ -181,10 +181,25 @@ select{
     background-color: var(--light-color);
     width: 100%;
     color: var(--darkest-color);
-    padding: 0.5em 1em;
+    
 }
 
 
+
+.select2 *{
+    font-weight: 600;
+    color: var(--darkest-color);
+    background-color: var(--light-color)!important;
+    border: none!important;
+}
+
+.select2-results__option{
+    font-weight: 600;
+    color: var(--darkest-color);
+    
+    
+    border-radius: var(--border-radius);
+}
 
 /* navbar */
 

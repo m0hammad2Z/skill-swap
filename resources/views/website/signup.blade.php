@@ -5,6 +5,8 @@
     @section('styles')
         <link rel="stylesheet" href="css/auth.css"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+        
     @endsection
 </head>
 
@@ -45,10 +47,18 @@
                         <label for='password'>Password</label>
                         <input type='password' id='password' name='password' placeholder='Enter your password' required>
                     </div>
-                    <div class="form-group">
-                        <label for="skills">Skills (comma-separated)</label>
-                        <input type="text" id="skills" name="skills" placeholder="e.g., Web Development, Graphic Design">
-                    </div>
+                    <div class="form-group" data-select2-id="44">
+                        <label>Skills</label>
+                        <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                          <option data-select2-id="46">Alabama</option>
+                          <option data-select2-id="47">Alaska</option>
+                          <option data-select2-id="48">California</option>
+                          <option data-select2-id="49">Delaware</option>
+                          <option data-select2-id="50">Tennessee</option>
+                          <option data-select2-id="51">Texas</option>
+                          <option data-select2-id="52">Washington</option>
+                        </select>
+                      </div>
                     <div class="form-group">
                         <label for="skills">Bio</label>
                         <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself"></textarea>
@@ -66,6 +76,30 @@
 
             <hr>
         @endsection            
+
+        <script src="../../plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+
+        <!-- Select2 -->
+        <script src="../../plugins/select2/js/select2.full.min.js"></script>
+        <!-- Bootstrap4 Duallistbox -->
+
+
+        <!-- Page specific script -->
+        <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            $(document).ready(function () {
+                $('.select2').select2({
+                    maximumSelectionLength: 5,
+                    // other options...
+                });
+            });
+        })
+
+        // DropzoneJS Demo Code End
+        </script>
 
 </body>
 </html>

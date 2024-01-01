@@ -3,6 +3,8 @@
 @section('title', 'User Management')
 
 @section('content')
+
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -57,10 +59,18 @@
                                     <label for="password">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="skills">Skills (comma-separated)</label>
-                                    <input type="text" name="skills" id="skills" class="form-control" placeholder="e.g., Web Development, Graphic Design" required>
-                                </div>
+                                <div class="form-group" data-select2-id="44">
+                                    <label>Skills</label>
+                                    <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                                      <option data-select2-id="46">Alabama</option>
+                                      <option data-select2-id="47">Alaska</option>
+                                      <option data-select2-id="48">California</option>
+                                      <option data-select2-id="49">Delaware</option>
+                                      <option data-select2-id="50">Tennessee</option>
+                                      <option data-select2-id="51">Texas</option>
+                                      <option data-select2-id="52">Washington</option>
+                                    </select>
+                                  </div>
                                 <div class="form-group">
                                     <label for="bio">Bio</label>
                                     <textarea name="bio" id="bio" class="form-control" placeholder="Tell us about yourself" required></textarea>
@@ -161,10 +171,18 @@
                                                                 <label for="edit_password">Password</label>
                                                                 <input type="password" name="edit_password" id="edit_password" class="form-control" placeholder="Enter your password" required>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label for="edit_skills">Skills (comma-separated)</label>
-                                                                <input type="text" name="edit_skills" id="edit_skills" class="form-control" placeholder="e.g., Web Development, Graphic Design" required>
-                                                            </div>
+                                                            <div class="form-group" data-select2-id="44">
+                                                                <label>Skills</label>
+                                                                <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                                                                  <option data-select2-id="46">Alabama</option>
+                                                                  <option data-select2-id="47">Alaska</option>
+                                                                  <option data-select2-id="48">California</option>
+                                                                  <option data-select2-id="49">Delaware</option>
+                                                                  <option data-select2-id="50">Tennessee</option>
+                                                                  <option data-select2-id="51">Texas</option>
+                                                                  <option data-select2-id="52">Washington</option>
+                                                                </select>
+                                                              </div>
                                                             <div class="form-group">
                                                                 <label for="edit_bio">Bio</label>
                                                                 <textarea name="edit_bio" id="edit_bio" class="form-control" placeholder="Tell us about yourself" required></textarea>
@@ -191,5 +209,29 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+
+    <!-- Select2 -->
+    <script src="../../plugins/select2/js/select2.full.min.js"></script>
+    <!-- Bootstrap4 Duallistbox -->
+
+
+    <!-- Page specific script -->
+    <script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+        $(document).ready(function () {
+            $('.select2').select2({
+                maximumSelectionLength: 5,
+                // other options...
+            });
+        });
+    })
+
+    // DropzoneJS Demo Code End
+    </script>
     <!-- /.content -->
 @endsection
