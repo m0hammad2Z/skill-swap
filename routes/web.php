@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 Route::get('/', function () {
     return view('website.landing');
@@ -40,9 +50,9 @@ Route::get('/myrooms/{id}', function () {
 Route::get('/notifications', function () {
     return view('website.notifications');
 });
-Route::get('/profile', function () {
-    return view('website.profile');
-});
+// Route::get('/profile', function () {
+//     return view('website.profile');
+// });
 Route::get('/myrequests', function () {
     return view('website.myrequests');
 });
@@ -51,19 +61,21 @@ Route::get('/myoffers', function () {
 });
 
 
-// Admin Routes
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
-Route::get('/dashboard/rooms', function () {
-    return view('admin.rooms');
-});
-Route::get('/dashboard/users', function () {
-    return view('admin.users');
-});
-Route::get('/dashboard/bookings', function () {
-    return view('admin.bookings');
-});
-Route::get('/dashboard/skills', function () {
-    return view('admin.skills');
-});
+// // Admin Routes
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard');
+// });
+// Route::get('/dashboard/rooms', function () {
+//     return view('admin.rooms');
+// });
+// Route::get('/dashboard/users', function () {
+//     return view('admin.users');
+// });
+// Route::get('/dashboard/bookings', function () {
+//     return view('admin.bookings');
+// });
+// Route::get('/dashboard/skills', function () {
+//     return view('admin.skills');
+// });
+
+require __DIR__.'/auth.php';

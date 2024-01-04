@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap');
+
 :root{
-    --font-family-sans-serif: 'Inter', sans-serif;
+    --font-family-sans-serif: 'Fredoka', sans-serif;
 
     --main-color: #3B82F6;
     --darkest-color: #0F172A;
-    --dark-color: #304065;
+    --dark-color: #1e2c4b;
     --mid-color: #769cf5;
     --light-color: #CBD5E1;
     --lightest-color: #FFFFFF;
@@ -18,6 +20,8 @@
 }
 
 body{
+
+    
     font-family: var(--font-family-sans-serif);
     background-image: linear-gradient(135deg, var(--darkest-color), var(--dark-color));
     color: var(--light-color);
@@ -56,7 +60,7 @@ hr{
 }
 
 .section-title{
-    font-size: 2.2em;
+    font-size: 2.5em;
     font-weight: 900;
     color: var(--lightest-color);
     text-align: center;
@@ -67,7 +71,7 @@ hr{
 }
 
 .subtitle{
-    font-size: 1.3em;
+    font-size: 1.4em;
     font-weight: 600;
     color: var(--light-color);
     text-align: center;
@@ -97,7 +101,7 @@ hr{
     background-color: transparent;
     color: var(--red-color);
     transition: all 0.3s ease-in-out;
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: 600;
     border-radius: var(--border-radius);
     border: 0.1em solid var(--red-color);
@@ -111,7 +115,7 @@ hr{
 }
 
 .logo a{
-    font-size: 2.2em;
+    font-size: 2.5em;
     font-weight: 600;
     color: var(--lightest-color);
     border-left: 0.15em solid var(--main-color);
