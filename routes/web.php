@@ -29,12 +29,6 @@ Route::get('/', function () {
 Route::get('/rooms', function () {
     return view('website.rooms');
 });
-Route::get('/login', function () {
-    return view('website.login');
-});
-Route::get('/signup', function () {
-    return view('website.signup');
-});
 Route::get('/rooms/create', function () {
     return view('website.create');
 });

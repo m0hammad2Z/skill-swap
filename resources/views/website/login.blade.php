@@ -26,8 +26,13 @@
     
     @section('content')
     <div class="login-container">
+        @foreach ($errors->all() as $error)
+        <div> {{ $error }}</div>
+        @endforeach
+
         <h1 class="section-title">Log In</h1>
-        <form action="/login" method="POST">
+
+        <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="email">Email Address</label>
