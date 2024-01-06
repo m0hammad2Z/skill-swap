@@ -13,15 +13,58 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Admin Routes
+    Route::prefix('dashboard')->group(function(){
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        });
+        Route::get('/rooms', function () {
+            return view('admin.rooms');
+        });
+        Route::get('/users', function () {
+            return view('admin.users');
+        });
+        Route::get('/bookings', function () {
+            return view('admin.bookings');
+        });
+        Route::get('/skills', function () {
+            return view('admin.skills');
+        });
+    });
+
+    // User Routes
+    Route::get('/rooms/create', function () {
+        return view('website.create');
+    });
+    Route::get('/myrooms', function () {
+        return view('website.myrooms');
+    });
+    Route::get('/myrooms/{id}', function () {
+        return view('website.myroomDetails');
+    });
+    Route::get('/notifications', function () {
+        return view('website.notifications');
+    });
+    
+    Route::get('/myrequests', function () {
+        return view('website.myrequests');
+    });
+    Route::get('/myoffers', function () {
+        return view('website.myoffers');
+    });
 });
+
+
+
 
 Route::get('/', function () {
     return view('website.landing');
@@ -29,47 +72,11 @@ Route::get('/', function () {
 Route::get('/rooms', function () {
     return view('website.rooms');
 });
-Route::get('/rooms/create', function () {
-    return view('website.create');
-});
 Route::get('/room/{id}', function () {
     return view('website.roomDetails');
 });
-Route::get('/myrooms', function () {
-    return view('website.myrooms');
-});
-Route::get('/myrooms/{id}', function () {
-    return view('website.myroomDetails');
-});
-Route::get('/notifications', function () {
-    return view('website.notifications');
-});
-// Route::get('/profile', function () {
-//     return view('website.profile');
-// });
-Route::get('/myrequests', function () {
-    return view('website.myrequests');
-});
-Route::get('/myoffers', function () {
-    return view('website.myoffers');
-});
 
 
-// // Admin Routes
-// Route::get('/dashboard', function () {
-//     return view('admin.dashboard');
-// });
-// Route::get('/dashboard/rooms', function () {
-//     return view('admin.rooms');
-// });
-// Route::get('/dashboard/users', function () {
-//     return view('admin.users');
-// });
-// Route::get('/dashboard/bookings', function () {
-//     return view('admin.bookings');
-// });
-// Route::get('/dashboard/skills', function () {
-//     return view('admin.skills');
-// });
+
 
 require __DIR__.'/auth.php';

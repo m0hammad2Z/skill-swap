@@ -34,6 +34,8 @@
                         <p>Created by: John Doe</p>
                         <p>Skills: HTML, CSS, JavaScript</p>
                         <p>Wants to Learn: Python</p>
+                        <p>Wants to Learn: Python</p>
+                        <p>Wants to Learn: Python</p>
                         <p>Rating: 4.5/5</p>
                     </div>
     
@@ -49,6 +51,7 @@
                     <!-- Creator Information -->
                     <div class="creator-info">
                         <p>Created by: Jane Smith</p>
+                        <p>Skills: SEO, Social Media Marketing, Analytics</p>
                         <p>Skills: SEO, Social Media Marketing, Analytics</p>
                         <p>Wants to Learn: Graphic Design</p>
                         <p>Rating: 4.2/5</p>
@@ -148,8 +151,18 @@
     </div>
     
     <hr>
+
+    <script>
+        var rooms = document.querySelectorAll('.card');
+        let maxCardHeight = 0;
+        rooms.forEach(room => {
+            console.log(room.scrollHeight);
+        });
+    </script>
+
    
     @endsection
+
 
 
 </body>

@@ -31,13 +31,13 @@
 
 .cards-container > .left > .cards > .card{
     width: 20em;
-    height: 25em;
+    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     /* align-items: start; */
     background-color: var(--glass-color);
-    padding: 1.2em 2em;
+    padding: 1em 1.5em;
     border-radius: var(--border-radius);
     box-sizing: border-box;
     box-shadow: var(--shadow);
@@ -51,7 +51,6 @@
     box-sizing: border-box;
     box-shadow: var(--shadow);
     border: 0.2em solid var(--glass-color);   
-
 }
 
 .cards-container > .right {

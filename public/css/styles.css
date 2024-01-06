@@ -114,6 +114,7 @@ hr{
     color: var(--lightest-color);
 }
 
+
 .logo a{
     font-size: 2.5em;
     font-weight: 600;
@@ -220,12 +221,6 @@ nav{
 }
 
 
-nav .navbar-links{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap : 1em;
-}
 
 nav  a{
     font-size: 1em;
@@ -239,48 +234,80 @@ nav  a:hover{
     color: var(--main-color);
 }
 
-nav #dropdown-content{
-   display: none;
-    position: absolute;
-    background-color: var(--dark-color);
-    min-width: 10em;
-    box-shadow: var(--shadow);
-    z-index: 1;
-    border-radius: var(--border-radius);
-    padding: 0.5em 1em;
-    margin-top: 0.5em;
-    right: 8vw;
-    transition: all 0.3s ease-in-out;
+nav .dropdown{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap : 1em;
 }
 
+nav #dropdown-content{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--dark-color);
+    padding: 1em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 100;
+    position: absolute!important;
+    width: 70vw;
+    top: 6em;
+    right: 0em;
+    margin: 0 5em;
+    transition: all 0.5s ease-in-out;
+    animation: dropdown 0.5s ease-in-out;
+}
+
+@keyframes dropdown{
+    from{
+        opacity: 0;
+        transform: translateY(-1em);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+}
+
+
 nav #dropdown-content .fas{
-    font-size: 1.3em;
+    font-size: 1.5em;
     color: var(--light-color);
     margin-right: 0.5em;
 }
 
+nav #dropdown-content > *{
+    text-align: center;
+    width: 9em;
+    font-size: 1.2em;
+}
+
 nav .show{
-   display: flex!important;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
+    display: flex!important;
 }
 
-nav  .dropbtn{
-    font-size: 0.6em;
+nav  .burger{
+    font-family: var(--font-family-sans-serif);
+    font-size: 2em;
     background-color: transparent;
-    transition: all 0.3s ease-in-out;
+    color: var(--mid-color);
     border: none;
-    /* Center the dropdown */
-
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
-nav  .dropbtn:hover{
-    scale: 1.1;
+nav  .burger:hover{
+    color: var(--light-color);
 }
+
 
 nav .right-side{
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     gap: 1em;
