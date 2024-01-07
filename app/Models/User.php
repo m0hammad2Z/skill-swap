@@ -50,4 +50,52 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // ---------- Skills ----------
+
+    //  User can have many skills
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills');
+    }
+
+    // -------- Rooms --------
+
+    //  User can be a member of many rooms
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_members');
+    }
+
+    //  User can the owner of many rooms
+    public function roomsOwned()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    // ----------- Notifications ------------
+
+    // User can have many notifications
+        public function notifications()
+        {
+            return $this->hasMany(Notification::class);
+        }
+    
+    // ----------- Wallet Transactions ------------
+
+    // User can have many wallet transactions
+        public function walletTransactions()
+        {
+            return $this->hasMany(WalletTransaction::class);
+        }
+
+    // ------------ Booking ------------
+
+    // User can make many bookings
+        public function bookings()
+        {
+            return $this->hasMany(Booking::class);
+        }
+
+
 }

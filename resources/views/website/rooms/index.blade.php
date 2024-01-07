@@ -150,17 +150,7 @@
 
     </div>
     
-    <hr>
-
-    <script>
-        var rooms = document.querySelectorAll('.card');
-        let maxCardHeight = 0;
-        rooms.forEach(room => {
-            console.log(room.scrollHeight);
-        });
-    </script>
-
-   
+    <hr>   
     @endsection
 
 
