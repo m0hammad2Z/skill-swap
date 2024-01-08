@@ -21,4 +21,5 @@ class Booking extends Model
         'booked_at',
         'staus',
     ];
+    
 }

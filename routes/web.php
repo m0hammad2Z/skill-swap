@@ -72,13 +72,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', [RoomController::class, 'store'])->name('rooms.store');
     });
 
-
     // User Rooms Routes
     Route::prefix('myrooms')->group(function(){
         Route::get('/', [RoomController::class, 'showUserRooms'])->name('rooms.userRooms');
         Route::get('{id}', [RoomController::class, 'showJoinedRoom'])->name('rooms.joinedRoom');
     });
     
+    // Booking Routes
+    Route::prefix('bookings')->group(function(){
+        Route::post('/create', [BookingController::class, 'store'])->name('bookings.store');
+    });
+
 });
 
 

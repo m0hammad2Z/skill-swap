@@ -4,30 +4,36 @@
     --font-family-sans-serif: 'Fredoka', sans-serif;
 
     --main-color: #3B82F6;
+    --mid-color: #769cf5;
+
     --darkest-color: #0F172A;
     --dark-color: #1e2c4b;
-    --mid-color: #769cf5;
-    --light-color: #CBD5E1;
+    
+    --light-color: #bacadd;
     --lightest-color: #FFFFFF;
+    
     --glass-color: rgba(66, 64, 64, 0.1);
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.226);
 
     --red-color: #EF4444;
 
-    --shadow: 0 1em 3em 0.01em  var(--shadow-color);
+    --shadow: 0 0.5em 0.8em 0em  var(--shadow-color);
 
     --border-radius: 0.5em;
 }
 
 body{
-
-    
     font-family: var(--font-family-sans-serif);
     background-image: linear-gradient(135deg, var(--darkest-color), var(--dark-color));
+    /* background-image: linear-gradient(135deg, var(--lightest-color), var(--light-color)); */
     color: var(--light-color);
+    /* color: var(--dark-color); */
     width: 80%;
     margin: 0 auto;
     margin-top: 2em;
+
+    /* Light mode using filters */
+    /* filter: invert(1) hue-rotate(180deg); */
 }
 
 h1{
@@ -38,8 +44,10 @@ h2{
     color:var(--mid-color);
 }
 
-h3, h4, p{
-    color:var(--light-color);
+
+p{
+    font-size: 1.2em;
+    font-weight: 300;
 }
 
 
@@ -88,6 +96,9 @@ hr{
     border: none;
     cursor: pointer;
     text-align: center;
+    
+    /* bottom box shadow */
+    box-shadow: var(--shadow);
 
 }
 
@@ -107,6 +118,7 @@ hr{
     border: 0.1em solid var(--red-color);
     cursor: pointer;
     text-align: center;
+    box-shadow: var(--shadow);
 }
 
 .red-button:hover{
