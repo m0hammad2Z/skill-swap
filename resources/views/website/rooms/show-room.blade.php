@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="{{ asset('css/roomDetails.css') }}">
 @endsection
 
+@php
+    if ($room->members->contains(Auth::user()->id)){
+        echo '<script>window.location.href="/myrooms"</script>';
+    }
+@endphp
+
 
 @section('content')
     <h1 class="section-title">{{ $room->user->first_name . ' ' . $room->user->last_name }}</h1>
@@ -53,32 +59,53 @@
                 </div>
             </div>
         </div>
-        <a href="/rooms/{{ $room->id }}/" class="cta-button">Ask to Join</a>
+
+        
+
+        @php 
+            if ($room->isRequested){
+                echo '<button class="cta-button" onclick="askToJoin()" >Waiting for approval</button>';
+            }else{
+                echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
+            }
+        @endphp
     </div>
     <hr>
+
     <script>
-        function toastNotification(title, icon, timer = 3000) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: timer,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+        // Function to ask to join a room
+        function askToJoin() {
+            fetch('/bookings/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                didClose: (toast) => {
-                    toast.removeEventListener('mouseenter', Swal.stopTimer)
-                    toast.removeEventListener('mouseleave', Swal.resumeTimer)
+                body: JSON.stringify({
+                    room_id: {{ $room->id }},
+                    user_id: {{ Auth::user()->id }}
+                })
+            })
+            .then(res => res.json()) 
+            .then(data => {
+                if (data.success) {
+                    toastNotification(data.message, 'success', 3000);
+                    setTimeout(() => {
+                        window.location.href = "/rooms";
+                    }, 3000);
+                } else {
+                    toastNotification(data.message, 'error', 3000);
                 }
             })
-
-            Toast.fire({
-                icon: icon,
-                title: title
-            })
+            .catch(error => {
+                console.error(error);
+                toastNotification('Something went wrong', 'error', 3000);
+            });
         }
+
+
+        
+   
     </script>
 
     @endsection

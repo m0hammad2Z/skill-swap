@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -80,7 +81,12 @@ Route::middleware('auth')->group(function () {
     
     // Booking Routes
     Route::prefix('bookings')->group(function(){
-        Route::post('/create', [BookingController::class, 'store'])->name('bookings.store');
+        Route::post('/store', [BookingController::class, 'store'])->name('bookings.store');
+        Route::post('/accept', [BookingController::class, 'accept'])->name('bookings.accept');
+        Route::post('/reject', [BookingController::class, 'reject'])->name('bookings.reject');
+        Route::post('/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
+        Route::get('/{id}', [BookingController::class, 'show'])->name('bookings.show');
     });
 
 });

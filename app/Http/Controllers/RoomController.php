@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\Skill;
 use App\Models\RoomMember;
 use App\Models\User;
+use App\Models\Booking;
 use Carbon\Carbon;
 
 class RoomController extends Controller
@@ -34,13 +35,20 @@ class RoomController extends Controller
     }
 
     // Show a room(Not Joined) (GET)
-    public function show($id){
+    public function show($id){       
         $room = Room::with(['user' => function($query){
             return $query->select('id', 'first_name', 'last_name', 'username');
         }])->find($id);
+
         $room->skill_to_learn = Skill::find($room->skill_to_learn_id);
         $room->skill_to_teach = Skill::find($room->skill_to_teach_id);
 
+        $userBookings = User::find(auth()->user()->id)->bookings()->get();
+        if($userBookings->contains('room_id', $room->id)){
+            $room->isRequested = true;
+        }else{
+            $room->isRequested = false;
+        }
         return view('website.rooms.show-room', compact('room'));
     }
 
