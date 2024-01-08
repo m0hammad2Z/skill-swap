@@ -85,6 +85,9 @@ class RoomController extends Controller
             $request->is_private = false;
         }
 
+        if(!$request->is_featured){
+            $request->featured_until = null;
+        }
 
 
         if($request->hasFile('image')){

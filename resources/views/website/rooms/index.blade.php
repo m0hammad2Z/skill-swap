@@ -14,8 +14,11 @@
    
     @section('content')
     <div class="cards-container">    
+        <h1 class="section-title">Find a Room</h1>
+        <div class="search-bar" style="margin-bottom: 2em; width: 100%;">
+            <input type="text" placeholder="Search by skill or room title">
+        </div>  
         <div class="left">
-            <h1 class="section-title">Find a Room</h1>
             <div class="cards">
 
                 @foreach($rooms as $room)
@@ -33,7 +36,7 @@
                             <p>Rating: 4.5/5</p>
                         </div>
         
-                        <a href="/room/1" class="cta-button btn">Join Room</a>
+                        <a href="/rooms/{{ $room->id }}" class="cta-button btn">Join Room</a>
                     </div>
                 
                 @endforeach
@@ -41,17 +44,14 @@
             </div>
         </div>
 
-        <div class="right">
-            <!-- Search Bar -->
+        {{-- <div class="right">
             <div class="sub-section-title">
                 <h2>Search</h2>
             </div>
             <div class="search-bar">
                 <input type="text" placeholder="Search by skill or room title">
-                {{-- <button class="btn">Search</button> --}}
             </div>
 
-            <!-- Filter -->
             <div class="filter">
                 <h2 class="filter-title">Filter</h2>
                 <div class="filter-content">
@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
     
