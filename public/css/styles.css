@@ -190,6 +190,11 @@ select, .select2 {
 }
 
 
+.from-field{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+}
 
 .select2 *{
     font-weight: 600;
@@ -292,7 +297,7 @@ nav .show{
 
 nav  .burger{
     font-family: var(--font-family-sans-serif);
-    font-size: 2em;
+    font-size: 1.5em;
     background-color: transparent;
     color: var(--mid-color);
     border: none;
@@ -304,6 +309,9 @@ nav  .burger:hover{
     color: var(--light-color);
 }
 
+nav .fa-coins{
+    font-size: 1.4em;
+}
 
 nav .right-side{
     display: flex;

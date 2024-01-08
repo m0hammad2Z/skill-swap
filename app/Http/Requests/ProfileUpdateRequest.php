@@ -24,6 +24,7 @@ class ProfileUpdateRequest extends FormRequest
             'country' => ['required', 'string', 'max:255'],
             'bio' => ['nullable', 'string', 'max:255'],
             'profile_picture' => 'image|mimes:png,jpg,jpeg,svg|max:2048',
+            'skills' => 'required|array|min:1|max:5',
         ];
     }
 }

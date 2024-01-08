@@ -11,69 +11,32 @@
     
 </head>
 <body>
-
-    <!-- Navbar -->
-    @section('links')
-        <button class="cta-button" onclick="window.location.href='/rooms/create'">Create a Room</button>
-    @endsection
-
-    
+   
     @section('content')
     <div class="cards-container">    
         <div class="left">
             <h1 class="section-title">Find a Room</h1>
             <div class="cards">
-                <!-- Room 1 -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Room Title 1</h2>
-                        <p class="card-description">Join this room to learn about Web Development.</p>    
-                    </div>
-                    <!-- Creator Information -->
-                    <div class="creator-info">
-                        <p>Created by: John Doe</p>
-                        <p>Skills: HTML, CSS, JavaScript</p>
-                        <p>Wants to Learn: Python</p>
-                        <p>Wants to Learn: Python</p>
-                        <p>Wants to Learn: Python</p>
-                        <p>Rating: 4.5/5</p>
-                    </div>
-    
-                    <a href="/room/1" class="cta-button btn">Join Room</a>
-                </div>
+
+                @foreach($rooms as $room)
+                    
+                    <div class="card">
+                        <div class="card-header" style="background-image: url('{{asset('storage/'.$room->image)}}');">
+                            <h2 class="card-title">{{ $room->name }}</h2>
+                            <p class="card-description">{{ $room->description }}</p>   
+                        </div>
+                        <div class="creator-info">
+                            <p>Created by: {{ $room->user->first_name }}</p>
+                            <p>Skill to Teach: {{ $room->skill_to_teach->name }}</p>
+                            <p>Wants to Learn: {{ $room->skill_to_learn->name }}</p>
+                            <p>Number of Participants: {{ $room->membersCount }}</p>
+                            <p>Rating: 4.5/5</p>
+                        </div>
         
-                <!-- Room 2 -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Room Title 2</h2>
-                        <p class="card-description">Explore the world of Digital Marketing in this room.</p>    
+                        <a href="/room/1" class="cta-button btn">Join Room</a>
                     </div>
-                    <!-- Creator Information -->
-                    <div class="creator-info">
-                        <p>Created by: Jane Smith</p>
-                        <p>Skills: SEO, Social Media Marketing, Analytics</p>
-                        <p>Skills: SEO, Social Media Marketing, Analytics</p>
-                        <p>Wants to Learn: Graphic Design</p>
-                        <p>Rating: 4.2/5</p>
-                    </div>
-    
-                    <a href="/room/12" class="cta-button btn">Join Room</a>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Room Title 2</h2>
-                        <p class="card-description">Explore the world of Digital Marketing in this room.</p>    
-                    </div>
-                    <!-- Creator Information -->
-                    <div class="creator-info">
-                        <p>Created by: Jane Smith</p>
-                        <p>Skills: SEO, Social Media Marketing, Analytics</p>
-                        <p>Wants to Learn: Graphic Design</p>
-                        <p>Rating: 4.2/5</p>
-                    </div>
-    
-                    <a href="/room/2" class="cta-button btn">Join Room</a>
-                </div>
+                
+                @endforeach
 
             </div>
         </div>

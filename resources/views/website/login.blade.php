@@ -11,17 +11,6 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    @section('links')
-        <a href="/">Home</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/login">Log In</a>
-    @endsection
-
-
-@section('button')
-    <button class="cta-button" onclick="window.location.href='/create'">Create a Room</button>
-@endsection
 
     
     @section('content')

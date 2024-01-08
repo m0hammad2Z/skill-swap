@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
         Route::get('create', [RoomController::class, 'create'])->name('rooms.create');
         Route::get('{id}', [RoomController::class, 'show'])->name('rooms.show');
+        Route::post('/create', [RoomController::class, 'store'])->name('rooms.store');
     });
 
 

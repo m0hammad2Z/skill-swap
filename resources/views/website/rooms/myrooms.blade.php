@@ -6,80 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/myrooms.css') }}">
 @endsection
 
-@section('links')
-    <button class="cta-button" onclick="window.location.href='/rooms/create'">Create Room</button>
-@endsection
 
-@php
-  $rooms = [
-    (object) [
-      'id' => '1',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-      'tags' => 'tag1, tag2, tag3',
-      'type' => 'Meeting Room',
-    ],
-    (object) [
-      'id' => '2',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-      'tags' => 'tag1, tag2, tag3',
-      'type' => 'Meeting Room',
-    ],
-    (object) [
-      'id' => '3',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-      'tags' => 'tag1, tag2, tag3',
-      'type' => 'Meeting Room',
-    ],
-    (object) [
-      'id' => '4',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-      'tags' => 'tag1, tag2, tag3',
-      'type' => 'Meeting Room',
-    ],
-    (object) [
-      'id' => '5',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-        'tags' => 'tag1, tag2, tag3',
-        'type' => 'Meeting Room',
-    ],
-    (object) [
-      'id' => '6',
-      'name' => 'Sample Room',
-      'description' => 'This is a sample room description.',
-      'duration' => 60,
-      'meeting_date' => '2022-12-31',
-      'meeting_time' => '10:00 AM',
-      'max_participants' => 10,
-      'tags' => 'tag1, tag2, tag3',
-      'type' => 'Meeting Room',
-    ],
-];
-@endphp
 
 
 @section('content')
@@ -96,9 +23,7 @@
                     <div>
                         <h2 class="room-card-title">{{ $room->name }}</h2>
                         <div class="room-card-tags">
-                            @foreach (explode(',', $room->tags) as $tag)
-                                <span class="room-card-tag">{{ $tag }}</span>
-                            @endforeach
+                          <span class="room-card-tag">{{ $room->user->first_name }}</span>
                         </div>
                         <p class="room-card-subtitle">{{ $room->description }}</p>
                     </div>

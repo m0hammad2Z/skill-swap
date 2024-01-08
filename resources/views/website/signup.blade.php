@@ -11,12 +11,6 @@
 </head>
 
 <body>
-        <!-- Navbar -->
-        @section('links')
-        <a href="/">Home</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/login">Log In</a>
-        @endsection
 
         @section('content')
             <div class="login-container">
@@ -60,24 +54,22 @@
 
                     <div class="form-group" data-select2-id="44">
                         <label>Skills</label>
-                        <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
-                          <option data-select2-id="46">Alabama</option>
-                          <option data-select2-id="47">Alaska</option>
-                          <option data-select2-id="48">California</option>
-                          <option data-select2-id="49">Delaware</option>
-                          <option data-select2-id="50">Tennessee</option>
-                          <option data-select2-id="51">Texas</option>
-                          <option data-select2-id="52">Washington</option>
+                        <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true" name="skills[]">
+                          @foreach ($skills as $skill)
+                              <option value="{{ $skill->id }}">{{ $skill->name }}</option>                             
+                          @endforeach
                         </select>
                       </div>
                     <div class="form-group">
                         <label for="bio">Bio</label>
                         <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for='country'>Country</label>
-                        <input type='text' id='country' name='country' placeholder='Enter your country'>
-                    </div>
+                    <select class="countries" name="country" id="countryId" required>
+                        <option value="">Select Country</option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country['name']['common']}}">{{ $country['name']['common']}}</option>
+                        @endforeach
+                    </select>
                     <div class="form-group">
                         <label for='profile_picture'>Profile Picture</label>
                         <input type='file' id='profile_picture' name='profile_picture' placeholder='Upload your profile picture'>

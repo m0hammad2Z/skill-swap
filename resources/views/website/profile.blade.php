@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
 @endsection
 
-@section('links')
-@endsection
-
-@section('buttons')
-<button class="cta-button" onclick="window.location.href='/rooms'">Find Rooms</button>
-@endsection
 
 @section('content')
 <div class="container"></div>
@@ -64,14 +58,14 @@
 
             <div class="form-group" data-select2-id="44">
                 <label>Skills</label>
-                <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
-                  <option data-select2-id="46">Alabama</option>
-                  <option data-select2-id="47">Alaska</option>
-                  <option data-select2-id="48">California</option>
-                  <option data-select2-id="49">Delaware</option>
-                  <option data-select2-id="50">Tennessee</option>
-                  <option data-select2-id="51">Texas</option>
-                  <option data-select2-id="52">Washington</option>
+                <select class="select2 select2-hidden-accessible" multiple="" data-placeholder="Select maximum 5 skills" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true" name="skills[]">
+                    @foreach ($skills as $skill)
+                        @if($user->skills->contains($skill->id))
+                            <option value="{{ $skill->id }}" selected>{{ $skill->name }}</option>
+                        @else
+                            <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                        @endif      
+                    @endforeach
                 </select>
               </div>
             <div class="form-group">
@@ -84,7 +78,8 @@
             </div>
             <div class="form-group">
                 <label for='profile_picture'>Profile Picture</label>
-                <input type='file' id='profile_picture' name='profile_picture' placeholder='Upload your profile picture'>
+                <input type='file' id='profile_picture' name='profile_picture' value="{{ asset('storage/'.$user->profile_picture) }}">
+                <img src="{{asset('storage/'.$user->profile_picture)}}" alt="profile picture">
             </div>
 
             <!-- Submit Button -->

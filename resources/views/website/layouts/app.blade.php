@@ -17,13 +17,30 @@
             <a href="/">SkillSwap</a>
         </div>
 
+        @if (Auth::check())
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/rooms">Find a Room</a>
+            <a href="/rooms/create">Create a Room</a>
+        </div>
+        @endif
+
         <div class="right-side">
             @yield('button')
             @if (Auth::check())
-                <div class="dropdown" >
-                    <button id="burger" class="burger" onclick="toggleMenu()">
-                       {{Auth::user()->first_name}}
-                    </button>
+
+            {{-- <button class="cta-button" onclick="window.location.href='rooms/create'">Create Room</button> --}}
+            <div>
+                <label for="">{{ Auth::user()->sbucks_balance }} <i class="fas fa-coins"></i></label>
+            </div>
+            <div class="dropdown" >
+                   <div style="display: flex; align-items: center; justify-content: center;" onclick="toggleMenu()">
+                    <button id="burger" class="burger" >
+                        {{Auth::user()->username}}
+                     </button>
+                     <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="profile-picture" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">
+                   </div>
+                    
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="/myrooms"><i class="fas fa-home"></i> Rooms</a>
                         <a href="/myrequests"><i class="fas fa-envelope"></i> Requests</a>

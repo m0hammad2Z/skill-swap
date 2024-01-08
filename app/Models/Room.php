@@ -35,9 +35,9 @@ class Room extends Model
     ];
 
     // ------------ Scope ------------
-    public function scoprLessThanMaxAttendees($query)
+    public function scopeLessThanMaxAttendees($query)
     {
-        return $query->where('max_attendees', '<', $this->members->count());
+        return $query->where('max_attendees', '>', $this->members->count());
     }
 
     public function scopeActive($query)
@@ -50,6 +50,28 @@ class Room extends Model
         return $query->where('is_private', false);
     }
 
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    public function scopeUserNotAmemeber($query, $user_id)
+    {
+        return $query->whereDoesntHave('members', 
+            function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+        });
+    }
+
+    public function scopeUserIsMember($query, $user_id)
+    {
+        return $query->whereHas('members', 
+            function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+        });
+    }
+
+    
     // ---------- Users ----------
 
     //  Get the user that owns the room.

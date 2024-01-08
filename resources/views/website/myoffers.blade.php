@@ -6,16 +6,6 @@
     <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
 @endsection
 
-@section('button')
-    <button class="cta-button" onclick="window.location.href='/rooms'">Back to Rooms</button>
-@endsection
-
-@section('links')
-    <a href="/">Home</a>
-    <a href="/rooms">Rooms</a>
-    <a href="/requests">Requests</a>
-    <a href="/offers">Offers</a>
-@endsection
 
 @section('content')
 
