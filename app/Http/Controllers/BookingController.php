@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use Carbon\Carbon;
 use App\Models\Notification;
+use App\Models\User;
 
 class BookingController extends Controller
 {
@@ -45,15 +46,24 @@ class BookingController extends Controller
             'booking_id' => 'required',
         ]);
 
+        
+        if(Booking::checkMark($request->booking_id, Booking::$STATUS_ACCEPTED)){
+            return jsonResponese(false, 'Booking has already been accepted', 400);
+        }
+        
+        
         try{
-            Booking::markAsAccepted($request->booking_id);
+            Booking::markBooking($request->booking_id, Booking::$STATUS_ACCEPTED);
+            
+            
+            $user_id = Booking::find($request->booking_id)->user_id;
 
-            $notification = Notification::add(auth()->user()->id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_ACCEPTED, 'Your booking request has been accepted', 'bookings/' . $request->booking_id);
+            $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_ACCEPTED, 'Your booking request has been accepted', 'bookings/' . $request->booking_id);
             $notification->save();
 
             return jsonResponese(true, 'Booking has been accepted successfully', 200);
         }catch(\Exception $e){
-            return jsonResponese(false, 'Something went wrong, please try again later', 403);
+            return jsonResponese(false, 'Something went wrong, please try again later' . $e, 403);
         }
     }
 
@@ -63,10 +73,17 @@ class BookingController extends Controller
             'booking_id' => 'required',
         ]);
 
-        try{
-            Booking::markAsRejected($request->booking_id);
+        if(Booking::checkMark($request->booking_id, Booking::$STATUS_REJECTED)){
+            return jsonResponese(false, 'Booking has already been rejected', 400);
+        }
 
-            $notification = Notification::add(auth()->user()->id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_REJECTED, 'Your booking request has been rejected', 'bookings/' . $request->booking_id);
+        try{
+            Booking::markBooking($request->booking_id, Booking::$STATUS_REJECTED);
+
+            $user_id = Booking::find($request->booking_id)->user_id;
+
+
+            $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_REJECTED, 'Your booking request has been rejected', 'bookings/' . $request->booking_id);
             $notification->save();
 
             return jsonResponese(true, 'Booking has been rejected successfully', 200);
@@ -75,22 +92,63 @@ class BookingController extends Controller
         }
     }
 
-    // Cancel a booking (POST)
+    // Delete a booking (delete)
     public function cancel(Request $request){
         $request->validate([
             'booking_id' => 'required',
-        ]);
+        ]);    
 
         try{
-            Booking::markAsCancelled($request->booking_id);
+            Booking::find($request->booking_id)->delete();
+            return jsonResponese(true, 'Booking has been deleted successfully', 200);
 
-            return jsonResponese(true, 'Booking has been cancelled successfully', 200);
         }catch(\Exception $e){
             return jsonResponese(false, 'Something went wrong, please try again later', 403);
         }
     }
 
 
+    // My Requests (GET)
+    public function myRequests(){
+
+        // Get all the ids, name of the roomes user owns
+        $rooms = auth()->user()->roomsOwned()->get(['id', 'name']);
+
+        // Get all the requests to join any of the user's rooms
+        $requests = Booking::whereIn('room_id', $rooms->pluck('id'))
+        ->join('users', 'bookings.user_id', '=', 'users.id')
+        ->join('rooms', 'bookings.room_id', '=', 'rooms.id')
+        ->get(
+            [
+                'bookings.id',
+                'bookings.user_id',
+                'bookings.room_id',
+                'bookings.booked_at',
+                'bookings.status',
+                'users.username',
+                'rooms.name',
+            ]
+        );
+
+
+        return view('website.myrequests', compact('requests'));
+    }
+
+    // My Offers (GET)
+    public function myOffers(){
+        $offers = Booking::where('bookings.user_id', auth()->user()->id)
+        ->join('rooms', 'bookings.room_id', '=', 'rooms.id')->get(
+            [
+                'bookings.id',
+                'bookings.room_id',
+                'bookings.booked_at',
+                'bookings.status',
+                'rooms.name',
+            ]
+        );
+
+        return view('website.myoffers', compact('offers'));
+    }
 
 }
 

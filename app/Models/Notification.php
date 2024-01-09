@@ -12,9 +12,7 @@ class Notification extends Model
     public static $TYPE_BOOKING_REQUEST = 'booking_request';
     public static $TYPE_BOOKING_ACCEPTED = 'booking_accepted';
     public static $TYPE_BOOKING_REJECTED = 'booking_rejected';
-    public static $TYPE_BOOKING_CANCELLED = 'booking_cancelled';
-    public static $TYPE_BOOKING_COMPLETED = 'booking_completed';
-    public static $TYPE_BOOKING_REVIEWED = 'booking_reviewed';
+
 
     /**
      * The attributes that are mass assignable.

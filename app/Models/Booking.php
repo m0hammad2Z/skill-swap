@@ -10,9 +10,8 @@ class Booking extends Model
     use HasFactory;
 
     public static $STATUS_PENDING = 'pending';
-    public static $STATUS_ACCEPTED = 'accepted';
+    public static $STATUS_ACCEPTED = 'approved';
     public static $STATUS_REJECTED = 'rejected';
-    public static $STATUS_CANCELLED = 'cancelled';
     
     /**
      * The attributes that are mass assignable.
@@ -40,22 +39,19 @@ class Booking extends Model
         return $booking;
     }
 
-    public static function markAsAccepted($id){
-        $booking = Booking::find($id);
-        $booking->status = Booking::$STATUS_ACCEPTED;
+    public static function markBooking($booking_id, $status){
+        $booking = Booking::find($booking_id);
+        $booking->status = $status;
         $booking->save();
     }
 
-    public static function markAsRejected($id){
-        $booking = Booking::find($id);
-        $booking->status = Booking::$STATUS_REJECTED;
-        $booking->save();
-    }
-
-    public static function markAsCancelled($id){
-        $booking = Booking::find($id);
-        $booking->status = Booking::$STATUS_REJECTED;
-        $booking->save();
+    public static function checkMark($booking_id, $status){
+        $booking = Booking::find($booking_id);
+        if($booking->status == $status){
+            return true;
+        }else{
+            return false;
+        }
     }
     
 }

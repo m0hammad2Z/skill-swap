@@ -50,21 +50,6 @@ Route::middleware('auth')->group(function () {
     });
     
 
-    // User related routes
-    Route::prefix('/')->group(function(){
-        Route::get('/notifications', function () {
-            return view('website.notifications');
-        });
-        Route::get('/myrequests', function () {
-            return view('website.myrequests');
-        });
-        Route::get('/myoffers', function () {
-            return view('website.myoffers');
-        });
-    
-    });
-
-
     // Rooms Routes
     Route::prefix('rooms')->group(function(){
         Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
@@ -73,7 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', [RoomController::class, 'store'])->name('rooms.store');
     });
 
-    // User Rooms Routes
+    // User's Rooms Routes
     Route::prefix('myrooms')->group(function(){
         Route::get('/', [RoomController::class, 'showUserRooms'])->name('rooms.userRooms');
         Route::get('{id}', [RoomController::class, 'showJoinedRoom'])->name('rooms.joinedRoom');
@@ -82,11 +67,21 @@ Route::middleware('auth')->group(function () {
     // Booking Routes
     Route::prefix('bookings')->group(function(){
         Route::post('/store', [BookingController::class, 'store'])->name('bookings.store');
+        
+        //TODO: Change the method to patch
         Route::post('/accept', [BookingController::class, 'accept'])->name('bookings.accept');
         Route::post('/reject', [BookingController::class, 'reject'])->name('bookings.reject');
-        Route::post('/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
-        Route::get('/{id}', [BookingController::class, 'show'])->name('bookings.show');
+        Route::delete('/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
+
+        Route::get('/myrequests', [BookingController::class, 'myRequests'])->name('bookings.myRequests');
+        Route::get('/myoffers', [BookingController::class, 'myOffers'])->name('bookings.myOffers');
+    });
+
+
+    Route::get('/notifications', function () {
+        return view('website.notifications');
     });
 
 });

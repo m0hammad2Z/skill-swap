@@ -46,8 +46,8 @@
                     
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="/myrooms"><i class="fas fa-home"></i> Rooms</a>
-                        <a href="/myrequests"><i class="fas fa-envelope"></i> Requests</a>
-                        <a href="/myoffers"><i class="fas fa-envelope-open"></i> Offers</a>
+                        <a href="/bookings/myrequests"><i class="fas fa-envelope"></i> Requests</a>
+                        <a href="/bookings/myoffers"><i class="fas fa-envelope-open"></i> Offers</a>
                         <a href="/profile"><i class="fas fa-user"></i> Profile</a>
                         <a href="/notifications"><i class="fas fa-bell"></i> Notifications</a>
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
