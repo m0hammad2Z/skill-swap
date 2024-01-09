@@ -7,6 +7,8 @@ use App\Models\Booking;
 use Carbon\Carbon;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Room;
+use App\Models\RoomMember;
 
 class BookingController extends Controller
 {
@@ -52,15 +54,20 @@ class BookingController extends Controller
         }
         
         
-        try{
+        try{ 
+            $booking = Booking::find($request->booking_id);
+            $user_id = $booking->user_id;
+            $room_id = $booking->room_id;
+            
+            $roomMember = RoomMember::add($room_id, $user_id);
+            
+            $notification = Notification::add($user_id, $room_id, Notification::$TYPE_BOOKING_ACCEPTED, 'Your booking request has been accepted', 'bookings/' . $request->booking_id);
+            
+            $roomMember->save();
+            $notification->save();
+            
             Booking::markBooking($request->booking_id, Booking::$STATUS_ACCEPTED);
             
-            
-            $user_id = Booking::find($request->booking_id)->user_id;
-
-            $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_ACCEPTED, 'Your booking request has been accepted', 'bookings/' . $request->booking_id);
-            $notification->save();
-
             return jsonResponese(true, 'Booking has been accepted successfully', 200);
         }catch(\Exception $e){
             return jsonResponese(false, 'Something went wrong, please try again later' . $e, 403);

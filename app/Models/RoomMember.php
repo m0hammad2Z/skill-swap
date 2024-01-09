@@ -19,4 +19,13 @@ class RoomMember extends Model
          'room_id',
          'user_id',
      ];
+
+    public static function add($room_id, $user_id){
+        $roomMember = RoomMember::create([
+            'room_id' => $room_id,
+            'user_id' => $user_id,
+        ]);
+
+        return $roomMember;
+    }
 }
