@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -80,8 +81,9 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::get('/notifications', function () {
-        return view('website.notifications');
+    // Notifications Routes
+    Route::prefix('notifications')->group(function(){
+        Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
     });
 
 });

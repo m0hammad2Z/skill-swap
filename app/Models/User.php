@@ -81,7 +81,7 @@ class User extends Authenticatable
         {
             return $this->hasMany(Notification::class);
         }
-    
+
     // ----------- Wallet Transactions ------------
 
     // User can have many wallet transactions

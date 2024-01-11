@@ -48,14 +48,5 @@ class Notification extends Model
         $notification = Notification::find($id);
         $notification->is_read = true;
         $notification->save();
-    }
-
-    // Mark all notifications as read
-    public static function markAllAsRead($user_id){
-        $notifications = Notification::where('user_id', $user_id)->get();
-        foreach($notifications as $notification){
-            $notification->is_read = true;
-            $notification->save();
-        }
-    }    
+    }   
 }

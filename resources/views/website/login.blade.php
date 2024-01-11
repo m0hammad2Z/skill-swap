@@ -33,7 +33,7 @@
             </div>
             <button type="submit" class="cta-button btn">Log In</button>
         </form>
-        <h4>Don't have an account? <a href="/signup" class="link">Sign Up</a></h4>
+        <h4>Don't have an account? <a href="/register" class="link">Sign Up</a></h4>
     </div>
 
     <hr>

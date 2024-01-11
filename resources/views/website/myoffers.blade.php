@@ -23,6 +23,7 @@
              <div class="table-titles vcard">
                 <strong>Room</strong>
                 <strong>Date</strong>
+                <strong>Status</strong>
                 <strong>Action</strong>
             </div>
 

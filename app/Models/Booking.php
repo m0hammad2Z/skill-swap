@@ -25,7 +25,6 @@ class Booking extends Model
         'booked_at',
         'staus',
     ];
-
     
 
     public static function add($user_id, $room_id, $booked_at){
@@ -45,13 +44,5 @@ class Booking extends Model
         $booking->save();
     }
 
-    public static function checkMark($booking_id, $status){
-        $booking = Booking::find($booking_id);
-        if($booking->status == $status){
-            return true;
-        }else{
-            return false;
-        }
-    }
     
 }

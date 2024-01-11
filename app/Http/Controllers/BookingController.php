@@ -10,6 +10,9 @@ use App\Models\User;
 use App\Models\Room;
 use App\Models\RoomMember;
 
+
+
+
 class BookingController extends Controller
 {
     // Store a new booking (POST) / Ask to join a room
@@ -29,8 +32,13 @@ class BookingController extends Controller
             // Create a new booking
             $booking =  Booking::add(auth()->user()->id, $request->room_id, Carbon::now());
             
+            // Get the room owner id
+            $roomOwnerId = Room::find($request->room_id)->user->id;
+            
             // Create a new notification
-            $notification = Notification::add(auth()->user()->id, $request->room_id, Notification::$TYPE_BOOKING_REQUEST, 'You have a new booking request', 'bookings/' . $booking->id);
+            $message = auth()->user()->username . ' wants to join ' . Room::find($request->room_id)->name;
+            $url = '/myrequests';
+            $notification = Notification::add($roomOwnerId, $request->room_id, Notification::$TYPE_BOOKING_REQUEST, $message, $url);
             
             
             $booking->save();
@@ -48,20 +56,22 @@ class BookingController extends Controller
             'booking_id' => 'required',
         ]);
 
+        $booking = Booking::find($request->booking_id);
         
-        if(Booking::checkMark($request->booking_id, Booking::$STATUS_ACCEPTED)){
+        if($booking->status == Booking::$STATUS_ACCEPTED){
             return jsonResponese(false, 'Booking has already been accepted', 400);
         }
         
-        
         try{ 
-            $booking = Booking::find($request->booking_id);
             $user_id = $booking->user_id;
             $room_id = $booking->room_id;
             
             $roomMember = RoomMember::add($room_id, $user_id);
             
-            $notification = Notification::add($user_id, $room_id, Notification::$TYPE_BOOKING_ACCEPTED, 'Your booking request has been accepted', 'bookings/' . $request->booking_id);
+            $message = 'Your request to join ' . Room::find($room_id)->name . ' has been accepted';
+            $url = 'rooms/' . $room_id;
+
+            $notification = Notification::add($user_id, $room_id, Notification::$TYPE_BOOKING_ACCEPTED, $message, $url);
             
             $roomMember->save();
             $notification->save();
@@ -80,18 +90,23 @@ class BookingController extends Controller
             'booking_id' => 'required',
         ]);
 
-        if(Booking::checkMark($request->booking_id, Booking::$STATUS_REJECTED)){
+        $booking = Booking::find($request->booking_id);
+
+        if($booking->status == Booking::$STATUS_REJECTED){
             return jsonResponese(false, 'Booking has already been rejected', 400);
         }
 
         try{
-            Booking::markBooking($request->booking_id, Booking::$STATUS_REJECTED);
-
-            $user_id = Booking::find($request->booking_id)->user_id;
-
-
-            $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_REJECTED, 'Your booking request has been rejected', 'bookings/' . $request->booking_id);
+            $user_id = $booking->user_id;
+            $room_id = $booking->room_id;
+            
+            $message = 'Your request to join ' . Room::find($room_id)->name . ' has been rejected';
+            $url = '/myrequests';
+            
+            $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_REJECTED, $message, $url);
             $notification->save();
+            
+            Booking::markBooking($request->booking_id, Booking::$STATUS_REJECTED);
 
             return jsonResponese(true, 'Booking has been rejected successfully', 200);
         }catch(\Exception $e){
@@ -158,17 +173,3 @@ class BookingController extends Controller
     }
 
 }
-
-
-
-
-
-// ----------------- Helper Functions ----------------- //
-
-// Helper function to return json response
-function jsonResponese($success, $message, $code){
-    return response()->json(['success' => $success, 'message' => $message], $code);
-}
-
-
-
