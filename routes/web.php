@@ -5,6 +5,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\VideoSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -87,9 +88,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/markAsRead/{id}', [NotificationController::class, 'markNotificationAsRead'])->name('notifications.markAsRead');
     });
 
-     // ------ In Room Routes ------
+     // ------ In Room Routes ------E
     // Video Session
-    
+    Route::prefix('video-session')->group(function(){
+        Route::post('/store', [VideoSessionController::class, 'store'])->name('videoSession.store');
+    });
 
 
 });

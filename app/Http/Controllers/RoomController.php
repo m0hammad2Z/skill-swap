@@ -8,6 +8,7 @@ use App\Models\Skill;
 use App\Models\RoomMember;
 use App\Models\User;
 use App\Models\Booking;
+use App\Models\VideoSession;
 use Carbon\Carbon;
 
 class RoomController extends Controller
@@ -179,13 +180,11 @@ class RoomController extends Controller
         $room->skill_to_learn = Skill::find($room->skill_to_learn_id);
         $room->skill_to_teach = Skill::find($room->skill_to_teach_id);
 
-        $room->members = $room->members()->get();
-
-        $room->isMember = $room->members->contains('user_id', auth()->user()->id);
-
+        $room->isMember = $room->members->contains('id', auth()->user()->id);   
+        
         return view('website.rooms.joinedRoom', compact('room'));
     }
-
+    
 
     
 
