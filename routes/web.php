@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     // Notifications Routes
     Route::prefix('notifications')->group(function(){
         Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/markAsRead/{id}', [NotificationController::class, 'markNotificationAsRead'])->name('notifications.markAsRead');
     });
 
 });

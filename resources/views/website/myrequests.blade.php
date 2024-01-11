@@ -139,7 +139,6 @@
                 message: data.message
             };
         } catch (error) {
-            console.error(error);
             return {
                 success: false,
                 message: 'Something went wrong'

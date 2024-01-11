@@ -2,7 +2,7 @@
     margin : 3em 0;
     font-size: 1.1em;
     border-bottom: 0.1em solid var(--dark-color);
-    background-color: var(--dark-color);
+    background-color: var(--dark-color)!important;
     padding: 1em 0;
     border-radius: var(--border-radius);
 }

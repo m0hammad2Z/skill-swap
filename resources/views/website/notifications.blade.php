@@ -26,25 +26,60 @@
             <div class="table-titles vcard">
                 <strong>Room</strong>
                 <strong>Message</strong>
-                <strong>Action</strong>
             </div>
 
                 @foreach($notifications as $notification)
-                <div class="vcard" id="notification-{{ $notification->id }}" style="cursor: pointer;" onclick="window.location.href='/bookings{{$notification->url}}'">
+                <div class="vcard" style="cursor: pointer; background-color: {{ $notification->is_read == 0 ? 'var(--glass-color)' : 'trasnparent' }};" onclick="markAsRead({{ $notification->id }})" >
                     <div class="vcard-title">
                         <h4> {{ $notification->type }} </h4>
                     </div>
                     <div class="vcard__content">
                         <p> {{ $notification->message }} </p>
                     </div>
-                    <div class="action">
-                        <button class="cta-button">Mark as Read</button>
-                    </div>
                 </div>
                 @endforeach
         @endif
 
+        
     </div>
 </div>
+
+<script>
+
+    async function markAsRead(id){
+        const route = `/notifications/markAsRead/${id}`;
+        console.log(route);
+        let response = await request(id, route);
+        if(response.success){
+            window.location.href='/bookings{{$notification->url}}'
+        }
+        else{
+            toastNotification(response.message, 'error', 3000);
+        }
+    }
+
+
+    async function request(id, route){
+        try{
+            let response = await fetch(route, {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            })
+
+            return await response.json();
+
+        }catch(e)
+        {
+            return {
+                success: false,
+                message: "Something went wrong"
+            }
+        }
+    }
+</script>
+
 
 @endsection

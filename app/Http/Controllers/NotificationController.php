@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Notification;
 
 class NotificationController extends Controller
 {
@@ -14,9 +15,8 @@ class NotificationController extends Controller
     }
 
     // Mark a notification as read (POST)
-    public function markAsRead($id){
-        
-
-        return redirect($notification->url);
+    public function markNotificationAsRead($id){
+        Notification::markAsRead($id);
+        return jsonResponese(true, 'success', 200);
     }
 }
