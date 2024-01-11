@@ -87,6 +87,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/markAsRead/{id}', [NotificationController::class, 'markNotificationAsRead'])->name('notifications.markAsRead');
     });
 
+     // ------ In Room Routes ------
+    // Video Session
+    
+
+
 });
 
 

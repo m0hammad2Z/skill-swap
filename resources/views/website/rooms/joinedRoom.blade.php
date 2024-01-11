@@ -13,8 +13,8 @@
 
 <div class="container">
     <div class="top">
-        <p class="subtitle">Ahmad - Mazen</p> 
-        <h1 class="section-title">Romme name</h1>
+        <p class="subtitle">{{ $room->description }}</p>
+        <h1 class="section-title">{{ $room->name }}</h1>
         <div id="roomButtons">
             <button onclick="showSection('videoSection')">Video</button>
             <button onclick="showSection('chatSection')">Chat</button>
@@ -249,7 +249,7 @@
 </div>
 
 <script>
-    showSection('chatSection');
+    showSection('videoSection');
     function showSection(sectionId) {
         // Hide all sections
         const sections = document.getElementsByClassName('room-section');

@@ -63,11 +63,6 @@ class RoomController extends Controller
         return view('website.rooms.myrooms', compact('rooms'));
     }
 
-    // Show joined room (GET)
-    public function showJoinedRoom($id){
-        return view('website.rooms.joinedRoom');
-    }
-
     // Store a new room (POST)
     public function store(Request $request){
         // Validate the request...
@@ -171,6 +166,27 @@ class RoomController extends Controller
 
         return $cost;
     }
+
+
+
+    // ------------------------------ In Room ------------------------------
+    // Show joined room (GET)
+    public function showJoinedRoom($id){
+        $room = Room::with(['user' => function($query){
+            return $query->select('id', 'first_name', 'last_name', 'username');
+        }])->find($id);
+
+        $room->skill_to_learn = Skill::find($room->skill_to_learn_id);
+        $room->skill_to_teach = Skill::find($room->skill_to_teach_id);
+
+        $room->members = $room->members()->get();
+
+        $room->isMember = $room->members->contains('user_id', auth()->user()->id);
+
+        return view('website.rooms.joinedRoom', compact('room'));
+    }
+
+
     
 
 
