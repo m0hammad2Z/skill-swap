@@ -9,6 +9,10 @@ class Resource extends Model
 {
     use HasFactory;
 
+    public static $VIDEO_RESOURCE = 'video';
+    public static $IMAGE_RESOURCE = 'image';
+    public static $FILE_RESOURCE = 'file';
+
         /**
         * The attributes that are mass assignable.
         *

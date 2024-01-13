@@ -17,20 +17,31 @@
     @endforeach
 
     @if (session('status'))
-        toastNotification('{{ session('status') }}', 'success',  3000);
+        toastNotification('{{ session('status') }}', 'success', 3000);
     @endif
+    
 </script>
 
+@if ((!$room->isMember))
 
-@if ((!$room->isMember && !$room->is_private) || (!$room->isMemeber && $room->members->count() == $room->max_attendees))
+    @if($room->is_private)
+        @if($room->members->count() >= $room->max_attendees)
+            <script>
+                toastNotification('This room is full, you will be redirected to the rooms page', 'error', 3000);
+                window.location.href = "/rooms";
+            </script>
+        @else
+            <script>
+                prompt('This room is private, please enter the password to join');
+            </script>
+        @endif
+    @endif
     <script>
         window.location.href = "/rooms";
     </script>
-@elseif (!$room->isMember && $room->is_private)
-    <script>
-        pomote("Insert the code to join this room")
-    </script>
 @endif
+
+
 
 <div class="container">
     <div class="top">
@@ -57,9 +68,16 @@
                     @if($room->video_sessions->count() > 0 && $room->video_sessions->last()->created_at->addDays(7) > now())
                         <button id="joinSessionBtn" class="cta-button" onclick="joinVideoSession('{{ $room->video_sessions->last()->api_session_id }}')">Join Session</button> 
                     @endif
-
                 </div>
             </div>
+
+            @if($room->video_sessions->count() == 0)
+                <div class="empty" style="text-align: center; margin: 8em auto;">
+                    <i class="fas fa-video" style="font-size: 9em;"></i>
+                    <h1>No sessions yet</h1>
+                    <p>Once you create a session, it will appear here</p>
+                </div>
+            @else
     
             <div class="sessions-container">
                 <div id="pastSessions">
@@ -106,6 +124,8 @@
 
                 </div>
             </div>
+
+            @endif
         </div>
     
         <!-- Chat Section -->
@@ -179,27 +199,49 @@
                     <button id="resourceBtn" class="cta-button" onclick="openAddResourceModal()">Add New Resource</button>
                 </div>
             
-                <div class="resources-container">                
-                    <div id="resourceList">
-                        <h3>Shared Resources</h3>
-                        
-                        <div class="vcard table-titles">
-                            <strong>Resource Name</strong>
-                            <strong>Resource Link</strong>
-                            <strong>Actions</strong>
+                <div class="resources-container">     
+                    @if($room->resources->count() == 0)
+                        <div class="empty" style="text-align: center; margin: 8em auto;">
+                            <i class="fas fa-file" style="font-size: 9em;"></i>
+                            <h1>No resources yet</h1>
+                            <p>Once you add a resource, it will appear here</p>
                         </div>
+                    @else
+                    
+                        <div id="resourceList">
+                            <h3>Shared Resources</h3>
+                            
+                            <div class="vcard table-titles">
+                                <strong>Made By</strong>
+                                <strong>Resource Name</strong>
+                                <strong>Resource Type</strong>
+                                <strong>Resource Link</strong>
+                                <strong>Actions</strong>
 
-
-                        <div class="vcard">
-                            <p>Resource 1</p>
-                            <p>https://www.google.com/</p>
-                            <div class="actions">
-                                <a href="#"><i class="fas fa-trash-alt"></i></a>
-                                <a href="#" onclick="openEditResourceModal()"><i class="fas fa-edit"></i></a>
                             </div>
-                        </div>
 
-                    </div>
+                            @foreach ($room->resources as $resource)
+                                <div class="vcard" id="resource{{ $resource->id }}">
+                                    <p>{{ $room->members->where('id', $resource->user_id)->first()->username }}</p>
+                                    <p>{{ $resource->description }}</p>
+                                    <p>{{ $resource->resource_type }}</p>
+                                    <p>{{ $resource->resource_url }}</p>
+                                    @if(Auth::user()->id == $resource->user_id)
+                                        <div class="actions">
+                                            <a href="#" onclick="deleteResource('{{ $resource->id }}')"><i class="fas fa-trash-alt"></i></a>
+                                            <a href="#" onclick="openEditResourceModal('{{ $resource->description }}', '{{ $resource->resource_url }}', '{{ $resource->resource_type }}' , '{{ $resource->id }}')"><i class="fas fa-edit"></i></a>
+                                            <a href="{{ $resource->resource_url }}" target="_blank"><i class="fas fa-eye"></i></a>
+                                        </div>
+                                    @else
+                                        <div class="actions">
+                                            <a href="{{ $resource->resource_url }}" target="_blank"><i class="fas fa-eye"></i></a>
+                                        </div>
+                                    @endif
+                                </div>
+                            
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -267,13 +309,20 @@
             <span class="close" onclick="closeAddResourceModal()">&times;</span>
         </div>
         <div class="modal-content">
-            <form method="POST">
-                @csrf
+            <form>
+                <input type="hidden" name="room_id" value="{{ $room->id }}">
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <label for="resourceName">Resource Name</label>
                 <input type="text" id="resourceName" name="resourceName" required>
                 <label for="resourceLink">Resource Link</label>
                 <input type="text" id="resourceLink" name="resourceLink" required>
-                <button type="submit" class="cta-button">Add</button>
+                <label for="resourceType">Resource Type</label>
+                <select name="resourceType" id="resourceType">
+                    <option value="video">Video</option>
+                    <option value="image">Image</option>
+                    <option value="file">File</option>
+                </select>
+                <button type="submit" class="cta-button" onclick="addResource()">Add</button>
             </form>
         </div>
     </div>
@@ -286,13 +335,19 @@
             <span class="close" onclick="closeEditResourceModal()">&times;</span>
         </div>
         <div class="modal-content">
-            <form method="POST">
-                @csrf
-                <label for="resourceName">Resource Name</label>
-                <input type="text" id="resourceName" name="resourceName" required>
-                <label for="resourceLink">Resource Link</label>
-                <input type="text" id="resourceLink" name="resourceLink" required>
-                <button type="submit" class="cta-button">Edit</button>
+            <form>
+                <input type="hidden" id="resource_id" name="resource_id">
+                <label for="updateResourceName">Resource Name</label>
+                <input type="text" id="updateResourceName" name="resourceName" required>
+                <label for="updateResourceLink">Resource Link</label>
+                <input type="text" id="updateResourceLink" name="resourceLink" required>
+                <label for="updateResourceType">Resource Type</label>
+                <select name="resourceType" id="updateResourceType">
+                    <option value="video">Video</option>
+                    <option value="image">Image</option>
+                    <option value="file">File</option>
+                </select>
+                <button type="submit" class="cta-button" onclick="editResource()">Edit</button>
             </form>
         </div>
     </div>
@@ -333,6 +388,13 @@
 
 
     // Confirm modla to join a video session
+    function joinVideoSession($link){
+        confirmModal('Join Video Session', 'Are you sure you want to join this video session?', 'warning', 'Yes', 'No').then((result) => {
+            if (result.isConfirmed) {
+                window.open($link, '_blank')
+            }
+        });
+    }
 
     
     </script>
@@ -351,7 +413,12 @@
 
     // EDIT RESOURCE MODAL
     closeEditResourceModal();
-    function openEditResourceModal(){
+    function openEditResourceModal(name, link, type, resource_id){
+        event.preventDefault();
+        document.getElementById('updateResourceName').value = name;
+        document.getElementById('updateResourceLink').value = link;
+        document.getElementById('updateResourceType').value = type;
+        document.getElementById('resource_id').value = resource_id;
         document.getElementById('editResourcemodal').style.display = 'block';
     }
 
@@ -361,35 +428,216 @@
 
 </script>
 
+{{-- Resources requests --}}
 <script>
-    // async function makeSessionRequest(){
-    //     let request = await fetch('{{ route('videoSession.store') }}',
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json',
-    //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    //     },
-    //     body: JSON.stringify({
-    //         name: document.getElementById('sessionName').value,
-    //         room_id: {{ $room->id }}
-    //     }));
-
-    //     let response = await request.json();
-    //     if (response.status === 'success') {
-    //         toastNoftification('Session created successfully', 'success');
-    //     }
-    // }
-    
-    function joinVideoSession($link){
-        confirmModal('Join Video Session', 'Are you sure you want to join this video session?', 'warning', 'Yes', 'No').then((result) => {
-            if (result.isConfirmed) {
-                window.open($link, '_blank')
+    // Add resource 
+    async function addResource() {
+        event.preventDefault(); 
+        
+        let description = document.getElementById('resourceName').value;
+        let link = document.getElementById('resourceLink').value;
+        let type = document.getElementById('resourceType').value;
+        
+        if(description == '' || link == '' || type == ''){
+            toastNotification('Please fill all the fields', 'error', 3000);
+            return;
+        }
+        
+        const sweetModal = await confirmModal('Add Resource', 'Are you sure you want to add this resource?', 'warning', 'Yes', 'No');
+        if (sweetModal.isConfirmed) {
+            loadingElement('Adding Resource...');
+            const response = await addResourceRequest();
+            if (response.success) {
+                toastNotification(response.message, 'success', 3000);
+                addCard('{{ Auth::user()->username }}', description, type, link, "<a href='#'><i class='fas fa-trash-alt'></i></a><a href='#' onclick='openEditResourceModal()'><i class='fas fa-edit'></i></a><a href='#' target='_blank'><i class='fas fa-eye'></i></a>");
+                closeAddResourceModal();
+            } else {
+                toastNotification(response.message, 'error', 3000); 
             }
-        });
+        }
+}
+
+async function addResourceRequest() {
+    try{
+        const reponse = await fetch('{{ route('resources.store')}}',
+            {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    resourceName: document.getElementById('resourceName').value,
+                    resourceLink: document.getElementById('resourceLink').value,
+                    resourceType: document.getElementById('resourceType').value,
+                    room_id: {{ $room->id }},
+                    user_id: {{ Auth::user()->id }}
+                })
+            });
+
+        const data = await reponse.json();
+
+        return {
+            success: data.success,
+            message: data.message
+        };
+
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        };
+    }
+}
+
+function addCard(madyBy, resourceName, resoureceType, link, actions){
+    let card = document.createElement('div');
+    card.classList.add('vcard');
+    card.innerHTML = `
+        <p>${madyBy}</p>
+        <p>${resourceName}</p>
+        <p>${resoureceType}</p>
+        <p>${link}</p>
+        <div class="actions">
+            ${actions}
+        </div>
+    `;
+    document.getElementById('resourceList').appendChild(card);
+}
+
+// Edit resource
+async function editResource() {
+    event.preventDefault(); 
+    
+    let description = document.getElementById('updateResourceName').value;
+    let link = document.getElementById('updateResourceLink').value;
+    let type = document.getElementById('updateResourceType').value;
+    let resource_id = document.getElementById('resource_id').value;
+    let actions =``;
+
+    actions = `<a href="#"><i class="fas fa-trash-alt"></i></a>
+                <a href="#" onclick="openEditResourceModal('${description}', '${link}', '${type}', '${resource_id}')"><i class="fas fa-edit"></i></a>
+                <a href="${link}" target="_blank"><i class="fas fa-eye"></i></a>`;
+
+    if(description == '' || link == '' || type == ''){
+        toastNotification('Please fill all the fields', 'error', 3000);
+        return;
     }
     
+    const sweetModal = await confirmModal('Edit Resource', 'Are you sure you want to edit this resource?', 'warning', 'Yes', 'No');
+    if (sweetModal.isConfirmed) {
+        loadingElement('Editing Resource...');
+        const response = await editResourceRequest();
+        if (response.success) {
+            toastNotification(response.message, 'success', 3000);
+
+            editCard('{{ Auth::user()->username }}', description, type, link, actions, resource_id);
+            closeEditResourceModal();
+        } else {
+            toastNotification(response.message, 'error', 3000); 
+        }
+    }
+}
+
+async function editResourceRequest(){
+    try{
+        const reponse = await fetch('{{ route('resources.update')}}',
+            {
+                method: 'PATCH',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    resourceName: document.getElementById('updateResourceName').value,
+                    resourceLink: document.getElementById('updateResourceLink').value,
+                    resourceType: document.getElementById('updateResourceType').value,
+                    resource_id: document.getElementById('resource_id').value
+                })
+            });
+
+        const data = await reponse.json();
+
+        return {
+            success: data.success,
+            message: data.message
+        };
+
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        };
+    }
+}
+
+function editCard(madyBy, resourceName, resoureceType, link, actions, resource_id){
+    let card = document.getElementById('resource' + resource_id);
+    card.innerHTML = `
+        <p>${madyBy}</p>
+        <p>${resourceName}</p>
+        <p>${resoureceType}</p>
+        <p>${link}</p>
+        <div class="actions">
+            ${actions}
+        </div>
+    `;
+}
+
+
+// Delete resource
+async function deleteResource(resource_id) {
+    event.preventDefault();
+    const sweetModal = await confirmModal('Delete Resource', 'Are you sure you want to delete this resource?', 'warning', 'Yes', 'No');
+    if (sweetModal.isConfirmed) {
+        loadingElement('Deleting Resource...');
+        const response = await deleteResourceRequest(resource_id);
+        
+        if (response.success) {
+            toastNotification(response.message, 'success', 3000);
+            document.getElementById('resource' + resource_id).remove();
+        } else {
+            toastNotification(response.message, 'error', 3000); 
+        }
+    }
+}
+
+async function deleteResourceRequest(resource_id){
+    try{
+        const reponse = await fetch('{{ route('resources.destroy')}}',
+            {
+                method: 'DELETE',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    resource_id: resource_id
+                })
+            });
+
+        const data = await reponse.json();
+
+        return {
+            success: data.success,
+            message: data.message
+        };
+
+    } catch (error) {
+        return {
+            success: false,
+            message: 'Something went wrong,  please try again later'
+        };
+    }
+}
+
+
+function deleteCard(resource_id){
+    document.getElementById('resource' + resource_id).remove();
+}
+
 </script>
+
 
 @endsection
 

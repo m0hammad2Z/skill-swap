@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\VideoSession;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 
@@ -34,9 +35,24 @@ class VideoSessionController extends Controller
         $apiSessionsKey = $videoSessionResponse['roomUrl'];
         $started_at = now();
 
+        // Notificition to the users
+        $room = Room::find($request->room_id);
+        $roomMembers = $room->members;
+
+        // TODO
+        foreach ($roomMembers as $member) {
+            if ($member->id == auth()->user()->id) {
+                continue;
+            }
+
+            $message = 'New session created for room ' . $room->name;
+            $url = '/myrooms/' . $room->id;
+            Notification::add($member->id, $room->id, Notification::$TYPE_NEW_SESSION_CREATED, 'New session created', '/rooms/' . $url);
+        }
+
         VideoSession::add($request->name, $request->room_id, $apiSessionsKey, $started_at)->save();
 
-        return redirect('/rooms/');
+        return redirect('/myrooms/' . $request->room_id)->with('success', 'Video session created successfully');
     }
 
     // Create a new video session in the whereby API

@@ -26,15 +26,19 @@
             <div class="table-titles vcard">
                 <strong>Room</strong>
                 <strong>Message</strong>
+                <strong>Time</strong>
             </div>
 
                 @foreach($notifications as $notification)
-                <div class="vcard" style="cursor: pointer; background-color: {{ $notification->is_read == 0 ? 'var(--glass-color)' : 'trasnparent' }};" onclick="markAsRead({{ $notification->id }})" >
+                <div class="vcard" style="cursor: pointer; background-color: {{ $notification->is_read == 0 ? 'var(--glass-color)' : 'trasnparent' }};" onclick="markAsRead({{ $notification->id }},'{{ $notification->url }}')">
                     <div class="vcard-title">
                         <h4> {{ $notification->type }} </h4>
                     </div>
                     <div class="vcard__content">
                         <p> {{ $notification->message }} </p>
+                    </div>
+                    <div class="vcard__item">
+                        <p> {{ $notification->created_at->diffForHumans() }} </p>
                     </div>
                 </div>
                 @endforeach
@@ -46,12 +50,11 @@
 
 <script>
 
-    async function markAsRead(id){
+    async function markAsRead(id, url){
         const route = `/notifications/markAsRead/${id}`;
-        console.log(route);
         let response = await request(id, route);
         if(response.success){
-            window.location.href='/bookings{{$notification->url}}'
+            window.location.href= url;
         }
         else{
             toastNotification(response.message, 'error', 3000);
