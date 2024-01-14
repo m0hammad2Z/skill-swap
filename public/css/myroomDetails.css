@@ -157,14 +157,12 @@ nav{
 
 .chat-container > .message{
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     max-width: 65%;
     margin-bottom: 1em;
     padding: 1em;
     border-radius: var(--border-radius);
-    background-color: var(--dark-color);
     box-shadow: var(--box-shadow);
     gap: 1em;
     font-size: 1.2em;
@@ -177,18 +175,28 @@ nav{
 
 .sent-message{
     align-self: flex-end;
+    flex-direction: row-reverse;
+    background-color: var(--dark-color);
 }
 
 .received-message{
     align-self: flex-start;
+    background-color: var(--darkest-color);
+    flex-direction: row;
+}
 
+.message-user-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8em;
 }
 
 .chat-container img{
     width: 2.2em;
     height: 2.2em;
     border-radius: 50%;
-    margin-bottom: 1em;
+    margin-bottom: -0.5em;
 }
 
 .message-input-container{

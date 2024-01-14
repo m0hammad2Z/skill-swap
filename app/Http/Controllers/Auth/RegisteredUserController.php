@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $request->profile_picture = $path;
         }else{
-            $request->profile_picture = 'https://farm1.staticflickr.com/150/384092137_9d561a3606_z.jpg';
+            $request->profile_picture = 'profile_pictures/pp.png';
         }
 
 

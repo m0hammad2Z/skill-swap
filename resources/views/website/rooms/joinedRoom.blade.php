@@ -22,6 +22,10 @@
     
 </script>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 @if ((!$room->isMember))
 
     @if($room->is_private)
@@ -44,8 +48,7 @@
 
 
 <div class="container">
-    <div class="top">
-        
+    <div class="top"> 
         <h1 class="section-title">{{ $room->name }}</h1>
         <div id="roomButtons">
             <button onclick="showSection('videoSection')">Video</button>
@@ -135,54 +138,7 @@
             </div>
             
             <div class="chat-container">
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>Message Sent by the other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user</p>
-                </div>
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>Message Sent by the other  dsds dsads other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user</p>
-                </div>
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>s other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user dsadas dsds dsads other dsadas dsds</p>
-                </div>
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>Message Sent by the other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user</p>
-                </div>
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>Message Sent by the other  dsds dsads other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user</p>
-                </div>
-                <div class="sent-message message">
-                    <img src="https://th.bing.com/th/id/OIP.Smc-fqLOF6l7eou3U5x-pwAAAA?rs=1&pid=ImgDetMain" alt="user image">
-                    <p>s other dsadas dsds dsads other dsadas dsds dsads</p>
-                </div>
-                <div class="received-message message">
-                    <img src="https://external-preview.redd.it/pHyoLgqrcqZA_iM7E6EaBvAryOnUg7hYqDi0hGXi1R4.jpg?auto=webp&s=ec77bbe59df8e9e84e079d3c2a99782a69f5a008" alt="user image">
-                    <p>Message sent by the user dsadas dsds dsads other dsadas dsds</p>
-                </div>
+
             </div>
             <div class="message-input-container">
                 <input type="text" placeholder="Type your message here...">
@@ -191,8 +147,9 @@
 
         </div>
     
+        <!-- Resources Section -->
         @if ($room->is_resources_provided)
-            <!-- Resources Section -->
+            
             <div id="resourcesSection" class="room-section">
                 <div class="top-content">
                     <h2>Resources</h2>
@@ -354,16 +311,24 @@
 </div>
 
 <script>
+    let url = new URL(window.location.href);
+    let section = url.searchParams.get("section");
+    if(section != null){
+        showSection(section);
+    } else {
     showSection('videoSection');
+    }
+    
     function showSection(sectionId) {
-        // Hide all sections
         const sections = document.getElementsByClassName('room-section');
         for (const section of sections) {
             section.style.display = 'none';
         }
 
-        // Show the selected section
-        document.getElementById(sectionId).style.display = 'block';        
+        document.getElementById(sectionId).style.display = 'block';     
+
+        //Store the section as get parameter in the url
+        window.history.replaceState({}, '', `?section=${sectionId}`);
     }
 
     closeCreateSessionModal();
@@ -430,213 +395,352 @@
 
 {{-- Resources requests --}}
 <script>
-    // Add resource 
-    async function addResource() {
+        // Add resource 
+        async function addResource() {
+            event.preventDefault(); 
+            
+            let description = document.getElementById('resourceName').value;
+            let link = document.getElementById('resourceLink').value;
+            let type = document.getElementById('resourceType').value;
+            
+            if(description == '' || link == '' || type == ''){
+                toastNotification('Please fill all the fields', 'error', 3000);
+                return;
+            }
+            
+            const sweetModal = await confirmModal('Add Resource', 'Are you sure you want to add this resource?', 'warning', 'Yes', 'No');
+            if (sweetModal.isConfirmed) {
+                loadingElement('Adding Resource...');
+                const response = await addResourceRequest();
+                if (response.success) {
+                    toastNotification(response.message, 'success', 3000);
+                    addCard('{{ Auth::user()->username }}', description, type, link, "<a href='#'><i class='fas fa-trash-alt'></i></a><a href='#' onclick='openEditResourceModal()'><i class='fas fa-edit'></i></a><a href='#' target='_blank'><i class='fas fa-eye'></i></a>");
+                    closeAddResourceModal();
+                } else {
+                    toastNotification(response.message, 'error', 3000); 
+                }
+            }
+    }
+
+    async function addResourceRequest() {
+        try{
+            const reponse = await fetch('{{ route('resources.store')}}',
+                {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        resourceName: document.getElementById('resourceName').value,
+                        resourceLink: document.getElementById('resourceLink').value,
+                        resourceType: document.getElementById('resourceType').value,
+                        room_id: {{ $room->id }},
+                        user_id: {{ Auth::user()->id }}
+                    })
+                });
+
+            const data = await reponse.json();
+
+            return {
+                success: data.success,
+                message: data.message
+            };
+
+        } catch (error) {
+            return {
+                success: false,
+                message: error
+            };
+        }
+    }
+
+    function addCard(madyBy, resourceName, resoureceType, link, actions){
+        let card = document.createElement('div');
+        card.classList.add('vcard');
+        card.innerHTML = `
+            <p>${madyBy}</p>
+            <p>${resourceName}</p>
+            <p>${resoureceType}</p>
+            <p>${link}</p>
+            <div class="actions">
+                ${actions}
+            </div>
+        `;
+        document.getElementById('resourceList').appendChild(card);
+    }
+
+    // Edit resource
+    async function editResource() {
         event.preventDefault(); 
         
-        let description = document.getElementById('resourceName').value;
-        let link = document.getElementById('resourceLink').value;
-        let type = document.getElementById('resourceType').value;
-        
+        let description = document.getElementById('updateResourceName').value;
+        let link = document.getElementById('updateResourceLink').value;
+        let type = document.getElementById('updateResourceType').value;
+        let resource_id = document.getElementById('resource_id').value;
+        let actions =``;
+
+        actions = `<a href="#"><i class="fas fa-trash-alt"></i></a>
+                    <a href="#" onclick="openEditResourceModal('${description}', '${link}', '${type}', '${resource_id}')"><i class="fas fa-edit"></i></a>
+                    <a href="${link}" target="_blank"><i class="fas fa-eye"></i></a>`;
+
         if(description == '' || link == '' || type == ''){
             toastNotification('Please fill all the fields', 'error', 3000);
             return;
         }
         
-        const sweetModal = await confirmModal('Add Resource', 'Are you sure you want to add this resource?', 'warning', 'Yes', 'No');
+        const sweetModal = await confirmModal('Edit Resource', 'Are you sure you want to edit this resource?', 'warning', 'Yes', 'No');
         if (sweetModal.isConfirmed) {
-            loadingElement('Adding Resource...');
-            const response = await addResourceRequest();
+            loadingElement('Editing Resource...');
+            const response = await editResourceRequest();
             if (response.success) {
                 toastNotification(response.message, 'success', 3000);
-                addCard('{{ Auth::user()->username }}', description, type, link, "<a href='#'><i class='fas fa-trash-alt'></i></a><a href='#' onclick='openEditResourceModal()'><i class='fas fa-edit'></i></a><a href='#' target='_blank'><i class='fas fa-eye'></i></a>");
-                closeAddResourceModal();
+
+                editCard('{{ Auth::user()->username }}', description, type, link, actions, resource_id);
+                closeEditResourceModal();
             } else {
                 toastNotification(response.message, 'error', 3000); 
             }
         }
-}
-
-async function addResourceRequest() {
-    try{
-        const reponse = await fetch('{{ route('resources.store')}}',
-            {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    resourceName: document.getElementById('resourceName').value,
-                    resourceLink: document.getElementById('resourceLink').value,
-                    resourceType: document.getElementById('resourceType').value,
-                    room_id: {{ $room->id }},
-                    user_id: {{ Auth::user()->id }}
-                })
-            });
-
-        const data = await reponse.json();
-
-        return {
-            success: data.success,
-            message: data.message
-        };
-
-    } catch (error) {
-        return {
-            success: false,
-            message: error
-        };
     }
-}
 
-function addCard(madyBy, resourceName, resoureceType, link, actions){
-    let card = document.createElement('div');
-    card.classList.add('vcard');
-    card.innerHTML = `
-        <p>${madyBy}</p>
-        <p>${resourceName}</p>
-        <p>${resoureceType}</p>
-        <p>${link}</p>
-        <div class="actions">
-            ${actions}
-        </div>
-    `;
-    document.getElementById('resourceList').appendChild(card);
-}
+    async function editResourceRequest(){
+        try{
+            const reponse = await fetch('{{ route('resources.update')}}',
+                {
+                    method: 'PATCH',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        resourceName: document.getElementById('updateResourceName').value,
+                        resourceLink: document.getElementById('updateResourceLink').value,
+                        resourceType: document.getElementById('updateResourceType').value,
+                        resource_id: document.getElementById('resource_id').value
+                    })
+                });
 
-// Edit resource
-async function editResource() {
-    event.preventDefault(); 
-    
-    let description = document.getElementById('updateResourceName').value;
-    let link = document.getElementById('updateResourceLink').value;
-    let type = document.getElementById('updateResourceType').value;
-    let resource_id = document.getElementById('resource_id').value;
-    let actions =``;
+            const data = await reponse.json();
 
-    actions = `<a href="#"><i class="fas fa-trash-alt"></i></a>
-                <a href="#" onclick="openEditResourceModal('${description}', '${link}', '${type}', '${resource_id}')"><i class="fas fa-edit"></i></a>
-                <a href="${link}" target="_blank"><i class="fas fa-eye"></i></a>`;
+            return {
+                success: data.success,
+                message: data.message
+            };
 
-    if(description == '' || link == '' || type == ''){
-        toastNotification('Please fill all the fields', 'error', 3000);
-        return;
-    }
-    
-    const sweetModal = await confirmModal('Edit Resource', 'Are you sure you want to edit this resource?', 'warning', 'Yes', 'No');
-    if (sweetModal.isConfirmed) {
-        loadingElement('Editing Resource...');
-        const response = await editResourceRequest();
-        if (response.success) {
-            toastNotification(response.message, 'success', 3000);
-
-            editCard('{{ Auth::user()->username }}', description, type, link, actions, resource_id);
-            closeEditResourceModal();
-        } else {
-            toastNotification(response.message, 'error', 3000); 
+        } catch (error) {
+            return {
+                success: false,
+                message: error
+            };
         }
     }
-}
 
-async function editResourceRequest(){
-    try{
-        const reponse = await fetch('{{ route('resources.update')}}',
-            {
-                method: 'PATCH',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    resourceName: document.getElementById('updateResourceName').value,
-                    resourceLink: document.getElementById('updateResourceLink').value,
-                    resourceType: document.getElementById('updateResourceType').value,
-                    resource_id: document.getElementById('resource_id').value
-                })
-            });
-
-        const data = await reponse.json();
-
-        return {
-            success: data.success,
-            message: data.message
-        };
-
-    } catch (error) {
-        return {
-            success: false,
-            message: error
-        };
+    function editCard(madyBy, resourceName, resoureceType, link, actions, resource_id){
+        let card = document.getElementById('resource' + resource_id);
+        card.innerHTML = `
+            <p>${madyBy}</p>
+            <p>${resourceName}</p>
+            <p>${resoureceType}</p>
+            <p>${link}</p>
+            <div class="actions">
+                ${actions}
+            </div>
+        `;
     }
-}
-
-function editCard(madyBy, resourceName, resoureceType, link, actions, resource_id){
-    let card = document.getElementById('resource' + resource_id);
-    card.innerHTML = `
-        <p>${madyBy}</p>
-        <p>${resourceName}</p>
-        <p>${resoureceType}</p>
-        <p>${link}</p>
-        <div class="actions">
-            ${actions}
-        </div>
-    `;
-}
 
 
-// Delete resource
-async function deleteResource(resource_id) {
-    event.preventDefault();
-    const sweetModal = await confirmModal('Delete Resource', 'Are you sure you want to delete this resource?', 'warning', 'Yes', 'No');
-    if (sweetModal.isConfirmed) {
-        loadingElement('Deleting Resource...');
-        const response = await deleteResourceRequest(resource_id);
-        
-        if (response.success) {
-            toastNotification(response.message, 'success', 3000);
-            document.getElementById('resource' + resource_id).remove();
-        } else {
-            toastNotification(response.message, 'error', 3000); 
+    // Delete resource
+    async function deleteResource(resource_id) {
+        event.preventDefault();
+        const sweetModal = await confirmModal('Delete Resource', 'Are you sure you want to delete this resource?', 'warning', 'Yes', 'No');
+        if (sweetModal.isConfirmed) {
+            loadingElement('Deleting Resource...');
+            const response = await deleteResourceRequest(resource_id);
+            
+            if (response.success) {
+                toastNotification(response.message, 'success', 3000);
+                document.getElementById('resource' + resource_id).remove();
+            } else {
+                toastNotification(response.message, 'error', 3000); 
+            }
         }
     }
-}
 
-async function deleteResourceRequest(resource_id){
-    try{
-        const reponse = await fetch('{{ route('resources.destroy')}}',
-            {
-                method: 'DELETE',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    resource_id: resource_id
-                })
-            });
+    async function deleteResourceRequest(resource_id){
+        try{
+            const reponse = await fetch('{{ route('resources.destroy')}}',
+                {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        resource_id: resource_id
+                    })
+                });
 
-        const data = await reponse.json();
+            const data = await reponse.json();
 
-        return {
-            success: data.success,
-            message: data.message
-        };
+            return {
+                success: data.success,
+                message: data.message
+            };
 
-    } catch (error) {
-        return {
-            success: false,
-            message: 'Something went wrong,  please try again later'
-        };
+        } catch (error) {
+            return {
+                success: false,
+                message: 'Something went wrong,  please try again later'
+            };
+        }
     }
-}
 
 
-function deleteCard(resource_id){
-    document.getElementById('resource' + resource_id).remove();
-}
+    function deleteCard(resource_id){
+        document.getElementById('resource' + resource_id).remove();
+    }
 
 </script>
+
+
+{{-- Chat  --}}
+<script>
+    // UI
+    const chatContainer = document.querySelector('.chat-container');
+    const messageInput = document.querySelector('.message-input-container input');
+    const messageBtn = document.querySelector('.message-input-container button');
+
+    messageBtn.addEventListener('click', (e) => {
+        if(messageInput.value != ''){
+            sendMessage(messageInput.value);
+            messageInput.value = '';
+        }else{
+            toastNotification('Please type a message', 'error', 3000);
+        }
+    });
+
+    // on enter key press
+    messageInput.addEventListener('keyup', (e) => {
+        if(e.keyCode === 13){
+            if(messageInput.value != ''){
+                sendMessage(messageInput.value);
+                messageInput.value = '';
+            }else{
+                toastNotification('Please type a message', 'error', 3000);
+            }
+        }
+    });
+
+    function sentMessage(message, time, userImage){
+        let messageDiv = document.createElement('div');
+        messageDiv.classList.add('sent-message', 'message');
+        messageDiv.innerHTML = `
+        <div class="message-user-image">
+            <span class="message-time" style="font-size: 0.6em; text-align: center;">${time}</span>
+            <img src="${userImage}" alt="user image">
+            <span style="font-size: 0.8em; text-align: center;"> mohammad </span>
+        </div>
+        <p >${message}</p>
+        `;
+        chatContainer.appendChild(messageDiv);
+    }
+
+    function receivedMessage(message, time, userImage, username){
+        let messageDiv = document.createElement('div');
+        messageDiv.classList.add('received-message', 'message');
+        messageDiv.innerHTML =  ` <div class="message-user-image">
+            <span class="message-time" style="font-size: 0.6em; text-align: center;">${time}</span>
+            <img src="${userImage}" alt="user image">
+            <span style="font-size: 0.8em; text-align: center;"> ${username} </span>
+        </div>
+        <p>${message}</p>
+        `;
+        chatContainer.appendChild(messageDiv);
+    }
+
+
+
+
+    // Chat
+    const socket = new SockJS('http://localhost:8080/chat');
+    const stompClient = Stomp.over(socket);
+
+    const userId = '{{ Auth::user()->id }}';
+    const roomId = '{{ $room->id }}';
+
+    let loaded = false;
+
+    stompClient.connect({}, (frame) => {
+        
+
+            stompClient.send("/app/getPreviousMessages/" + roomId);
+        
+
+        stompClient.subscribe(`/topic/messages/${roomId}`, function (message) {
+            const messageData = JSON.parse(message.body);
+
+            let members = []
+
+            @foreach ($room->members as $member)
+                members.push(
+                    {
+                        id: '{{ $member->id }}',
+                        username: '{{ $member->username }}',
+                        profile_picture: '{{ $member->profile_picture }}'
+                    }
+                );
+            @endforeach
+
+
+            if(Array.isArray(messageData)){
+                if (!loaded)
+                for (let i = 0; i < messageData.length; i++) {
+                    const time = new Date(messageData[i].timestamp);
+                    messageData[i].timestamp = time.toLocaleString('en-GB', {weekday: 'short', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric'});
+
+                    const member = members.find(member => member.id == messageData[i].userId);
+                    if(messageData[i].userId == userId){
+                        sentMessage(messageData[i].content, messageData[i].timestamp, '../storage/' + member.profile_picture, member.username);
+                    } else {
+                        receivedMessage(messageData[i].content, messageData[i].timestamp, '../storage/' + member.profile_picture, member.username);
+                    }
+                }
+
+                loaded = true;
+            } else {
+                const time = new Date(messageData.timestamp);
+                messageData.timestamp = time.toLocaleString('en-GB', {weekday: 'short', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric'});
+                const member = members.find(member => member.id == messageData.userId);
+
+                if(messageData.userId == userId){
+                    sentMessage(messageData.content, messageData.timestamp, '../storage/' + member.profile_picture, member.username);
+                } else {
+                    receivedMessage(messageData.content, messageData.timestamp, '../storage/' + member.profile_picture, member.username);
+                }
+            }
+
+            //scroll to bottom of chat-container
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+
+        });
+    });
+
+    function sendMessage(content) {
+            const message = {
+            userId: userId,
+            content: content
+        };
+
+        // Send the message to the server
+        stompClient.send("/app/chat/" + roomId, {}, JSON.stringify(message));  
+    }
+
+</script>
+
+
+
 
 
 @endsection
