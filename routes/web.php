@@ -7,6 +7,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\VideoSessionController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\WalletTransactionController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -101,6 +102,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [ResourceController::class, 'store'])->name('resources.store');
         Route::delete('/delete', [ResourceController::class, 'destroy'])->name('resources.destroy');
         Route::patch('/update', [ResourceController::class, 'update'])->name('resources.update');
+    });
+
+    // Wallet Routes
+    Route::prefix('wallet')->group(function(){
+        Route::get('/', [WalletTransactionController::class, 'index'])->name('wallet.index');
+        Route::post('/deposit', [WalletTransactionController::class, 'deposit'])->name('wallet.deposit');
     });
 
 

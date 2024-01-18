@@ -52,7 +52,7 @@ p{
 
 
 .fas{
-    font-size: 2.5em;
+    font-size: 2em;
     color: var(--mid-color);
 }
 
@@ -126,9 +126,16 @@ hr{
     color: var(--lightest-color);
 }
 
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
 
 .logo a{
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 600;
     color: var(--lightest-color);
     border-left: 0.15em solid var(--main-color);
@@ -270,7 +277,6 @@ nav #dropdown-content{
     box-shadow: var(--shadow);
     z-index: 100;
     position: absolute!important;
-    width: 70vw;
     top: 6em;
     right: 0em;
     margin: 0 5em;

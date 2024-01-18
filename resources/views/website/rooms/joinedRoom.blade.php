@@ -19,7 +19,6 @@
     @if (session('status'))
         toastNotification('{{ session('status') }}', 'success', 3000);
     @endif
-    
 </script>
 
 
@@ -225,6 +224,7 @@
                         @foreach($room->members as $member)
                             <div class="member">
                                 <p>{{ $member->username }}</p>
+                                <button class="red-button">Kick</button>
                             </div>
                         @endforeach
                     </div>
@@ -232,7 +232,9 @@
                 </div>
 
                 <div class="room-actions">
-                    <button class="delete-button red-button" onclick="deleteRoom()">Delete Room</button>
+                    @if (Auth::user()->id == $room->user->id)
+                        <button class="delete-button red-button" onclick="deleteRoom()">Delete Room</button>
+                    @endif
                     <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
                 </div>
             </div>
@@ -674,7 +676,7 @@
     stompClient.connect({}, (frame) => {
         
 
-            stompClient.send("/app/getPreviousMessages/" + roomId);
+        stompClient.send("/app/getPreviousMessages/" + roomId);
         
 
         stompClient.subscribe(`/topic/messages/${roomId}`, function (message) {

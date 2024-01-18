@@ -18,33 +18,30 @@
     <nav class="navbar">
         <div class="logo">
             <a href="/">SkillSwap</a>
+            <div class="search">
+                <input type="text" name="search" placeholder="Search">
+            </div>
         </div>
 
         @if (Auth::check())
-        <div class="links">
-            <a href="/">Home</a>
-            <a href="/rooms">Find a Room</a>
-            <a href="/rooms/create">Create a Room</a>
-        </div>
+
         @endif
 
         <div class="right-side">
             @yield('button')
             @if (Auth::check())
-
-            {{-- <button class="cta-button" onclick="window.location.href='rooms/create'">Create Room</button> --}}
-            <div>
-                <label for="">{{ Auth::user()->sbucks_balance }} <i class="fas fa-coins"></i></label>
-            </div>
-            <div class="dropdown" >
-                   <div style="display: flex; align-items: center; justify-content: center;" onclick="toggleMenu()">
-                    <button id="burger" class="burger" >
-                        {{Auth::user()->username}}
-                     </button>
-                     <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="profile-picture" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">
-                   </div>
-                    
+                <div>
+                    <label for="">{{ Auth::user()->sbucks_balance }} <i class="fas fa-coins"></i></label>
+                </div>
+                <div class="dropdown" >
+                    <div style="display: flex; align-items: center; justify-content: center;" onclick="toggleMenu()">
+                        <button id="burger" class="burger" >
+                            {{Auth::user()->username}}
+                        </button>
+                        <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="profile-picture" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">
+                    </div>    
                     <div class="dropdown-content" id="dropdown-content">
+                        <a href="/wallet"><i class="fas fa-money-bill-wave"></i> Wallet</a>
                         <a href="/myrooms"><i class="fas fa-home"></i> Rooms</a>
                         <a href="/bookings/myrequests"><i class="fas fa-envelope"></i> Requests</a>
                         <a href="/bookings/myoffers"><i class="fas fa-envelope-open"></i> Offers</a>
@@ -52,7 +49,13 @@
                         <a href="/notifications"><i class="fas fa-bell"></i> Notifications</a>
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
+                    
                 </div>
+                <div>
+                    <a href="/create" ><i class="fas fa-plus"></i></a>
+                </div>
+                
+
             @else
                 <button class="cta-button" onclick="window.location.href='/login'">Login</button>
                 <button class="cta-button" onclick="window.location.href='/register'">Register</button>

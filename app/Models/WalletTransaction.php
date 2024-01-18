@@ -9,6 +9,9 @@ class WalletTransaction extends Model
 {
     use HasFactory;
 
+    public static $deposit = 'deposit';
+    public static $room_creation = 'room_creation';
+
     /**
      * The attributes that are mass assignable.
      *
