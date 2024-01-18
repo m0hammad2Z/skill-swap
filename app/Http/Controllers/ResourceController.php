@@ -22,7 +22,7 @@ class ResourceController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return jsonResponese(false, 'Please fill all the fields correctly', 400);
+            return jsonResponese(false, $validator->errors()->first(), Response::HTTP_BAD_REQUEST);
         }
         
 

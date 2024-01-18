@@ -16,9 +16,15 @@
         toastNotification('{{ $error }}', 'error', 3000);
     @endforeach
 
-    @if (session('status'))
-        toastNotification('{{ session('status') }}', 'success', 3000);
+
+    @if (session('success'))
+        toastNotification('{{ session('success') }}', 'success', 3000);
     @endif
+
+    @if (session('error'))
+        toastNotification('{{ session('error') }}', 'error', 3000);
+    @endif
+
 </script>
 
 
@@ -210,21 +216,38 @@
             </div>
 
             <div class="settings-container">
-                <form action="" method="post">
-                    <label for="roomName">Room Name</label>
-                    <input type="text" id="roomName" name="roomName" required>
-                    <label for="roomDescription">Room Description</label>
-                    <textarea name="roomDescription" id="roomDescription" cols="30" rows="10" required></textarea>
-                    <button type="submit" class="cta-button">Save</button>
+                <form action="{{ route('rooms.updateRoom', ['roomId' => $room->id]) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <label for="name">Room Name</label>
+                    <input type="text" id="name" name="name" required value="{{ $room->name }}">
+                    <label for="description">Room Description</label>
+                    <textarea name="description" id="description" cols="30" rows="10" required>{{ $room->description }}</textarea>
+                    <label for="requirements">Requirements</label>
+                    <textarea name="requirements" id="requirements" cols="30" rows="10" required>{{ $room->requirements }}</textarea>
+                    <label for="learning_outcomes">Learning Outcomes</label>
+                    <textarea name="learning_outcomes" id="learning_outcomes" cols="30" rows="10" required>{{ $room->learning_outcomes }}</textarea>
+                    @if($room->is_private)
+                        <label for="password">Access Code</label>
+                        <input type="access_code" id="access_code" name="access_code" required value="{{ $room->access_code }}">
+                    @endif
+                    @if($room->user_id == auth()->user()->id)
+                        <button type="submit" class="cta-button">Save</button>
+                    @endif
                 </form>
 
                 <div>
                     <h3>Room Members</h3>
                     <div class="members-container">
                         @foreach($room->members as $member)
-                            <div class="member">
+                            <div class="member"  id="member{{ $member->id }}">
+                                @if($member->id == $room->user_id)
+                                    <i class="fas fa-crown"></i>
+                                @endif
                                 <p>{{ $member->username }}</p>
-                                <button class="red-button">Kick</button>
+                                @if ($room->user_id == auth()->user()->id && $member->id != auth()->user()->id)
+                                    <button class="red-button" onclick="kickMember('{{ $member->id }}')">Kick</button>
+                                @endif
                             </div>
                         @endforeach
                     </div>
@@ -232,10 +255,10 @@
                 </div>
 
                 <div class="room-actions">
-                    @if (Auth::user()->id == $room->user->id)
-                        <button class="delete-button red-button" onclick="deleteRoom()">Delete Room</button>
-                    @endif
+                    <h2>Room Owner: {{ $room->user->username }}</h2>
+                    @if (Auth::user()->id != $room->user->id)
                     <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -742,6 +765,100 @@
 </script>
 
 
+{{-- Room Settings --}}
+<script>
+    function kickMember(member_id){
+        confirmModal('Kick Member', 'Are you sure you want to kick this member?', 'warning', 'Yes', 'No').then((result) => {
+            if (result.isConfirmed) {
+                loadingElement('Kicking Member...');
+                kickMemberRequest(member_id).then((response) => {
+                    if (response.success) {
+                        toastNotification(response.message, 'success', 3000);
+                        document.getElementById('member' + member_id).remove();
+                    } else {
+                        toastNotification(response.message, 'error', 3000); 
+                    }
+                });
+            }
+        });
+    }
+
+    function leaveRoom(){
+        let message = 'Are you sure you want to leave this room?';
+        if ({{ $room->user_id }} == {{ Auth::user()->id }}) {
+            message = 'Are you sure you want to leave this room? You are the owner of this room, if you leave it will be moved to another member';
+        }
+
+            confirmModal('Leave Room', message, 'warning', 'Yes', 'No').then((result) => {
+                if (result.isConfirmed) {
+                    loadingElement('Leaving Room...');
+                    leaveRoomRequest('{{ Auth::user()->id }}').then((response) => {
+                        if (response.success) {
+                            toastNotification(response.message, 'success', 3000);
+                            window.location.href = "/rooms";
+                        } else {
+                            toastNotification(response.message, 'error', 3000); 
+                        }
+                    });
+                }
+            });
+    }
+
+    async function kickMemberRequest(member_id){
+        try{
+            const reponse = await fetch('{{ route('rooms.kickMember', ['roomId' => $room->id, 'userId' => ':userId'])}}'
+            .replace(':userId', member_id),
+                {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+            const data = await reponse.json();
+
+            return {
+                success: data.success,
+                message: data.message
+            };
+
+        } catch (error) {
+            return {
+                success: false,
+                message: 'Something went wrong,  please try again later'
+            };
+        }
+    
+    }
+
+    async function leaveRoomRequest(){
+        try{
+            const reponse = await fetch('{{ route('rooms.leaveRoom', ['roomId' => $room->id])}}',
+                {
+                    method: 'DELETE',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+            const data = await reponse.json();
+
+            return {
+                success: data.success,
+                message: data.message
+            };
+
+        } catch (error) {
+            return {
+                success: false,
+                message: 'Something went wrong,  please try again later'
+            };
+        }
+    }
+
+</script>
 
 
 

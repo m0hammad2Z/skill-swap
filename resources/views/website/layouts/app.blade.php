@@ -19,7 +19,7 @@
         <div class="logo">
             <a href="/">SkillSwap</a>
             <div class="search">
-                <input type="text" name="search" placeholder="Search">
+                <input type="text" name="navsearch" placeholder="Search">
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                     
                 </div>
                 <div>
-                    <a href="/create" ><i class="fas fa-plus"></i></a>
+                    <a href="/rooms/create" ><i class="fas fa-plus"></i></a>
                 </div>
                 
 
@@ -131,6 +131,17 @@
 
         }
     </script>
+
+
+{{-- Search --}}
+<script>
+    const search = document.querySelector("input[name='navsearch']");
+    search.addEventListener('keyup', function(e){
+        if (e.keyCode === 13) {
+            window.location.href = "/search/" + search.value;
+        }
+    });
+</script>
     
 </body>
 </html>

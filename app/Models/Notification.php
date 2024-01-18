@@ -20,6 +20,9 @@ class Notification extends Model
     public static $TYPE_NEW_MESSAGE = 'new_message';
 
     public static $TYPE_NEW_RESOURSE = 'new_resource';
+
+    public static $TYPE_KICKED_OUT = 'kicked_out';
+    
     
 
 

@@ -9,6 +9,10 @@ use App\Models\RoomMember;
 use App\Models\User;
 use App\Models\Booking;
 use App\Models\VideoSession;
+use App\Models\Notification;
+use App\Models\Resource;
+use App\Models\WalletTransaction;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class RoomController extends Controller
@@ -26,6 +30,26 @@ class RoomController extends Controller
 
         return view('website.rooms.index', compact('rooms'));
     }
+
+    // search rooms (GET) in real time (json response)
+    public function search(Request $request){
+        $search = $request->string;
+        $rooms = Room::where('name', 'LIKE', "%{$search}%")->lessThanMaxAttendees()->active()->notPrivate()->UserNotAmemeber(auth()->user()->id)->get();
+
+        if ($rooms->isEmpty()) {
+            return jsonResponese(false, 'No rooms found', 404);
+        }
+
+        foreach($rooms as $room){
+            $room->skill_to_learn = Skill::find($room->skill_to_learn_id);
+            $room->skill_to_teach = Skill::find($room->skill_to_teach_id);
+            $room->user = User::find($room->user_id);
+            $room->membersCount = $room->members->count();
+        }
+
+        return jsonResponeseWithData(true, 'Rooms fetched successfully', $rooms, 200);
+    }
+
 
     // Create a new room (GET)
     public function create(){
@@ -186,9 +210,85 @@ class RoomController extends Controller
     }
     
 
+    // Update a room (PATCH)
+    public function updateRoom($roomId){
+        $validated = Validator::make(request()->all(), [
+            'name' => 'required|max:30',
+            'description' => 'required',
+            'access_code' => 'nullable',
+            'requirements' => 'nullable',
+            'learning_outcomes' => 'nullable',
+        ]);
+
+        if($validated->fails()){
+            return redirect()->back()->with('error', 'Please fill all the fields correctly');
+        }
+
+        $room = Room::find($roomId);
+
+        if($room->user_id != auth()->user()->id){
+            return redirect()->back()->with('error', 'You are not authorized to update this room');
+        }
+
+        $room->name = request('name');
+        $room->description = request('description');
+        $room->access_code = request('access_code');
+        $room->requirements = request('requirements');
+        $room->learning_outcomes = request('learning_outcomes');
+
+        $room->save();
+
+        return redirect()->back()->with('success', 'Room updated successfully');
+    }
+
+    // Kick a member (DELETE)
+    public function kickMember($roomId, $memberId){
+        try{
+            $room = Room::find($roomId);
+
+            if($memberId == $room->user_id){
+                return jsonResponese(false, 'You are the owner of this room, you cannot leave', 403);
+            }
+
+            if($room->user_id != auth()->user()->id){
+                return jsonResponese(false, 'You are not authorized to kick members from this room', 403);
+            }
+
+            $roomMember = RoomMember::where('room_id', $roomId)->where('user_id', $memberId)->first();      
+
+            Booking::where('room_id', $roomId)->where('user_id', $memberId)->delete();
+
+            $notification = Notification::add($memberId, $roomId, Notification::$TYPE_KICKED_OUT, 'You have been kicked out of the room', '/rooms/');
+            $notification->save();
+            $roomMember->delete();
+
+            return jsonResponese(true, 'Member kicked successfully', 200);
+        }
+        catch(\Exception $e){
+            return jsonResponese(false, $e->getMessage(), 403);
+        }
+    }
     
 
+    // Leave a room (DELETE)
+    public function leaveRoom($roomId){
+        try{
+            $room = Room::find($roomId);
 
+            if($room->user_id == auth()->user()->id){
+                return jsonResponese(false, 'You are the owner of this room, you cannot leave', 403);
+            }
+
+            $roomMember = RoomMember::where('room_id', $roomId)->where('user_id', auth()->user()->id)->first();
+            $roomMember->delete();
+            $room->save();
+
+            return jsonResponese(true, 'You left the room successfully', 200);
+        }
+        catch(\Exception $e){
+            return jsonResponese(false, 'Something went wrong, please try again later', 403);
+        }
+    }
 
     
 }

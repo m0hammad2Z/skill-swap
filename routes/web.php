@@ -66,6 +66,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('myrooms')->group(function(){
         Route::get('/', [RoomController::class, 'showUserRooms'])->name('rooms.userRooms');
         Route::get('{id}', [RoomController::class, 'showJoinedRoom'])->name('rooms.joinedRoom');
+        Route::delete('kick/{roomId}/{userId}', [RoomController::class, 'kickMember'])->name('rooms.kickMember');
+        Route::delete('leave/{roomId}', [RoomController::class, 'leaveRoom'])->name('rooms.leaveRoom');
+        Route::patch('update/{roomId}', [RoomController::class, 'updateRoom'])->name('rooms.updateRoom');
+        Route::post('search', [RoomController::class, 'search'])->name('rooms.search');
     });
     
     // Booking Routes
