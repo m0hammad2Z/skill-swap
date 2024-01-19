@@ -37,64 +37,51 @@
 }
 
 .features-section >.feature{
-    width: 20em;
+    width: 25em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--glass-color);
     padding: 2em;
-    border-radius: var(--border-radius);
+    background-color: var(--lighting-color);
+    border-radius: var(--border-radius2);
+    box-shadow: var(--shadow);
     box-sizing: border-box;
     height: 18em;
     text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.features-section >.feature:hover .fas{
+    scale: 1.2;
+}
+
+.featured-skills-section{
+    background-color: var(--dark-color);
+    padding: 3em;
+    border-radius: var(--border-radius2);
     box-shadow: var(--shadow);
-    border: 0.2em solid var(--glass-color);
+    color: var(--light-color);
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .featured-skills-section > .skill{
-    background-color: var(--glass-color);
-    padding: 2em;
-    border: 0.2em solid var(--glass-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
     width: 15em;
-    height: 11em;
-    text-align: center;
-    box-shadow: var(--shadow);
+    transition: all 0.3s ease-in-out;
 }
 
-/* Pricing section */
-.pricing-section{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 10em auto;
-    gap:1em;
+.featured-skills-section > .skill:hover{
+    scale: 1.2;
 }
 
-.pricing-section .card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--glass-color);
-    padding: 2em 6em;
-    border-radius: var(--border-radius);
-    height: 25em;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 0.2em solid var(--glass-color);
+.features-section >.feature .fas{
+    font-size: 4em;
+    color: var(--main-color);
+    transition: all 0.3s ease-in-out;
 }
 
-.pricing-section .card > .pricing-footer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.2em;
-}
 
 /* big card */
 .big-card{
@@ -117,6 +104,7 @@
 .big-card > .content > h1{
     font-size: 2em;
     font-weight: 900;
+    color: var(--lighting-color);
 }
 
 .big-card > .content > p{
@@ -130,10 +118,11 @@
 }
 
 .big-card > .content > .cta-button:hover{
-    background-color: var(--glass-color);
+    background-color: var(--light-color);
+    color: var(--dark-color);
 }
 
-.big-card > .content > .fas{
-    color: var(--lightest-color);
+.big-card > .content .fas{
+    color: var(--lighting-color);
 }
 

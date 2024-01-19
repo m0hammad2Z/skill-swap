@@ -85,41 +85,7 @@
 
     <hr>
 
-    <!-- Pricing -->
-    <h2 class="section-title">Select a Plan!</h2>
-    <p class="subtitle">You can use SkillSwap for free, or upgrade to a premium account for additional features.</p>
-    <div class="pricing-section">
-        <div class="card">
-            <h2>Free</h2>
-            <div>
-                <p>Access to basic features</p>
-                <p>Limited skill exchanges</p>
-                <p>No premium support</p>
-            </div>
-            <div class="pricing-footer">
-                <h3>Free</h3>
-                <a href="#" class="cta-button">Sign Up</a>
-            </div>
-            
-        </div>
-        <div class="card">
-            <h2>Premium</h2>
-            <div>
-                <p>Access to all features</p>
-                <p>Unlimited skill exchanges</p>
-                <p>Premium support</p>
-            </div>
-
-            <div class="pricing-footer">
-                <h3>Use SkillSwab Bucks!</h3>
-                <a href="#" class="cta-button">Upgrade Now</a>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <hr>
-
+    
     <!-- Big Card -->
     <div class="right-content">
         <div class="big-card">

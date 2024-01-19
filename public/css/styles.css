@@ -3,30 +3,31 @@
 :root{
     --font-family-sans-serif: 'Fredoka', sans-serif;
 
-    --main-color: #3B82F6;
-    --mid-color: #769cf5;
-
-    --darkest-color: #0F172A;
-    --dark-color: #1e2c4b;
+    --main-color: #41d115;
+    --mid-color: #6c6c6c;
     
-    --light-color: #bacadd;
-    --lightest-color: #FFFFFF;
-    
-    --glass-color: rgba(66, 64, 64, 0.1);
-    --shadow-color: rgba(0, 0, 0, 0.226);
-
     --red-color: #EF4444;
 
-    --shadow: 0 0.5em 0.8em 0em  var(--shadow-color);
+    --light-color: #e6e3e3;
+    --lighting-color: #FFFFFF;
+    
+    --dark-color: #363636;
+    --darkest-color: #000000;
+    
+    --glass-color: rgba(66, 64, 64, 0.1);
+    --shadow-color: rgba(6, 2, 63, 0.212);
 
-    --border-radius: 0.4em;
+    --shadow: 0 0.4em 1.5em var(--shadow-color);
+
+    --border-radius: 2em;
+    --border-radius2: 1em;
 }
 
 body{
     font-family: var(--font-family-sans-serif);
-    background-image: linear-gradient(135deg, var(--darkest-color), var(--dark-color));
+    background-color: var(--lighting-color);
     /* background-image: linear-gradient(135deg, var(--lightest-color), var(--light-color)); */
-    color: var(--light-color);
+    color: var(--darkest-color);
     /* color: var(--dark-color); */
     width: 80%;
     margin: 0 auto;
@@ -37,32 +38,33 @@ body{
 }
 
 h1{
-    color:var(--lightest-color);
+    color:var(--darkest-color);
 }
 
 h2{
-    color:var(--mid-color);
+    color:var(--dark-color);
 }
 
 
 p{
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-weight: 300;
+    color:var(--mid-color);
 }
 
 
 .fas{
-    font-size: 2em;
-    color: var(--mid-color);
+    font-size: 2.5em;
+    color: var(--main-color);
 }
 
 a{
-    color:var(--light-color);
+    color:var(--dark-color);
     text-decoration: none;
 }
 
 hr{
-    border: 0.1em solid var(--dark-color);
+    border: 0.1em solid var(--mid-color);
     margin: 2em 0;
     margin: 10em auto;
 }
@@ -70,7 +72,7 @@ hr{
 .section-title{
     font-size: 2.5em;
     font-weight: 900;
-    color: var(--lightest-color);
+    color: var(--darkest-color);
     text-align: center;
     text-decoration: underline;
     text-decoration-color: var(--main-color);
@@ -81,30 +83,26 @@ hr{
 .subtitle{
     font-size: 1.4em;
     font-weight: 600;
-    color: var(--light-color);
+    color: var(--mid-color);
     text-align: center;
 }
 
 .cta-button{
     padding: 0.8em 1.6em !important;
     background-color: var(--main-color);
-    color: var(--lightest-color);
-    transition: all 0.3s ease-in-out;
-    font-size: 1em;
+    color: var(--lighting-color);
+    font-size: 1.2em;
     font-weight: 600;
     border-radius: var(--border-radius);
-    border: none;
+    border: 0.1em solid transparent;
     cursor: pointer;
     text-align: center;
-    
-    /* bottom box shadow */
     box-shadow: var(--shadow);
-
+    transition: all 0.3s ease-in-out;
 }
 
 .cta-button:hover{
     background-color: var(--dark-color);
-    color: var(--lightest-color);
 }
 
 .red-button{
@@ -123,7 +121,7 @@ hr{
 
 .red-button:hover{
     background-color: var(--red-color);
-    color: var(--lightest-color);
+    color: var(--lighting-color);
 }
 
 .logo {
@@ -137,11 +135,15 @@ hr{
 .logo a{
     font-size: 2em;
     font-weight: 600;
-    color: var(--lightest-color);
-    border-left: 0.15em solid var(--main-color);
+    color: var(--lighting-color);
+    border-left: 0.2em solid var(--main-color);
     padding: 0;
     border-radius: 0;
     padding-left: 0.2em;
+}
+
+.logo a:hover{
+    color: var(--lighting-color);
 }
 
 .room-card-tags{
@@ -150,7 +152,7 @@ hr{
 
 .room-card-tag{
     background-color: var(--main-color);
-    color: var(--lightest-color);
+    color: var(--darkest-color);
     padding: 0.2em 0.5em;
     border-radius: var(--border-radius);
     font-size: 0.8em;
@@ -167,9 +169,9 @@ input{
     border: 0.2em solid var(--glass-color);
     outline: none;
     font-weight:800;
-    background-color: var(--light-color);
+    background-color: var(--dark-color);
     margin: 0.2em 0;
-    color: var(--dark-color);
+    color: var(--light-color);
 }
 
 label{
@@ -187,11 +189,11 @@ textarea{
     outline: none;
     font-weight:900;
     padding: 0.5em 1em;
-    background-color: var(--light-color);
+    background-color: var(--dark-color);
     width: 100%;
     font-size: 1.2em;
     margin: 0.2em 0 ;
-    color: var(--dark-color);
+    color: var(--light-color);
 }
 
 select, .select2 {
@@ -202,9 +204,9 @@ select, .select2 {
     box-shadow: var(--shadow);
     border: 0.2em solid var(--glass-color);
     outline: none;
-    background-color: var(--light-color);
+    background-color: var(--dark-color);
     width: 100%;
-    color: var(--darkest-color);
+    color: var(--lightest-color);
     
 }
 
@@ -217,14 +219,14 @@ select, .select2 {
 
 .select2 *{
     font-weight: 600;
-    color: var(--darkest-color);
-    background-color: var(--light-color)!important;
+    color: var(--lightest-color);
+    background-color: var(--dark-color)!important;
     border: none!important;
 }
 
 .select2-results__option{
     font-weight: 600;
-    color: var(--darkest-color);
+    color: var(--lightest-color);
     
     
     border-radius: var(--border-radius);
@@ -240,23 +242,15 @@ nav{
     gap : 1em;
     z-index: 100;
     margin-bottom: 10em;
-    border-bottom: 0.1em solid var(--dark-color);
     padding-bottom: 1em;
-}
-
-
-
-nav  a{
-    font-size: 1em;
-    font-weight: 600;
-    padding: 0.5em 1em;
+    background-color: var(--dark-color);
+    box-shadow: var(--shadow);
+    padding: 1em 2em;
     border-radius: var(--border-radius);
-    transition: all 0.3s ease-in-out;
+    position: sticky;
+    top: 0;
 }
 
-nav  a:hover{
-    color: var(--main-color);
-}
 
 nav .dropdown{
     display: flex;
@@ -287,7 +281,7 @@ nav #dropdown-content{
 @keyframes dropdown{
     from{
         opacity: 0;
-        transform: translateY(-1em);
+        transform: translateY(-10em);
     }
     to{
         opacity: 1;
@@ -296,18 +290,30 @@ nav #dropdown-content{
     
 }
 
-
-nav #dropdown-content .fas{
-    font-size: 1.5em;
+nav #dropdown-content a{
     color: var(--light-color);
-    margin-right: 0.5em;
-}
-
-nav #dropdown-content > *{
+    margin: 0.3em 0.3em;
     text-align: center;
     width: 9em;
     font-size: 1.2em;
+    transition: all 0.3s ease-in-out;
 }
+nav #dropdown-content .fas{
+    font-size: 1.5em;
+    color: var(--light-color);
+    margin-right: 0.2em;
+    transition: all 0.3s ease-in-out;
+}
+
+nav #dropdown-content a:hover{
+    color: var(--main-color);
+}
+
+nav #dropdown-content a:hover .fas{
+    color: var(--main-color);
+    scale: 1.2;
+}
+
 
 nav .show{
     display: flex!important;
@@ -324,7 +330,7 @@ nav  .burger{
 }
 
 nav  .burger:hover{
-    color: var(--light-color);
+    color: var(--dark-color);
 }
 
 nav .fa-coins{
@@ -341,7 +347,7 @@ nav .right-side{
 
 /* Footer */
 footer {
-    color: var(--light-color);
+    color: var(--dark-color);
     padding: 50px 20px;
 }
 
@@ -356,15 +362,19 @@ footer {
     margin-bottom: 30px;
 }
 
+.footer-section .logo a{
+    color: var(--darkest-color)!important;
+}
+
 .socials{
-    align-self: center
+    align-self: center;
 }
 
 
 .socials a {
     display: inline-block;
     margin-right: 15px;
-    color: var(--light-color);
+    color: var(--dark-color);
     font-size: 1.5em;
     transition: color 0.3s ease-in-out;
 
@@ -380,9 +390,8 @@ footer {
     margin-top: 4em;
     text-align: center;
     font-size: 0.8em;
-    color: var(--light-color);
-    border-top: 1px solid var(--dark-color  );
+    color: var(--dark-color);
+    border-top: 1px solid var(--light-color  );
     padding-top: 1em
 }
-
 
