@@ -6,6 +6,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/myroomDetails.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
 @endsection
 
 
@@ -50,11 +51,10 @@
     </script>
 @endif
 
-
+<h1 class="section-title">{{ $room->name }}</h1>
 
 <div class="container">
     <div class="top"> 
-        <h1 class="section-title">{{ $room->name }}</h1>
         <div id="roomButtons">
             <button onclick="showSection('videoSection')">Video</button>
             <button onclick="showSection('chatSection')">Chat</button>
@@ -89,13 +89,13 @@
     
             <div class="sessions-container">
                 <div id="pastSessions">
-                    <h3>Past Sessions</h3>
+                    <h3>Sessions</h3>
 
                     <div class="vcard table-titles">
                         <strong>Room</strong>
                         <strong>From</strong>
                         <strong>To</strong>
-                        <strong >Rating</strong>
+                        {{-- <strong >Rating</strong> --}}
                     </div>
                     
                     @foreach($room->video_sessions as $session)    
@@ -104,7 +104,7 @@
                             <p>{{ $session->name }}</p>
                             <p>{{ $session->created_at }}</p>
                             <p>  {{ $session->created_at->addDays(7)}}</p>
-                            <div class="rating-section">
+                            {{-- <div class="rating-section">
                                 <div class="star" onclick="starsRating(1)">
                                     <input type="radio" id="star1" name="rating" value="1">
                                     <label for="star1"> <i class="fas fa-star"></i></label>
@@ -125,8 +125,8 @@
                                     <input type="radio" id="star5" name="rating" value="5">
                                     <label for="star5"> <i class="fas fa-star"></i></label>
                                 </div>       
-                            </div>
-                        </div>
+                            </div> --}}
+                        </div> 
 
                     @endforeach
 
@@ -216,6 +216,8 @@
             </div>
 
             <div class="settings-container">
+                <div class="room-details">
+                    <h3>Room Details</h3>
                 <form action="{{ route('rooms.updateRoom', ['roomId' => $room->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
@@ -235,31 +237,28 @@
                         <button type="submit" class="cta-button">Save</button>
                     @endif
                 </form>
+                </div>
 
-                <div>
+                <div class="room-actions">
                     <h3>Room Members</h3>
                     <div class="members-container">
                         @foreach($room->members as $member)
                             <div class="member"  id="member{{ $member->id }}">
+                                <p>{{ $member->username }}</p>
                                 @if($member->id == $room->user_id)
                                     <i class="fas fa-crown"></i>
                                 @endif
-                                <p>{{ $member->username }}</p>
                                 @if ($room->user_id == auth()->user()->id && $member->id != auth()->user()->id)
                                     <button class="red-button" onclick="kickMember('{{ $member->id }}')">Kick</button>
                                 @endif
                             </div>
                         @endforeach
                     </div>
-
-                </div>
-
-                <div class="room-actions">
-                    <h2>Room Owner: {{ $room->user->username }}</h2>
                     @if (Auth::user()->id != $room->user->id)
                     <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
                     @endif
                 </div>
+
             </div>
         </div>
     </div>

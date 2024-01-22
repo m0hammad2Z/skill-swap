@@ -4,7 +4,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/wallet.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/myroomDetails.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/notifications.css') }}">
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
         <div class="wallet">
             <div class="wallet__balance">
                 <h3>Balance</h3>
-                <h1>20</h1>
+                <h1>{{ Auth::user()->sbucks_balance }}</h1>
             </div>
             <div class="wallet__buttons">
                 <button class="cta-button" onclick="openDepositModal()">Deposit</button>

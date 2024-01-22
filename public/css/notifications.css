@@ -1,10 +1,10 @@
 .table-titles{
-    margin : 3em 0;
-    font-size: 1.1em;
-    border-bottom: 0.1em solid var(--dark-color);
-    background-color: var(--dark-color)!important;
-    padding: 1em 0;
+    margin : 3em 0!important;
+    font-size: 1.3em;
+    background-color: var(--main-color)!important;
     border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--lighting-color);
 }
 
 .vcard{

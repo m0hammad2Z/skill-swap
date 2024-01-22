@@ -52,8 +52,14 @@
     transition: all 0.3s ease-in-out;
 }
 
+.features-section > .feature:hover{
+    background-color: var(--main-color);
+    color: var(--lighting-color);
+}
+
 
 .features-section >.feature:hover .fas{
+    color: var(--lighting-color);
     scale: 1.2;
 }
 

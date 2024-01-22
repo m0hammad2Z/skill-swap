@@ -33,8 +33,8 @@ function confirmModal(title, text, icon, confirmButtonText, cancelButtonText) {
         showCancelButton: true,
         confirmButtonText: confirmButtonText,
         cancelButtonText: cancelButtonText,
-        background: 'var(--dark-color)',
-        color: 'var(--light-color)',
+        background: 'var(--lighting-color)',
+        color: 'var(--darkest-color)',
         cancelButtonColor: 'var(--main-color)',
         confirmButtonColor: 'var(--red-color)',
     });

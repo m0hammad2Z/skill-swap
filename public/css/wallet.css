@@ -1,14 +1,19 @@
 .wallet{
-    width: 50%;
+    width: 100%;
     height: 100%;
-    background-color: var(--dark-color);
+    background-color: var(--lighting-color);
     border-radius: var(--border-radius);
     padding: 2em;
-    box-shadow: var(--shadow);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin: 2em auto;
+    border: 0.15em solid var(--glass-color);
+}
+
+.wallet:hover{
+    box-shadow: var(--shadow);
+        
 }
 
 

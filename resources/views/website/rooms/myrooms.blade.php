@@ -3,7 +3,7 @@
 @section('title', 'My Rooms | SkillSwap')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/myrooms.css') }}">
+<link rel="stylesheet" href="{{ asset('css/rooms.css') }}">
 @endsection
 
 
@@ -13,25 +13,39 @@
     <h1 class="section-title">My Rooms</h1>
     <p class="subtitle">View and manage your rooms</p>
 
-    <div class="rooms-container">
-        @foreach ($rooms as $room)
-            <div class="room-card">
-                <div class="room-card-image">
-                    <img src="https://images.ctfassets.net/23aumh6u8s0i/1IKVNqiLhNURzZXp652sEu/4379cfba19f0e19873af6074d3017f70/csharp" alt="Room Image">
-                </div>
-                <div class="room-card-details">
-                    <div>
-                        <h2 class="room-card-title">{{ $room->name }}</h2>
-                        <div class="room-card-tags">
-                          <span class="room-card-tag">{{ $room->user->first_name }}</span>
+    <div class="cards-container">    
+ 
+        <div class="left">
+            <div class="cards">
+                @foreach($rooms as $room)
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{{ asset('storage/'.$room->image) }}" alt="">
                         </div>
-                        <p class="room-card-subtitle">{{ $room->description }}</p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>{{ $room->name }}</h2>
+                                </div>
+                                <div class="room-card-tags">
+                                    <span class="room-card-tag">{{ App\Models\Skill::find($room->skill_to_learn_id)->name }}</span>
+                                    <span class="room-card-tag">{{ App\Models\Skill::find($room->skill_to_teach_id)->name }}</span>
+                                </div>
+                                <p>{{ $room->description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-creator">
+                                    <img src="{{ asset('storage/'.$room->user->profile_picture) }}" alt=""><span>{{ $room->user->username }}</span>
+                                </div>
+                                <a href="/myrooms/{{ $room->id }}" class="cta-button btn">View Room</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <a href="/myrooms/{{ $room->id }}" class="room-card-button cta-button ">View Room</a>
+                
+                @endforeach
 
             </div>
-        @endforeach
+        </div>
     </div>
 
     <hr>

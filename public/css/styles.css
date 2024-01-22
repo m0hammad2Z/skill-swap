@@ -3,24 +3,34 @@
 :root{
     --font-family-sans-serif: 'Fredoka', sans-serif;
 
-    --main-color: #41d115;
+    --main-color: #39ac17;
     --mid-color: #6c6c6c;
     
     --red-color: #EF4444;
 
-    --light-color: #e6e3e3;
+    /* Light */
+    --light-color: #e9e4e4;
     --lighting-color: #FFFFFF;
     
     --dark-color: #363636;
-    --darkest-color: #000000;
-    
-    --glass-color: rgba(66, 64, 64, 0.1);
-    --shadow-color: rgba(6, 2, 63, 0.212);
+    --darkest-color: #1a1818;
 
-    --shadow: 0 0.4em 1.5em var(--shadow-color);
+    /* Dark */
+    /* --light-color: #363636;
+    --lighting-color: #1a1818;
+
+    --dark-color: #dadada;
+    --darkest-color: #FFFFFF; */
+    
+    
+    
+    --glass-color: rgba(90, 90, 90, 0.1);
+    --shadow-color: rgba(32, 31, 31, 0.137);
+
+    --shadow: 0 0.6em 0.5em var(--shadow-color);
 
     --border-radius: 2em;
-    --border-radius2: 1em;
+    --border-radius2: 0.5em;
 }
 
 body{
@@ -40,6 +50,7 @@ body{
 h1{
     color:var(--darkest-color);
 }
+
 
 h2{
     color:var(--dark-color);
@@ -70,7 +81,7 @@ hr{
 }
 
 .section-title{
-    font-size: 2.5em;
+    font-size:3em;
     font-weight: 900;
     color: var(--darkest-color);
     text-align: center;
@@ -88,7 +99,7 @@ hr{
 }
 
 .cta-button{
-    padding: 0.8em 1.6em !important;
+    padding: 0.7em 1.6em !important;
     background-color: var(--main-color);
     color: var(--lighting-color);
     font-size: 1.2em;
@@ -152,7 +163,7 @@ hr{
 
 .room-card-tag{
     background-color: var(--main-color);
-    color: var(--darkest-color);
+    color: var(--lighting-color);
     padding: 0.2em 0.5em;
     border-radius: var(--border-radius);
     font-size: 0.8em;
@@ -162,38 +173,35 @@ hr{
 /* inputs */
 input{
     width: 100%;
-    padding: 0.5em 1em;
+    padding: 1em 1.3em;
     border-radius: var(--border-radius);
     box-sizing: border-box;
-    box-shadow: var(--shadow);
-    border: 0.2em solid var(--glass-color);
+    border: none;
     outline: none;
     font-weight:800;
-    background-color: var(--dark-color);
+    background-color: var(--light-color);
     margin: 0.2em 0;
-    color: var(--light-color);
+    color: var(--darkest-color);
 }
 
 label{
-    font-size: 1.1em;
-    font-weight: 600;
-    color: var(--light-color);
-    
+    font-size: 1.2em;
+    font-weight: 600;   
+    color: var(--dark-color);
 }
 
 textarea{
     border-radius: var(--border-radius);
     box-sizing: border-box;
-    box-shadow: var(--shadow);
-    border: 0.2em solid var(--glass-color);
+    border: none;
     outline: none;
     font-weight:900;
-    padding: 0.5em 1em;
-    background-color: var(--dark-color);
+    padding: 1em;
+    background-color: var(--light-color);
     width: 100%;
     font-size: 1.2em;
     margin: 0.2em 0 ;
-    color: var(--light-color);
+    color: var(--darkest-color);
 }
 
 select, .select2 {
@@ -201,13 +209,16 @@ select, .select2 {
     font-weight: 600;
     border-radius: var(--border-radius);
     box-sizing: border-box;
-    box-shadow: var(--shadow);
-    border: 0.2em solid var(--glass-color);
+    border: none;
     outline: none;
-    background-color: var(--dark-color);
+    background-color: var(--light-color);
     width: 100%;
-    color: var(--lightest-color);
-    
+    color: var(--darkest-color);
+}
+
+select{
+    padding: 0.5em 1em;
+    color: var(--mid-color);
 }
 
 
@@ -219,17 +230,15 @@ select, .select2 {
 
 .select2 *{
     font-weight: 600;
-    color: var(--lightest-color);
-    background-color: var(--dark-color)!important;
+    color: var(--dark-color);
+    background-color: var(--light-color)!important;
     border: none!important;
+    border-radius: var(--border-radius)!important;
 }
 
 .select2-results__option{
     font-weight: 600;
     color: var(--lightest-color);
-    
-    
-    border-radius: var(--border-radius);
 }
 
 /* navbar */
@@ -321,7 +330,7 @@ nav .show{
 
 nav  .burger{
     font-family: var(--font-family-sans-serif);
-    font-size: 1.5em;
+    font-size: 1.2em;
     background-color: transparent;
     color: var(--mid-color);
     border: none;
@@ -329,12 +338,19 @@ nav  .burger{
     transition: all 0.3s ease-in-out;
 }
 
+nav .dark{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;    
+}
+
 nav  .burger:hover{
-    color: var(--dark-color);
+    color: var(--light-color);
 }
 
 nav .fa-coins{
-    font-size: 1.4em;
+    font-size: 1.6em;
 }
 
 nav .right-side{
@@ -342,9 +358,13 @@ nav .right-side{
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
-    gap: 1em;
+    gap: 1em; 
 }
 
+
+nav label{
+    color: var(--light-color);
+}
 /* Footer */
 footer {
     color: var(--dark-color);

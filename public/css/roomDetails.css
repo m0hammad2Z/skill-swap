@@ -9,9 +9,10 @@
     gap: 1em;
     width: 90%;
     margin: 0 auto;
-    background-image: linear-gradient(135deg, var(--glass-color), var(--dark-color));
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius2);
     box-sizing: border-box;
+    background-color: var(--glass-color);
+    border: 0.15em solid var(--glass-color);
     box-shadow: var(--shadow);
 }
 
@@ -21,7 +22,7 @@
     height: 27em;
     width: 100%;
     object-fit: cover;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius2) var(--border-radius2) 0 0;
 }
 
 
@@ -33,17 +34,20 @@
     margin-top :2em;
 }
 
-.room-details-body-item{
+.room-details-body-item {
+    background-color: var(--light-color);
+    padding: 1em 2em;
+    border-radius: var(--border-radius2) ;
     width: 30em;
+    transition: all 0.3s ease-in-out;
 }
 
-.room-details-body-item {
-    background-color: var(--glass-color);
-    padding: 1em 2em;
-    border-radius: var(--border-radius) ;
+.room-details-body-item:hover{
+    transform: translate(0, -0.5em);
+    background-color: var(--dark-color);
+    color: var(--lighting-color);
     box-shadow: var(--shadow);
 }
-
 
 .cta-button{
     margin: 2em 3em;

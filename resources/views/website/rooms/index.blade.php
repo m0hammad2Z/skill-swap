@@ -13,30 +13,48 @@
 <body>
    
     @section('content')
+    <h1 class="section-title">Find a Room</h1>
+    <div class="search-bar" style="margin-bottom: 2em; width: 100%;">
+        <input type="text" placeholder="Search by skill or room title">
+    </div> 
+
+    <div class="search-suggestions">
+            <span class="suggestion-item">Web Development</span>
+            <span class="suggestion-item">Graphic Design</span>
+            <span class="suggestion-item">Photography</span>
+            <span class="suggestion-item">Video Editing</span>  
+            <span class="suggestion-item">Music Production</span>
+            <span class="suggestion-item">Drawing</span>
+            <span class="suggestion-item">Painting</span>
+    </div>
+
     <div class="cards-container">    
-        <h1 class="section-title">Find a Room</h1>
-        <div class="search-bar" style="margin-bottom: 2em; width: 100%;">
-            <input type="text" placeholder="Search by skill or room title">
-        </div>  
+ 
         <div class="left">
             <div class="cards">
-
                 @foreach($rooms as $room)
-                    
                     <div class="card">
-                        <div class="card-header" style="background-image: url('{{asset('storage/'.$room->image)}}');">
-                            <h2 class="card-title">{{ $room->name }}</h2>
-                            <p class="card-description">{{ $room->description }}</p>   
+                        <div class="card-image">
+                            <img src="{{ asset('storage/'.$room->image) }}" alt="">
                         </div>
-                        <div class="creator-info">
-                            <p>Created by: {{ $room->user->first_name }}</p>
-                            <p>Skill to Teach: {{ $room->skill_to_teach->name }}</p>
-                            <p>Wants to Learn: {{ $room->skill_to_learn->name }}</p>
-                            <p>Number of Participants: {{ $room->membersCount }}</p>
-                            <p>Rating: 4.5/5</p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>{{ $room->name }}</h2>
+                                </div>
+                                <div class="room-card-tags">
+                                    <span class="room-card-tag">{{ $room->skill_to_learn->name }}</span>
+                                    <span class="room-card-tag">{{ $room->skill_to_teach->name }}</span>
+                                </div>
+                                <p>{{ $room->description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-creator">
+                                    <img src="{{ asset('storage/'.$room->user->profile_picture) }}" alt=""><span>{{ $room->user->username }}</span>
+                                </div>
+                                <a href="/rooms/{{ $room->id }}" class="cta-button btn">Join Room</a>
+                            </div>
                         </div>
-        
-                        <a href="/rooms/{{ $room->id }}" class="cta-button btn">Join Room</a>
                     </div>
                 
                 @endforeach
@@ -65,18 +83,27 @@
                     let id = 23121231;
                     cards.innerHTML += `
                     <div class="card">
-                        <div class="card-header" style="background-image: url('storage/${room.image}');">
-                            <h2 class="card-title">${room.name}
-                            <p class="card-description">${room.description} </p>
+                        <div class="card-image">
+                            <img src="{{ asset('storage/'.$room->image) }}" alt="">
                         </div>
-                        <div class="creator-info">
-                            <p>Created by: ${room.user.first_name}</p>
-                            <p>Skill to Teach: ${room.skill_to_teach.name}</p>
-                            <p>Wants to Learn: ${room.skill_to_learn.name}</p>
-                            <p>Number of Participants: ${room.membersCount}</p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>{{ $room->name }}</h2>
+                                </div>
+                                <div class="room-card-tags">
+                                    <span class="room-card-tag">{{ $room->skill_to_learn->name }}</span>
+                                    <span class="room-card-tag">{{ $room->skill_to_teach->name }}</span>
+                                </div>
+                                <p>{{ $room->description }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-creator">
+                                    <img src="{{ asset('storage/'.$room->user->profile_picture) }}" alt=""><span>{{ $room->user->username }}</span>
+                                </div>
+                                <a href="/rooms/{{ $room->id }}" class="cta-button btn">Join Room</a>
+                            </div>
                         </div>
-        
-                        <a href="/rooms/${room.id}" class="cta-button btn">Join Room</a>
                     </div>
                     `;
                 }

@@ -10,7 +10,8 @@
 
 
 @section('content')
-<div class="container"></div>
+<h1 class="section-title">Profile</h1>
+<div class="container">
 
     <div class="login-container">
         @foreach ($errors->all() as $error)
@@ -25,16 +26,19 @@
         @endforeach
         
         
-        
         <div>
             {{ session('status') }}
         </div>
-
-        <h1 class="section-title">Profile</h1>
+        <h3>Update your profile</h3>
        
-        <form action="{{ route('profile.update') }}" method='POST' enctype='multipart/form-data'>
+        <form action="{{ route('profile.update') }}" method='POST' enctype='multipart/form-data' id="form1">
             @csrf
             @method('PATCH')
+            <div class="form-group profile-picture">
+                <label for='profile_picture'><img for='profile_picture' src="{{asset('storage/'.$user->profile_picture)}}" alt="profile picture"></label>
+                <input type='file' id='profile_picture' name='profile_picture' value="{{ asset('storage/'.$user->profile_picture) }}" onchange="handleProfilePictureChange(event)">
+                
+            </div>
             <div class="form-group">
                 <label for='username'>Username</label>
                 <input type='text' id='username' name='username' placeholder='Choose a username' value="{{ $user->username }}" >
@@ -76,23 +80,19 @@
                 <label for='country'>Country</label>
                 <input type='text' id='country' name='country' placeholder='Enter your country' value="{{ $user->country }}">
             </div>
-            <div class="form-group">
-                <label for='profile_picture'>Profile Picture</label>
-                <input type='file' id='profile_picture' name='profile_picture' value="{{ asset('storage/'.$user->profile_picture) }}">
-                <img src="{{asset('storage/'.$user->profile_picture)}}" alt="profile picture">
-            </div>
-
             <!-- Submit Button -->
             <button type="submit" class="cta-button btn">Update Profile</button>
         </form>
 
-        
+    </div>
 
-        {{-- Update password --}}
+    {{-- Update password --}}
+    <div class="login-container">
+        <h3>Update your password</h3>
         <form method="post" action="{{ route('password.update') }}" >
             @csrf
             @method('put')
-
+    
             <div class="form-group">
                 <label for="current_password">Current Password</label>
                 <input type="password" id="current_password" name="current_password" placeholder="Enter your current password">
@@ -105,12 +105,14 @@
                 <label for="password_confirmation">Confirm New Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your new password">
             </div>
-
+    
             <!-- Submit Button -->
             <button type="submit" class="cta-button btn">Update Password</button>
         </form>
-
     </div>
+
+   
+
 </div>    
 
 
@@ -134,6 +136,24 @@ $(function () {
         });
     });
 })
+
+function handleProfilePictureChange(event) {
+    var image = document.getElementById('profile_picture');
+    var imagePreview = document.querySelector('.profile-picture img');
+    imagePreview.src = URL.createObjectURL(event.target.files[0]);
+    imagePreview.onload = function() {
+        URL.revokeObjectURL(imagePreview.src)
+
+        let con = confirmModal('Are you sure you want to change your profile picture?', 'Your current profile picture will be replaced', 'warning', 'Yes, change it', 'No, just want to see how it looks');
+        con.then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('form1').submit();
+            } else {
+                imagePreview.src = image.value;
+            }
+        })
+    }
+}
 
 </script>
        

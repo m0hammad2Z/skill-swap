@@ -46,7 +46,7 @@
             </div>
 
             <!-- Room Skill to Learn Field -->
-            <div class="skill_to_learn_id">
+            <div class="form-group skill_to_learn_id">
                 <label for="skill_to_learn_id">Skill to Learn</label>
                 <select id="skill_to_learn_id" name="skill_to_learn_id" required>
                     @foreach($skills as $skill)
@@ -59,7 +59,7 @@
 
             {{-- Room skill to teach --}}
 
-            <div class="skill_to_teach_id">
+            <div class="form-group skill_to_teach_id">
                 <label for="skill_to_teach_id">Skill to Teach</label>
                 <select id="skill_to_teach_id" name="skill_to_teach_id">
                     @foreach($userSkills as $skill)

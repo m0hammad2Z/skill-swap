@@ -48,8 +48,7 @@
                         <a href="/profile"><i class="fas fa-user"></i> Profile</a>
                         <a href="/notifications"><i class="fas fa-bell"></i> Notifications</a>
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                    
+                    </div>                    
                 </div>
                 <div>
                     <a href="/rooms/create" ><i class="fas fa-plus"></i></a>
@@ -60,7 +59,7 @@
                 <button class="cta-button" onclick="window.location.href='/login'">Login</button>
                 <button class="cta-button" onclick="window.location.href='/register'">Register</button>
             @endif
-
+            <button class="dark" id="dark" onclick="toggleDarkMode()"><i class="fas fa-moon" ></i></button>
         </div>
     </nav>
 
@@ -106,6 +105,56 @@
                 }
             }
         }
+        
+        const root = document.documentElement;
+        const rootStyles = getComputedStyle(document.documentElement);
+
+        const dark = rootStyles.getPropertyValue('--dark-color');
+        const darkest = rootStyles.getPropertyValue('--darkest-color');
+        const light = rootStyles.getPropertyValue('--light-color');
+        const lighting = rootStyles.getPropertyValue('--lighting-color');
+
+
+        var isDark = localStorage.getItem('isDark');
+        if (isDark === 'true') {
+            toDark(root);
+            console.log('dark');
+        } else {
+            toLight(root);
+            console.log('light');
+        } 
+
+        function toggleDarkMode(){
+
+            isDark = !isDark;
+            
+            if (isDark) {
+                toDark(root);
+            } else {
+                toLight(root);
+            }
+            localStorage.setItem('isDark', isDark.toString());
+        }
+
+        function toDark(root){
+            root.style.setProperty('--light-color', dark);
+            root.style.setProperty('--lighting-color', darkest);
+            root.style.setProperty('--dark-color', light);
+            root.style.setProperty('--darkest-color', lighting);
+
+            const darkIcon = document.getElementById('dark');
+            darkIcon.innerHTML = '<i class="fas fa-sun" ></i>';
+        }
+
+        function toLight(root){
+            root.style.setProperty('--light-color', light);
+            root.style.setProperty('--lighting-color', lighting);
+            root.style.setProperty('--dark-color', dark);
+            root.style.setProperty('--darkest-color', darkest);
+
+            const darkIcon = document.getElementById('dark');
+            darkIcon.innerHTML = '<i class="fas fa-moon"</i>';
+        }
        
     </script>
 
@@ -141,6 +190,7 @@
             window.location.href = "/search/" + search.value;
         }
     });
+    
 </script>
     
 </body>
