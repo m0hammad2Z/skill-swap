@@ -700,10 +700,10 @@
 
         stompClient.send("/app/getPreviousMessages/" + roomId);
         
-
         stompClient.subscribe(`/topic/messages/${roomId}`, function (message) {
             const messageData = JSON.parse(message.body);
 
+            console.log(messageData);
             let members = []
 
             @foreach ($room->members as $member)

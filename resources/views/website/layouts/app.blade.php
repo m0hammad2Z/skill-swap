@@ -11,14 +11,31 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     @yield('styles')
+
+    <style>
+        @if (Auth::check())
+        .notifications-a::after{
+            content: "{{ Auth::user()->notifications->filter(function($notification){return $notification->is_read == 0;})->count() }}";
+            position: absolute;
+            display: inline-block;
+            width: 1em;
+            margin-left: -0.5em;    
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border-radius: 50%;
+            padding: 0.1rem;
+            font-size: 0.6em;
+        }
+        @endif
+    </style>
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
-            <a href="/">SkillSwap</a>
-            <div class="search">
+            <h1><a href="/">SkillSwap</a></h1>
+            <div class="">
                 <input type="text" name="navsearch" placeholder="Search">
             </div>
         </div>
@@ -33,33 +50,67 @@
                 <div>
                     <label for="">{{ Auth::user()->sbucks_balance }} <i class="fas fa-coins"></i></label>
                 </div>
-                <div class="dropdown" >
-                    <div style="display: flex; align-items: center; justify-content: center;" onclick="toggleMenu()">
-                        <button id="burger" class="burger" >
-                            {{Auth::user()->username}}
-                        </button>
-                        <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="profile-picture" style="border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">
-                    </div>    
+                <div class="dropdown" > 
                     <div class="dropdown-content" id="dropdown-content">
                         <a href="/wallet"><i class="fas fa-money-bill-wave"></i> Wallet</a>
                         <a href="/myrooms"><i class="fas fa-home"></i> Rooms</a>
                         <a href="/bookings/myrequests"><i class="fas fa-envelope"></i> Requests</a>
                         <a href="/bookings/myoffers"><i class="fas fa-envelope-open"></i> Offers</a>
                         <a href="/profile"><i class="fas fa-user"></i> Profile</a>
-                        <a href="/notifications"><i class="fas fa-bell"></i> Notifications</a>
+                        <a href="/notifications" class=""><i class="fas fa-bell notifications-a"></i> Notifications</a>
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>                    
                 </div>
                 <div>
                     <a href="/rooms/create" ><i class="fas fa-plus"></i></a>
                 </div>
-                
+                <div style="display: flex; align-items: center; justify-content: center;" onclick="toggleMenu()">
+                    <button class="profile prp">
+                        <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="prp nav-profile-picture">
+                    </button>
+                </div> 
 
             @else
                 <button class="cta-button" onclick="window.location.href='/login'">Login</button>
                 <button class="cta-button" onclick="window.location.href='/register'">Register</button>
             @endif
             <button class="dark" id="dark" onclick="toggleDarkMode()"><i class="fas fa-moon" ></i></button>
+        </div>
+
+        
+        <div class="mobile-menu">
+            @if (Auth::check())
+                <button class="profile prp" onclick="toggleMobileMenu()">
+                    <img src="{{ asset('storage/'.Auth::user()->profile_picture) }}" alt="profile picture" class="prp nav-profile-picture">
+                </button>
+            @else
+                <button class="profile prp" onclick="toggleMobileMenu()">
+                    <i class="prp fas fa-user"></i>
+                </button>
+            @endif
+            <div class="dropdown"> 
+                <div class="dropdown-content" id="dropdown-content-mobile">
+                    <div class="top-mobile-menu">
+                        @if (Auth::check())
+                            <label>{{ Auth::user()->sbucks_balance }} <i class="fas fa-coins"></i></label>
+                        @endif
+                        <button class="dark" id="dark" onclick="toggleDarkMode()"><i class="fas fa-moon" ></i></button>    
+                    </div>
+                    @if (Auth::check())
+                        <a href="/rooms/create" ><i class="fas fa-plus"></i> Create Room</a>
+                        <a href="/wallet"><i class="fas fa-money-bill-wave"></i> Wallet</a>
+                        <a href="/myrooms"><i class="fas fa-home"></i> Rooms</a>
+                        <a href="/bookings/myrequests"><i class="fas fa-envelope"></i> Requests</a>
+                        <a href="/bookings/myoffers"><i class="fas fa-envelope-open"></i> Offers</a>
+                        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/notifications"><i class="fas fa-bell notifications-a"></i> Notifications</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    @else
+                        <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+                    @endif
+                </div>                    
+            </div>
         </div>
     </nav>
 
@@ -98,7 +149,21 @@
 
             
             window.onclick = function(event) {
-                if (!event.target.matches('.burger')) {
+                if (!event.target.matches('.prp')) {
+                    if (dropContent.classList.contains('show')) {
+                        dropContent.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            let dropContent = document.getElementById("dropdown-content-mobile");
+            dropContent.classList.toggle("show");
+
+            
+            window.onclick = function(event) {
+                if (!event.target.matches('.prp')) {
                     if (dropContent.classList.contains('show')) {
                         dropContent.classList.remove('show');
                     }

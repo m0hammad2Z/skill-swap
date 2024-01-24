@@ -29,32 +29,32 @@
 
             <div class="room-details-body">
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Skill to Teach</h3>
+                    <h4 class="room-details-body-item-title">Skill to Teach</h4>
                     <p class="room-details-body-item-text">{{ $room->skill_to_teach->name }}</p>
                 </div>
 
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Skill to Learn</h3>
+                    <h4 class="room-details-body-item-title">Skill to Learn</h4>
                     <p class="room-details-body-item-text">{{ $room->skill_to_learn->name }}</p>
                 </div>
 
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Learning Outcome</h3>
+                    <h4 class="room-details-body-item-title">Learning Outcome</h4>
                     <p class="room-details-body-item-text">{{ $room->learning_outcomes ?? 'None' }}</p>
                 </div>
                 
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Reqirmenets</h3>
+                    <h4 class="room-details-body-item-title">Reqirmenets</h4>
                     <p class="room-details-body-item-text">{{ $room->requirements ?? 'None' }}</p>
                 </div>
 
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Maximum Participants</h3>
+                    <h4 class="room-details-body-item-title">Maximum Participants</h4>
                     <p class="room-details-body-item-text">{{ $room->max_attendees }}</p>
                 </div>
 
                 <div class="room-details-body-item">
-                    <h3 class="room-details-body-item-title">Current Participants</h3>
+                    <h4 class="room-details-body-item-title">Current Participants</h4>
                     <p class="room-details-body-item-text">{{ $room->members->count() }}</p>
                 </div>
             </div>
@@ -63,11 +63,22 @@
         
 
         @php 
-            if ($room->isRequested){
-                echo '<button class="cta-button" onclick="askToJoin()" >Waiting for approval</button>';
+            if($room->lastBooking == null){
+                echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
+            }else{
+
+                if( $room->lastBooking->status == 'accepted'){
+                echo '<p class="subtitle">You are already a member of this room</p>';
+            }elseif ($room->lastBooking->status == 'pending') {
+                echo '<p class="subtitle">You have already requested to join this room</p>';
             }else{
                 echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
             }
+
+            }
+
+
+ 
         @endphp
     </div>
     <hr>
@@ -92,7 +103,7 @@
                     toastNotification(data.message, 'success', 3000);
                     setTimeout(() => {
                         window.location.href = "/rooms";
-                    }, 3000);
+                    }, 2000);
                 } else {
                     toastNotification(data.message, 'error', 3000);
                 }

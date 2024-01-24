@@ -26,6 +26,7 @@
             <span class="suggestion-item">Music Production</span>
             <span class="suggestion-item">Drawing</span>
             <span class="suggestion-item">Painting</span>
+            <span class="suggestion-item">Singing</span>
     </div>
 
     <div class="cards-container">    
@@ -74,34 +75,41 @@
             const searchString = e.target.value;
             const rooms = await searchRequest(searchString);
             cards.innerHTML = "";
-            if(rooms.data.length == 0){
-                cards.innerHTML = "<h1>No results found</h1>";
+            console.log(rooms.success);
+            if(rooms.success == false){
+                console.log("No rooms found");
+                cards.innerHTML = `
+                <div class="empty" style="text-align: center; margin: 8em auto;">
+                    <i class="fas fa-search" style="font-size: 9em;"></i>
+                    <h1>No rooms found</h1>
+                    <p>Try searching for something else</p>
+                </div>
+                `;
             }else
             {
                 
                 for(let room of rooms.data){
-                    let id = 23121231;
                     cards.innerHTML += `
                     <div class="card">
                         <div class="card-image">
-                            <img src="{{ asset('storage/'.$room->image) }}" alt="">
+                            <img src="storage/${room.image}" alt="">
                         </div>
                         <div class="card-content">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h2>{{ $room->name }}</h2>
+                                    <h2>${room.name}</h2>
                                 </div>
                                 <div class="room-card-tags">
-                                    <span class="room-card-tag">{{ $room->skill_to_learn->name }}</span>
-                                    <span class="room-card-tag">{{ $room->skill_to_teach->name }}</span>
+                                    <span class="room-card-tag">${room.skill_to_learn.name}</span>
+                                    <span class="room-card-tag">${room.skill_to_teach.name}</span>
                                 </div>
-                                <p>{{ $room->description }}</p>
+                                <p>${room.description}</p>
                             </div>
                             <div class="card-footer">
                                 <div class="card-creator">
-                                    <img src="{{ asset('storage/'.$room->user->profile_picture) }}" alt=""><span>{{ $room->user->username }}</span>
+                                    <img src="storage/${room.user.profile_picture}" alt=""><span>${room.user.username}</span>
                                 </div>
-                                <a href="/rooms/{{ $room->id }}" class="cta-button btn">Join Room</a>
+                                <a href="/rooms/${room.id}" class="cta-button btn">Join Room</a>
                             </div>
                         </div>
                     </div>
@@ -131,6 +139,15 @@
                 
             }
         }
+
+        suggestionItems = document.querySelectorAll(".suggestion-item");
+
+        suggestionItems.forEach(item => {
+            item.addEventListener("click", () => {
+                searchBar.value = item.innerHTML;
+                searchBar.dispatchEvent(new KeyboardEvent('keyup', {'key': 'Enter'}));
+            });
+        });
 
 
     </script>

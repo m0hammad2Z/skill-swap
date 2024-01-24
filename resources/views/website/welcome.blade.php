@@ -27,7 +27,7 @@
             <a href="/rooms" class="cta-button">Get Started</a>
         </div>
         <div class="right-content">
-            <img src="images/hero-image.svg" alt="Hero Image" height="400px" style="margin-right:4em">
+            <img src="images/hero-image.svg" alt="Hero Image" height="360x" style="margin-right:4em">
         </div>
     </div>
 
@@ -39,17 +39,17 @@
     <div class="features-section">
         <div class="feature">
             <i class="fas fa-graduation-cap"></i>
-            <h3>Learn</h3>
+            <h4>Learn</h4>
             <p>Learn new skills from others.</p>
         </div>
         <div class="feature">
             <i class="fas fa-share-alt"></i>
-            <h3>Share</h3>
+            <h4>Share</h4>
             <p>Share your skills with others.</p>
         </div>
         <div class="feature">
             <i class="fas fa-users"></i>
-            <h3>Connect</h3>
+            <h4>Connect</h4>
             <p>Connect with others to exchange knowledge and skills.</p>
         </div>
     </div>
@@ -62,26 +62,26 @@
     <div class="featured-skills-section">
         <div class="skill">
             <i class="fas fa-code"></i>
-            <h3>Web Development</h3>
+            <h4>Web Development</h4>
         </div>
         <div class="skill">
             <i class="fas fa-paint-brush"></i>
-            <h3>Graphic Design</h3>
+            <h4>Graphic Design</h4>
         </div>
         <div class="skill">
             <i class="fas fa-camera"></i>
-            <h3>Photography</h3>
+            <h4>Photography</h4>
         </div>
         <div class="skill">
             <i class="fas fa-language"></i>
-            <h3>Language</h3>
+            <h4>Language</h4>
         </div>
         <div class="skill">
             <i class="fas fa-music"></i>
-            <h3>Music</h3>
+            <h4>Music</h4>
         </div>
     </div>
-    <h4 class="section-title">...and many more!</h4>
+    <h2 class="section-title">...and many more!</h2>
 
     <hr>
 

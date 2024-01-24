@@ -84,6 +84,7 @@
             if (success) {
                 status.innerHTML = 'approved';
                 acceptBtn.innerHTML = 'View Room';
+                acceptBtn.setAttribute('onclick', "window.location.href='/myrooms/" + id + "'");
                 rejectBtn.style.display = 'none';
                 toastNotification(message, 'success', 3000);
             } else {

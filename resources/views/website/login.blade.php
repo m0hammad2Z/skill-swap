@@ -11,7 +11,9 @@
     <h1 class="section-title">Log In</h1>
     <div class="login-container">
         @foreach ($errors->all() as $error)
-        <div> {{ $error }}</div>
+                <script>
+                    toastNotification('{{ $error }}', 'error', 3000);
+                </script>
         @endforeach
         
         <h3>Log in to your SkillSwap account</h3>

@@ -114,7 +114,7 @@ nav{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 40%;
+    width: 60vw;
     margin: 0 auto;
     border-radius: var(--border-radius);
     background-color: var(--lighting-color);
@@ -254,7 +254,6 @@ nav{
 
 /* Room settings */
 .settings-container{
-    /* make responsive grid */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
     gap: 1em;

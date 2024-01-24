@@ -36,15 +36,11 @@
 body{
     font-family: var(--font-family-sans-serif);
     background-color: var(--lighting-color);
-    /* background-image: linear-gradient(135deg, var(--lightest-color), var(--light-color)); */
     color: var(--darkest-color);
-    /* color: var(--dark-color); */
     width: 80%;
     margin: 0 auto;
     margin-top: 2em;
-
-    /* Light mode using filters */
-    /* filter: invert(1) hue-rotate(180deg); */
+    font-size: calc(0.5em + 0.5vw);
 }
 
 h1{
@@ -58,7 +54,7 @@ h2{
 
 
 p{
-    font-size: 1.4em;
+    /* font-size: 1.4em; */
     font-weight: 300;
     color:var(--mid-color);
 }
@@ -81,7 +77,7 @@ hr{
 }
 
 .section-title{
-    font-size:3em;
+    /* font-size:3em; */
     font-weight: 900;
     color: var(--darkest-color);
     text-align: center;
@@ -92,17 +88,17 @@ hr{
 }
 
 .subtitle{
-    font-size: 1.4em;
+    /* font-size: 1.4em; */
     font-weight: 600;
     color: var(--mid-color);
     text-align: center;
 }
 
 .cta-button{
-    padding: 0.7em 1.6em !important;
+    padding: calc(0.4em + 0.4vw) calc(1em + 1vw);
     background-color: var(--main-color);
     color: var(--lighting-color);
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 600;
     border-radius: var(--border-radius);
     border: 0.1em solid transparent;
@@ -117,11 +113,11 @@ hr{
 }
 
 .red-button{
-    padding: 0.8em 1.6em !important;
+    padding: calc(0.5em + 0.5vw) calc(1em + 1vw);
     background-color: transparent;
     color: var(--red-color);
     transition: all 0.3s ease-in-out;
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     font-weight: 600;
     border-radius: var(--border-radius);
     border: 0.1em solid var(--red-color);
@@ -144,7 +140,7 @@ hr{
 
 
 .logo a{
-    font-size: 2em;
+    /* font-size: 2em; */
     font-weight: 600;
     color: var(--lighting-color);
     border-left: 0.2em solid var(--main-color);
@@ -166,14 +162,14 @@ hr{
     color: var(--lighting-color);
     padding: 0.2em 0.5em;
     border-radius: var(--border-radius);
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
 }
 
 
 /* inputs */
 input{
     width: 100%;
-    padding: 1em 1.3em;
+    padding: 0.8em 1.3em;
     border-radius: var(--border-radius);
     box-sizing: border-box;
     border: none;
@@ -185,7 +181,7 @@ input{
 }
 
 label{
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     font-weight: 600;   
     color: var(--dark-color);
 }
@@ -199,13 +195,13 @@ textarea{
     padding: 1em;
     background-color: var(--light-color);
     width: 100%;
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     margin: 0.2em 0 ;
     color: var(--darkest-color);
 }
 
 select, .select2 {
-    font-size: 1.1em;
+    /* font-size: 1.1em; */
     font-weight: 600;
     border-radius: var(--border-radius);
     box-sizing: border-box;
@@ -242,8 +238,6 @@ select{
 }
 
 /* navbar */
-
-
 nav{
     display: flex;
     justify-content: space-between;
@@ -304,13 +298,6 @@ nav #dropdown-content a{
     margin: 0.3em 0.3em;
     text-align: center;
     width: 9em;
-    font-size: 1.2em;
-    transition: all 0.3s ease-in-out;
-}
-nav #dropdown-content .fas{
-    font-size: 1.5em;
-    color: var(--light-color);
-    margin-right: 0.2em;
     transition: all 0.3s ease-in-out;
 }
 
@@ -318,9 +305,12 @@ nav #dropdown-content a:hover{
     color: var(--main-color);
 }
 
-nav #dropdown-content a:hover .fas{
+nav .fas{
+    font-size: 1.6em;
+    width: 1.5em;
     color: var(--main-color);
-    scale: 1.2;
+    margin-right: 0.2em;
+    transition: all 0.3s ease-in-out;
 }
 
 
@@ -328,9 +318,9 @@ nav .show{
     display: flex!important;
 }
 
-nav  .burger{
+nav  .profile{
     font-family: var(--font-family-sans-serif);
-    font-size: 1.2em;
+    font-size: 1.1em;
     background-color: transparent;
     color: var(--mid-color);
     border: none;
@@ -338,19 +328,15 @@ nav  .burger{
     transition: all 0.3s ease-in-out;
 }
 
+
 nav .dark{
     background-color: transparent;
     border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;    
+    cursor: pointer;   
 }
 
-nav  .burger:hover{
+nav  .profile:hover{
     color: var(--light-color);
-}
-
-nav .fa-coins{
-    font-size: 1.6em;
 }
 
 nav .right-side{
@@ -365,6 +351,83 @@ nav .right-side{
 nav label{
     color: var(--light-color);
 }
+
+nav .nav-profile-picture{
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Mobile */
+nav .mobile-menu{
+    display: none;
+}
+
+nav #dropdown-content-mobile{
+    display: none;
+    flex-direction: column;
+    gap : 1em;
+    background-color: var(--dark-color);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    padding: 1em 2em;
+    z-index: 100;
+    position: absolute!important;
+    top: 6em;
+    right: 0em;
+    margin: 0 5em;
+    transition: all 0.5s ease-in-out;
+    animation: dropdown 0.5s ease-in-out;
+}
+
+nav #dropdown-content-mobile a{
+    color: var(--light-color);
+    margin: 0.3em 0.3em;
+    text-align: start;
+    width: 15em;
+    font-size: 1.4em;
+    transition: all 0.3s ease-in-out;
+}
+
+nav #dropdown-content-mobile a:hover{
+    color: var(--main-color);
+}
+
+
+/* Media query for mobile devices */
+@media screen and (max-width: 768px) {
+    nav .mobile-menu{
+        display: block;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav .right-side{
+        display: none;
+    }
+    
+    .top-mobile-menu{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-bottom: 0.1em solid var(--light-color);
+        padding-bottom: 1em;
+        font-size: 1.4em;
+    }
+
+    input {
+        padding: 0.5em 1em;
+    }
+
+}
+
+
+
 /* Footer */
 footer {
     color: var(--dark-color);
@@ -395,7 +458,7 @@ footer {
     display: inline-block;
     margin-right: 15px;
     color: var(--dark-color);
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
     transition: color 0.3s ease-in-out;
 
 }
@@ -409,7 +472,7 @@ footer {
 .footer-bottom {
     margin-top: 4em;
     text-align: center;
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
     color: var(--dark-color);
     border-top: 1px solid var(--light-color  );
     padding-top: 1em

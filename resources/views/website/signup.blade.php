@@ -12,7 +12,9 @@
             <div class="login-container">
                 <h3>Create a SkillSwap account</h3>     
                 @foreach ($errors->all() as $error)
-                    <div> {{ $error }}</div>
+                        <script>
+                            toastNotification('{{ $error }}', 'error', 3000);
+                        </script>
                  @endforeach
 
                 <form action="{{ route('register') }}" method='POST' enctype='multipart/form-data'>

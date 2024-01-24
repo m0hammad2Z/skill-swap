@@ -15,19 +15,27 @@
 
     <div class="login-container">
         @foreach ($errors->all() as $error)
-            <div> {{ $error }}</div>
+            <script>
+                toastNotification('{{ $error }}', 'error', 3000);
+            </script>
         @endforeach
 
        {{-- print any error related to the password update --}}
        @foreach ($errors->updatePassword->all() as $error)
             <div class="alert alert-danger" role="alert">
-                {{ $error }}
+                <script>
+                    toastNotification('{{ $error }}', 'error', 3000);
+                </script>
             </div>
         @endforeach
         
         
         <div>
-            {{ session('status') }}
+            @if(session('status'))
+                <script>
+                        toastNotification('{{ session('status')  }}', 'success', 3000);
+                </script>
+            @endif
         </div>
         <h3>Update your profile</h3>
        
@@ -76,10 +84,15 @@
                 <label for="bio">Bio</label>
                 <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself">{{ $user->bio }}</textarea>
             </div>
-            <div class="form-group">
-                <label for='country'>Country</label>
-                <input type='text' id='country' name='country' placeholder='Enter your country' value="{{ $user->country }}">
-            </div>
+            <select class="countries" name="country" id="countryId" required>
+                @foreach ($countries as $country)
+                    @if($country['name']['common'] == $user->country)
+                        <option value="{{ $country['name']['common']}}" selected>{{ $country['name']['common']}}</option>
+                    @else
+                    <option value="{{ $country['name']['common']}}">{{ $country['name']['common']}}</option>
+                    @endif
+                @endforeach
+            </select>
             <!-- Submit Button -->
             <button type="submit" class="cta-button btn">Update Profile</button>
         </form>

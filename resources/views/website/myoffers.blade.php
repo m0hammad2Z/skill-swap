@@ -77,6 +77,7 @@
                 const status = document.getElementById(`status-${id}`);
                 status.innerHTML = 'cancelled';
                 cancelBtn.innerHTML = 'Cenelling...';
+                cancelBtn.setAttribute('disabled', true);
                 setTimeout(() => {
                     parentElement.remove();
                 }, 100);

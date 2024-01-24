@@ -1,6 +1,6 @@
 .table-titles{
     margin : 3em 0!important;
-    font-size: 1.3em;
+    /* font-size: 1.3em; */
     background-color: var(--main-color)!important;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
@@ -22,12 +22,11 @@
     width: 100%;
 }
 
-.vcard .action{
+.vcard .actions{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 1em;
 }
 
 

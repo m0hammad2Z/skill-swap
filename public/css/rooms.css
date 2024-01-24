@@ -11,15 +11,14 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 100%;
 }
 
 .cards-container > .left > .cards{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: start;
-    align-items: flex-start;
-    gap: 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(23em, 1fr));
+    gap: 1em;
+    width: 100%;
 }
 
 .card{
@@ -30,9 +29,7 @@
     border-radius: var(--border-radius2);
     border : 0.15em solid var(--glass-color);
     background-color: var(--lighting-color);
-    width: 30em;
-    transition: all 0.3s ease-in-out;
-   
+    transition: all 0.3s ease-in-out;   
 }
 
 .card:hover{
@@ -124,7 +121,7 @@
         background-color: var(--glass-color);
         color: var(--dark-color);
         font-weight: 600;
-        font-size: 1.1em;
+        /* font-size: 1.1em; */
         cursor: pointer;
         
     }

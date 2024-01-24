@@ -16,6 +16,14 @@
     <div class="cards-container">    
  
         <div class="left">
+            @if ($rooms->count() == 0)
+                <div class="empty" style="text-align: center; margin: 8em auto;">
+                    <i class="fas fas fa-door-open" style="font-size: 9em;"></i>
+                    <h1>No rooms yet</h1>
+                    <p>Once you create a room, it will appear here</p>
+                    <button class="cta-button" onclick="window.location.href='/rooms/create'">Create a room</button>
+                </div>
+            @else
             <div class="cards">
                 @foreach($rooms as $room)
                     <div class="card">
@@ -45,6 +53,7 @@
                 @endforeach
 
             </div>
+            @endif
         </div>
     </div>
 

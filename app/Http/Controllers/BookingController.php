@@ -23,11 +23,21 @@ class BookingController extends Controller
         ]);
 
         
-        // Check if the user already asked to join this room and answer with json
-        if (Booking::where('user_id', auth()->user()->id)->where('room_id', $request->room_id)->exists()) {
-            return jsonResponese(false, 'You already asked to join this room', 400);
+        // Check if the user already asked to join this room, if so, check if the booking is still pending
+        $lastBooking = Booking::where('user_id', auth()->user()->id)->where('room_id', $request->room_id)->orderBy('created_at', 'desc')->first();
+        if($lastBooking != null){
+            if ($lastBooking && $lastBooking->status == Booking::$STATUS_PENDING) {
+                return jsonResponese(false, 'You already asked to join this room', 400);
+            }else if($lastBooking && $lastBooking->status == Booking::$STATUS_ACCEPTED){
+                return jsonResponese(false, 'You are already a member of this room', 400);
+            }else{
+                if($lastBooking->created_at->diffInDays() < 1){
+                    return jsonResponese(false, 'You request to join this room has been rejected before, try again after ' . $lastBooking->created_at->diffForHumans(Carbon::now()->addDays(1)), 400);
+                }
+            }
         }
-        
+
+
         try{
             // Create a new booking
             $booking =  Booking::add(auth()->user()->id, $request->room_id, Carbon::now());
@@ -37,7 +47,7 @@ class BookingController extends Controller
             
             // Create a new notification
             $message = auth()->user()->username . ' wants to join ' . Room::find($request->room_id)->name;
-            $url = '/myrequests';
+            $url = '/bookings/myrequests';
             $notification = Notification::add($roomOwnerId, $request->room_id, Notification::$TYPE_BOOKING_REQUEST, $message, $url);
             
             
@@ -65,11 +75,17 @@ class BookingController extends Controller
         try{ 
             $user_id = $booking->user_id;
             $room_id = $booking->room_id;
+
+            $room = Room::find($room_id, ['max_attendees']);
+            $members = $room->members()->count();
+            if($members >= $room->max_attendees){
+                return jsonResponese(false, 'This room is full', 400);
+            }
             
             $roomMember = RoomMember::add($room_id, $user_id);
             
             $message = 'Your request to join ' . Room::find($room_id)->name . ' has been accepted';
-            $url = 'rooms/' . $room_id;
+            $url = '/rooms/' . $room_id;
 
             $notification = Notification::add($user_id, $room_id, Notification::$TYPE_BOOKING_ACCEPTED, $message, $url);
             
@@ -101,7 +117,7 @@ class BookingController extends Controller
             $room_id = $booking->room_id;
             
             $message = 'Your request to join ' . Room::find($room_id)->name . ' has been rejected';
-            $url = '/myrequests';
+            $url = '/bookings/myrequests';
             
             $notification = Notification::add($user_id, Booking::find($request->booking_id)->room_id, Notification::$TYPE_BOOKING_REJECTED, $message, $url);
             $notification->save();

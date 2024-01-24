@@ -1,22 +1,21 @@
 .container{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30em, 1fr));
+    gap: 2.4em;
 }
 
 .login-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3em 5em;
+    padding: 3em 4em;
     background-color: var(--glass-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     border: 0.15em solid var(--light-color);
-    width: 35%;
     height: fit-content;
     margin: 0 auto;
+    width: 75%;
 }  
 
 .login-container form{
@@ -24,23 +23,22 @@
     flex-direction: column;
     justify-content: center;
     gap: 1.2em;
-    
 }
 
 h3{
-    font-size: 2em;
+    /* font-size: 2em; */
     color: var(--dark-color);
 }
 
 h4{
-    font-size: 1em;
+    /* font-size: 1em; */
     color: var(--dark-color);
 }
 
 a{
     color: var(--main-color);
     text-decoration: none;
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     font-weight: 900;
 }
 

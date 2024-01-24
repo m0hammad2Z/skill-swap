@@ -19,11 +19,21 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+
+        // Make a get request to get just the names of all countries, ordered by name
+        $countries = json_decode(file_get_contents('https://restcountries.com/v3.1/all?fields=name'), true);
+
+        // Order the array by the name of the country
+        usort($countries, function($a, $b) {
+            return $a['name']['common'] <=> $b['name']['common'];
+        });
         $skills = Skill::all();
+        
 
         return view('website.profile', [
             'user' => $request->user(),
             'skills' => $skills,
+            'countries' => $countries,
         ]);
     }
 

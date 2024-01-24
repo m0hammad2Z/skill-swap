@@ -68,12 +68,8 @@ class RoomController extends Controller
         $room->skill_to_learn = Skill::find($room->skill_to_learn_id);
         $room->skill_to_teach = Skill::find($room->skill_to_teach_id);
 
-        $userBookings = User::find(auth()->user()->id)->bookings()->get();
-        if($userBookings->contains('room_id', $room->id)){
-            $room->isRequested = true;
-        }else{
-            $room->isRequested = false;
-        }
+        $lastBooking = Booking::where('room_id', $id)->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->first();
+        $room->lastBooking = $lastBooking;
         return view('website.rooms.show-room', compact('room'));
     }
 
@@ -96,7 +92,7 @@ class RoomController extends Controller
             'description' => 'required',
             'skill_to_learn_id' => 'required',
             'skill_to_teach_id' => 'required',
-            'max_participants' => 'required',
+            'max_participants' => 'required|integer|min:2|max:10',
             'image' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
             'access_code' => 'nullable',
             'requirements' => 'nullable',
@@ -282,6 +278,8 @@ class RoomController extends Controller
             $roomMember = RoomMember::where('room_id', $roomId)->where('user_id', auth()->user()->id)->first();
             $roomMember->delete();
             $room->save();
+
+            Booking::where('room_id', $roomId)->where('user_id', auth()->user()->id)->delete();
 
             return jsonResponese(true, 'You left the room successfully', 200);
         }

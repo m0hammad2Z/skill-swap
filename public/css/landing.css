@@ -20,10 +20,14 @@
 }
 
 .hero-section  h1{
-    font-size: 3em;
+    /* font-size: 3em; */
     font-weight: 900;
 }
 
+.hero-section img{
+    width: calc(100% - 2em);
+    
+}
 
 
 /* Features section */
@@ -37,12 +41,12 @@
 }
 
 .features-section >.feature{
-    width: 25em;
+    width: 20em;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2em;
+    padding: 1.5em;
     background-color: var(--lighting-color);
     border-radius: var(--border-radius2);
     box-shadow: var(--shadow);
@@ -74,7 +78,7 @@
 }
 
 .featured-skills-section > .skill{
-    width: 15em;
+    width: 10em;
     transition: all 0.3s ease-in-out;
 }
 
@@ -83,7 +87,7 @@
 }
 
 .features-section >.feature .fas{
-    font-size: 4em;
+    /* font-size: 4em; */
     color: var(--main-color);
     transition: all 0.3s ease-in-out;
 }
@@ -92,7 +96,7 @@
 /* big card */
 .big-card{
     background-color: var(--main-color);
-    padding: 3em 6em;
+    padding: 2em 4em;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     box-sizing: border-box;
@@ -108,13 +112,13 @@
 }
 
 .big-card > .content > h1{
-    font-size: 2em;
+    /* font-size: 2em; */
     font-weight: 900;
     color: var(--lighting-color);
 }
 
 .big-card > .content > p{
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
     font-weight: 600;
     color: var(--light-color);
 }

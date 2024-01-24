@@ -38,7 +38,7 @@
     background-color: var(--light-color);
     padding: 1em 2em;
     border-radius: var(--border-radius2) ;
-    width: 30em;
+    width: 25em;
     transition: all 0.3s ease-in-out;
 }
 
