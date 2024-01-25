@@ -12,22 +12,23 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     @yield('styles')
 
+    @if (Auth::check() && Auth::user()->notifications->filter(function($notification){return $notification->is_read == 0;})->count() > 0)
     <style>
-        @if (Auth::check())
         .notifications-a::after{
-            content: "{{ Auth::user()->notifications->filter(function($notification){return $notification->is_read == 0;})->count() }}";
+            content: ".";
             position: absolute;
             display: inline-block;
-            width: 1em;
+            width: 0.6em;
+            height: 0.5em;
             margin-left: -0.5em;    
             background-color: var(--light-color);
-            color: var(--dark-color);
+            color: var(--light-color);
             border-radius: 50%;
             padding: 0.1rem;
             font-size: 0.6em;
         }
-        @endif
-    </style>
+        </style>
+    @endif
 </head>
 <body>
 
@@ -252,7 +253,7 @@
     const search = document.querySelector("input[name='navsearch']");
     search.addEventListener('keyup', function(e){
         if (e.keyCode === 13) {
-            window.location.href = "/search/" + search.value;
+            window.location.href = "/rooms?search=" + search.value;
         }
     });
     

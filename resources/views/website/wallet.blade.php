@@ -26,7 +26,7 @@
 
         <div class="wallet">
             <div class="wallet__balance">
-                <h3>Balance</h3>
+                <h1>Balance</h1>
                 <h1>{{ Auth::user()->sbucks_balance }}</h1>
             </div>
             <div class="wallet__buttons">
@@ -90,6 +90,7 @@
     </div>
 </div>
 
+<hr>
 
 
 <script>

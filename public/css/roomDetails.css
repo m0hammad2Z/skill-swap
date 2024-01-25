@@ -52,3 +52,8 @@
 .cta-button{
     margin: 2em 3em;
 }
+
+input{
+    width: 90%;
+    margin: 0 auto;
+}

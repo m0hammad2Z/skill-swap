@@ -33,16 +33,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 @if ((!$room->isMember))
-
     @if($room->is_private)
         @if($room->members->count() >= $room->max_attendees)
             <script>
-                toastNotification('This room is full, you will be redirected to the rooms page', 'error', 3000);
                 window.location.href = "/rooms";
             </script>
         @else
             <script>
-                prompt('This room is private, please enter the password to join');
+                window.location.href = "/rooms/{{ $room->id }}/";
             </script>
         @endif
     @endif
@@ -218,47 +216,58 @@
             <div class="settings-container">
                 <div class="room-details">
                     <h3>Room Details</h3>
-                <form action="{{ route('rooms.updateRoom', ['roomId' => $room->id]) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-                    <label for="name">Room Name</label>
-                    <input type="text" id="name" name="name" required value="{{ $room->name }}">
-                    <label for="description">Room Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10" required>{{ $room->description }}</textarea>
-                    <label for="requirements">Requirements</label>
-                    <textarea name="requirements" id="requirements" cols="30" rows="10" required>{{ $room->requirements }}</textarea>
-                    <label for="learning_outcomes">Learning Outcomes</label>
-                    <textarea name="learning_outcomes" id="learning_outcomes" cols="30" rows="10" required>{{ $room->learning_outcomes }}</textarea>
-                    @if($room->is_private)
-                        <label for="password">Access Code</label>
-                        <input type="access_code" id="access_code" name="access_code" required value="{{ $room->access_code }}">
-                    @endif
-                    @if($room->user_id == auth()->user()->id)
-                        <button type="submit" class="cta-button">Save</button>
-                    @endif
-                </form>
+                    <form action="{{ route('rooms.updateRoom', ['roomId' => $room->id]) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <label for="name">Room Name</label>
+                        <input type="text" id="name" name="name" required value="{{ $room->name }}">
+                        <label for="description">Room Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10" required>{{ $room->description }}</textarea>
+                        <label for="requirements">Requirements</label>
+                        <textarea name="requirements" id="requirements" cols="30" rows="10" required>{{ $room->requirements }}</textarea>
+                        <label for="learning_outcomes">Learning Outcomes</label>
+                        <textarea name="learning_outcomes" id="learning_outcomes" cols="30" rows="10" required>{{ $room->learning_outcomes }}</textarea>
+                        @if($room->is_private)
+                            <label for="password">Access Code</label>
+                            <input type="access_code" id="access_code" name="access_code" required value="{{ $room->access_code }}">
+                        @endif
+                        @if($room->user_id == auth()->user()->id)
+                            <button type="submit" class="cta-button">Save</button>
+                        @endif
+                    </form>
                 </div>
-
                 <div class="room-actions">
                     <h3>Room Members</h3>
                     <div class="members-container">
-                        @foreach($room->members as $member)
-                            <div class="member"  id="member{{ $member->id }}">
-                                <p>{{ $member->username }}</p>
-                                @if($member->id == $room->user_id)
-                                    <i class="fas fa-crown"></i>
-                                @endif
-                                @if ($room->user_id == auth()->user()->id && $member->id != auth()->user()->id)
-                                    <button class="red-button" onclick="kickMember('{{ $member->id }}')">Kick</button>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-                    @if (Auth::user()->id != $room->user->id)
-                    <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
-                    @endif
+                    @foreach($room->members as $member)
+                        <div class="member"  id="member{{ $member->id }}">
+                            <p>{{ $member->username }}</p>
+                            @if($member->id == $room->user_id)
+                                <i class="fas fa-crown"></i>
+                            @endif
+                            @if ($room->user_id == auth()->user()->id && $member->id != auth()->user()->id)
+                                <button class="red-button" onclick="kickMember('{{ $member->id }}')">Kick</button>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
+                @if (Auth::user()->id != $room->user->id)
+                <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
+                @endif
 
+                {{-- QR --}}
+                <?php
+                $roomUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/rooms/' . $room->id . '/';
+                $googleChartsApiUrl = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . $roomUrl;
+                ?>
+                <div class="room-qr">
+                    <img src="{{ $googleChartsApiUrl }}" alt="Room QR Code">
+                    <p>Scan this QR code to join the room</p>
+                    <p>Or copy this link: <a href="{{ $roomUrl }}">{{ $roomUrl }}</a></p>
+                </div>
+            </div>
+
+                
             </div>
         </div>
     </div>

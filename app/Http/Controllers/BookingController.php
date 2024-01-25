@@ -39,6 +39,17 @@ class BookingController extends Controller
 
 
         try{
+            $room = Room::find($request->room_id);
+            if($room->is_private){
+                if($request->access_code == null){
+                    return jsonResponese(false, 'Please enter the access code', 400);
+            }
+                if($request->access_code != $room->access_code){
+                    return jsonResponese(false, 'Wrong access code', 400);
+                }
+            }
+
+
             // Create a new booking
             $booking =  Booking::add(auth()->user()->id, $request->room_id, Carbon::now());
             

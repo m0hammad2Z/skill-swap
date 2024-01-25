@@ -21,7 +21,7 @@
     <div class="hero-section">
         <div class="left-content">
             <div>
-                <h1>Learn and Share Skills with Others</h1>
+                <h1>Learn And Share Skills With Others</h1>
                 <p>Connect with others to exchange knowledge and skills.</p>
             </div>
             <a href="/rooms" class="cta-button">Get Started</a>
@@ -86,17 +86,27 @@
     <hr>
 
     
-    <!-- Big Card -->
-    <div class="right-content">
+    @if(Auth::check())    
+        <!-- Big Card -->
         <div class="big-card">
             <div class="content">
                 <i class="fas fa-rocket"></i>
                 <h1>Ready to get started?</h1>
-                <p>Sign up for SkillSwap today to start learning and sharing skills with others!</p>
-                <a href="#" class="cta-button">Sign Up</a>
+                <p style="text-align: center">Start learning and sharing skills with others!</p>
+                <a href="/rooms" class="cta-button">Get Started</a>
             </div>
         </div>
-    </div>
+    @else
+        <!-- Big Card -->
+        <div class="big-card">
+            <div class="content">
+                <i class="fas fa-rocket"></i>
+                <h1>Ready to get started?</h1>
+                <p style="text-align: center">Sign up for SkillSwap today to start learning and sharing skills with others!</p>
+                <a href="/register" class="cta-button">Sign Up</a>
+            </div>
+        </div>
+    @endif
     
 
     <hr>

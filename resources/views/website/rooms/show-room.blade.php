@@ -62,23 +62,23 @@
 
         
 
-        @php 
-            if($room->lastBooking == null){
-                echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
+        @php
+            if ($room->members->count() == $room->max_attendees) {
+                    echo '<p class="subtitle">This room is full</p>';
             }else{
-
-                if( $room->lastBooking->status == 'accepted'){
-                echo '<p class="subtitle">You are already a member of this room</p>';
-            }elseif ($room->lastBooking->status == 'pending') {
-                echo '<p class="subtitle">You have already requested to join this room</p>';
-            }else{
-                echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
+                if($room->lastBooking == null || $room->lastBooking->status == 'rejected'){
+                    // if($room->is_private == 1){
+                        echo '<input type="password" id="room-password" placeholder="Enter Room Password" class="input-field">';
+                    // }
+                    echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
+                }else{
+                    if( $room->lastBooking->status == 'accepted'){
+                    echo '<p class="subtitle">You are already a member of this room</p>';
+                    }elseif ($room->lastBooking->status == 'pending') {
+                        echo '<p class="subtitle">You have already requested to join this room</p>';
+                    }
+                }
             }
-
-            }
-
-
- 
         @endphp
     </div>
     <hr>
@@ -86,6 +86,13 @@
     <script>
         // Function to ask to join a room
         function askToJoin() {
+            let ac = document.getElementById('room-password');
+            if (ac == '' || ac == null || ac == undefined) {
+                ac = null;
+            }else{
+                ac = ac.value;
+            }
+
             fetch('/bookings/store', {
                 method: 'POST',
                 headers: {
@@ -94,7 +101,8 @@
                 },
                 body: JSON.stringify({
                     room_id: {{ $room->id }},
-                    user_id: {{ Auth::user()->id }}
+                    user_id: {{ Auth::user()->id }},
+                    access_code: ac
                 })
             })
             .then(res => res.json()) 

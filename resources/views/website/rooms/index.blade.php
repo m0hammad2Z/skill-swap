@@ -77,7 +77,6 @@
             cards.innerHTML = "";
             console.log(rooms.success);
             if(rooms.success == false){
-                console.log("No rooms found");
                 cards.innerHTML = `
                 <div class="empty" style="text-align: center; margin: 8em auto;">
                     <i class="fas fa-search" style="font-size: 9em;"></i>
@@ -87,34 +86,33 @@
                 `;
             }else
             {
-                
-                for(let room of rooms.data){
-                    cards.innerHTML += `
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="storage/${room.image}" alt="">
+            for(let room of rooms.data){
+                cards.innerHTML += `
+                <div class="card">
+                    <div class="card-image">
+                        <img src="storage/${room.image}" alt="">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h2>${room.name}</h2>
+                            </div>
+                            <div class="room-card-tags">
+                                <span class="room-card-tag">${room.skill_to_learn.name}</span>
+                                <span class="room-card-tag">${room.skill_to_teach.name}</span>
+                            </div>
+                            <p>${room.description}</p>
                         </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>${room.name}</h2>
-                                </div>
-                                <div class="room-card-tags">
-                                    <span class="room-card-tag">${room.skill_to_learn.name}</span>
-                                    <span class="room-card-tag">${room.skill_to_teach.name}</span>
-                                </div>
-                                <p>${room.description}</p>
+                        <div class="card-footer">
+                            <div class="card-creator">
+                                <img src="storage/${room.user.profile_picture}" alt=""><span>${room.user.username}</span>
                             </div>
-                            <div class="card-footer">
-                                <div class="card-creator">
-                                    <img src="storage/${room.user.profile_picture}" alt=""><span>${room.user.username}</span>
-                                </div>
-                                <a href="/rooms/${room.id}" class="cta-button btn">Join Room</a>
-                            </div>
+                            <a href="/rooms/${room.id}" class="cta-button btn">Join Room</a>
                         </div>
                     </div>
-                    `;
-                }
+                </div>
+                `;
+            }
         }
         });
         
@@ -140,8 +138,21 @@
             }
         }
 
-        suggestionItems = document.querySelectorAll(".suggestion-item");
+        const url = new URL(window.location.href);
+        console.log("Current URL:", url.href);
 
+        const urlParams = new URLSearchParams(url.search);
+        console.log("URL Params:", urlParams);
+
+        const searchParam = urlParams.get('search');
+        console.log("Search Param:", searchParam);
+        if(searchParam){
+            searchBar.value = searchParam;
+            searchBar.dispatchEvent(new KeyboardEvent('keyup', {'key': 'Enter'}));
+        }
+
+
+        suggestionItems = document.querySelectorAll(".suggestion-item");
         suggestionItems.forEach(item => {
             item.addEventListener("click", () => {
                 searchBar.value = item.innerHTML;

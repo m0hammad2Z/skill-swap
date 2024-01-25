@@ -3,7 +3,7 @@
 :root{
     --font-family-sans-serif: 'Fredoka', sans-serif;
 
-    --main-color: #39ac17;
+    --main-color: #13c09a;
     --mid-color: #6c6c6c;
     
     --red-color: #EF4444;
@@ -345,6 +345,9 @@ nav .right-side{
     flex-direction: row;
     align-items: center;
     gap: 1em; 
+    background-color: var(--glass-color);
+    padding: 0.5em 1em;
+    border-radius: var(--border-radius);
 }
 
 
