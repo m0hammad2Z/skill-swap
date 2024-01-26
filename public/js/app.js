@@ -1,26 +1,20 @@
-// Toasts 
 
 function toastNotification(title, icon, timer = 3000) {
-    const Toast = Swal.mixin({
+    const popup = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: timer,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        },
-        didClose: (toast) => {
-            toast.removeEventListener('mouseenter', Swal.stopTimer)
-            toast.removeEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-    Toast.fire({
+        background: 'var(--lighting-color)',
+        color: 'var(--darkest-color)',
+        cancelButtonColor: 'var(--main-color)',
+        confirmButtonColor: 'var(--red-color)',
+    });
+    popup.fire({
         icon: icon,
-        title: title
-    })
+        title: title,
+    });
+
 }
 
 // Modal

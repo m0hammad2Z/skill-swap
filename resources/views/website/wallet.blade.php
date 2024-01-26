@@ -15,8 +15,12 @@
         toastNotification('{{ $error }}', 'error', 3000);
     @endforeach
 
-    @if (session('status'))
-        toastNotification('{{ session('status') }}', 'success', 3000);
+    @if (session('success'))
+        toastNotification('{{ session('success') }}', 'success', 3000);
+    @endif
+
+    @if (session('error'))
+        toastNotification('{{ session('error') }}', 'error', 3000);
     @endif
 </script>
 
@@ -49,16 +53,16 @@
                 <strong>Date</strong>
             </div>
 
-            @foreach (Auth::user()->walletTransactions as $transaction)
+            @foreach (Auth::user()->walletTransactions->sortByDesc('created_at') as $transaction)
             <div class="vcard">
                 <div class="vcard-title">
-                    <h4>20</h4>
+                    <h4>{{ $transaction->amount }}</h4>
                 </div>
                 <div class="date vcard__content">
-                    <p>Deposit</p>
+                    <p>{{ $transaction->transaction_type }}</p>
                 </div>
                 <div class="date vcard__content">
-                    <p>20/10/2021</p>
+                    <p>{{ $transaction->created_at }}</p>
                 </div>
             </div>
 
@@ -76,7 +80,7 @@
             <span class="close" onclick="closeDepositModal()">&times;</span>
         </div>
         <div class="modal-content">
-            <form method="POST" action="{{ route('wallet.deposit') }}">
+            <form method="POST" action="{{ route('wallet.deposit') }}" id="depositForm">
                 @csrf
                 <label for="amount">You will pay</label>
                 <input type="number" name="amount" placeholder="Amount" id="amount" required>
@@ -84,7 +88,7 @@
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <label for="result">You will get</label>
                 <output id="result" name="result" style="border: 1px solid #ccc; padding: 0.5em; border-radius: 5px; margin-bottom: 1em; font-size:1.2em;">0</i></output>
-                <button type="submit" class="cta-button" id="pay">Pay</button>
+                <div id="paypal-button-container" style="margin: 0 auto;"></div>
             </form>
         </div>
     </div>
@@ -113,6 +117,37 @@
 
 
 </script>
+
+<script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}&currency=USD"></script>
+
+<script>
+  paypal.Buttons({
+
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: document.getElementById('amount').value,
+            currency: 'USD'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(orderData) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'orderID';
+        input.value = orderData.id;
+        document.getElementById('depositForm').appendChild(input);
+
+        document.getElementById('depositForm').submit();
+      });
+    },
+
+  }).render('#paypal-button-container');
+</script>
+
 
 
 @endsection

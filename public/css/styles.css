@@ -220,9 +220,34 @@ select{
 
 .from-field{
     display: flex;
-    flex-direction: row;
-    gap: 0.5em;
+    align-items: center;
+    justify-content: space-between;
 }
+
+/* checkboxs style */
+.checkbox-field{
+    display: flex!important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1em;
+    width: 100%;
+    margin: 0.2em 0;
+}
+
+.checkbox-field input{
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 0.2em;
+    border: 0.1em solid var(--dark-color);
+    cursor: pointer;
+}
+
+
+.checkbox-field label{
+    width: 10em;
+}
+
+
 
 .select2 *{
     font-weight: 600;

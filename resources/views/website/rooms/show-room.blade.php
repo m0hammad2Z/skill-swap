@@ -67,9 +67,9 @@
                     echo '<p class="subtitle">This room is full</p>';
             }else{
                 if($room->lastBooking == null || $room->lastBooking->status == 'rejected'){
-                    // if($room->is_private == 1){
+                    if($room->is_private == 1){
                         echo '<input type="password" id="room-password" placeholder="Enter Room Password" class="input-field">';
-                    // }
+                    }
                     echo '<button class="cta-button" onclick="askToJoin()">Ask to Join</button>';
                 }else{
                     if( $room->lastBooking->status == 'accepted'){

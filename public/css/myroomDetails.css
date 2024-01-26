@@ -256,6 +256,7 @@ nav{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30em, 1fr));
     gap: 1em;
+
 }
 
 
@@ -279,7 +280,11 @@ nav{
     justify-content: center;
     align-items: center;
     gap: 1em;
-    margin-bottom: 2em;
+    background-color: var(--glass-color);
+    padding: 2em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    
 }
 
 .members-container > .member{
@@ -303,11 +308,20 @@ nav{
     justify-content: center;
     align-items: center;
     gap: 1em;
-    margin-bottom: 2em;
+    background-color: var(--glass-color);
+    padding: 2em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 @media screen and (max-width: 768px){
     .modal >.content{
         width: 80vw;
+    }
+
+    .settings-container{
+        /* revese the order of the grid */
+        
+
     }
 }

@@ -70,6 +70,7 @@ class RoomController extends Controller
 
         $lastBooking = Booking::where('room_id', $id)->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->first();
         $room->lastBooking = $lastBooking;
+        
         return view('website.rooms.show-room', compact('room'));
     }
 
@@ -101,7 +102,7 @@ class RoomController extends Controller
             'is_featured' => 'nullable',
             'is_private' => 'nullable',
             'is_active' => 'nullable',
-            'featured_until' => 'nullable|integer',
+            'featured_until' => 'nullable|integer|min:1|max:100',
         ]);
 
         // Validate the cost
@@ -152,6 +153,14 @@ class RoomController extends Controller
         $roomMember->user_id = $request->user()->id;
         $roomMember->room_id = $room->id;
         $roomMember->save();
+
+        // Add transaction to the wallet
+        $walletTransaction = new WalletTransaction();
+        $walletTransaction->user_id = $request->user()->id;
+        $walletTransaction->amount = $cost;
+        $walletTransaction->transaction_type = WalletTransaction::$room_creation;
+        $walletTransaction->transaction_date = now();
+        $walletTransaction->save();
 
         // Add the room members
         auth()->user()->sbucks_balance -= $cost;

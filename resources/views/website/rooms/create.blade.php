@@ -22,11 +22,15 @@
     {{-- Display errors --}}
     
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <script>
+            toastNotification('{{ session('error') }}', 'error', 3000);
+        </script>
     @endif
 
     @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">{{ $error }}</div>        
+        <script>
+            toastNotification('{{ $error }}', 'error', 3000);
+        </script>     
     @endforeach
 
     <div class="form-container">
@@ -42,7 +46,7 @@
             <!-- Room Description Field -->
             <div class="form-group">
                 <label for="description">Room Description</label>
-                <textarea id="description" name="description" rows="4" placeholder="Enter room description"></textarea>
+                <textarea id="description" name="description" rows="4" placeholder="Enter room description" required></textarea>
             </div>
 
             <!-- Room Skill to Learn Field -->
@@ -61,7 +65,7 @@
 
             <div class="form-group skill_to_teach_id">
                 <label for="skill_to_teach_id">Skill to Teach</label>
-                <select id="skill_to_teach_id" name="skill_to_teach_id">
+                <select id="skill_to_teach_id" name="skill_to_teach_id" required>
                     @foreach($userSkills as $skill)
                         <option value="{{ $skill->id }}">{{ $skill->name }}</option>
                     @endforeach
@@ -71,13 +75,13 @@
             {{-- max_participants --}}
             <div class="form-group">
                 <label for="max_participants">Maximum Participants</label>
-                <input type="number" id="max_participants" name="max_participants" min="2" max="10" value="2" onchange="calculateCost()" >
+                <input type="number" id="max_participants" name="max_participants" min="2" max="10" value="2" onchange="calculateCost()" required>
             </div>
 
             {{-- room_ image--}}
             <div class="form-group">
                 <label for="image">Upload Room Image or Logo</label>
-                <input type="file" id="image" name="image" accept="image/*">
+                <input type="file" id="image" name="image" accept="image/*" required>
             </div>
 
             {{-- requrments --}}
@@ -93,15 +97,15 @@
             </div>
 
             {{-- is resource enabled --}}
-            <div class="form-group">
+            <div class="checkbox-field">
                 <label for="is_resource_enabled">Is Resource Enabled</label>
-                <input type="checkbox" id="is_resource_enabled" name="is_resource_enabled" value="1" onchange="calculateCost()">
+                <input type="checkbox" id="is_resource_enabled" name="is_resource_enabled" value="1" onchange="calculateCost()" required>
             </div>
 
             {{-- is private --}}
-            <div class="form-group">
+            <div class="checkbox-field">
                 <label for="is_private">Is Private</label>
-                <input type="checkbox" id="is_private" name="is_private" value="1" onchange="calculateCost()">
+                <input type="checkbox" id="is_private" name="is_private" value="1" onchange="calculateCost()" required>
             </div>
 
             {{-- access code --}}
@@ -111,9 +115,9 @@
             </div>
 
             {{-- is_featured --}}
-            <div class="form-group">
+            <div class="checkbox-field">
                 <label for="is_featured">Is Featured</label>
-                <input type="checkbox" id="is_featured" name="is_featured" value="1" onchange="calculateCost()">
+                <input type="checkbox" id="is_featured" name="is_featured" value="1" onchange="calculateCost()" required>
             </div>
 
             {{-- feattured_until --}}

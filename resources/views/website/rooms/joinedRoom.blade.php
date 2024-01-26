@@ -237,6 +237,18 @@
                     </form>
                 </div>
                 <div class="room-actions">
+                    
+                    {{-- QR --}}
+                    <?php
+                    $roomUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/rooms/' . $room->id . '/';
+                    $googleChartsApiUrl = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . $roomUrl;
+                    ?>
+                    <h3>Show the room QR code</h3>
+                    <div class="room-qr">
+                        <img src="{{ $googleChartsApiUrl }}" alt="Room QR Code">
+                        <p>Scan this QR code to join the room</p>
+                        <p>Or copy this link: <a href="{{ $roomUrl }}">{{ $roomUrl }}</a></p>
+                    </div>
                     <h3>Room Members</h3>
                     <div class="members-container">
                     @foreach($room->members as $member)
@@ -250,21 +262,12 @@
                             @endif
                         </div>
                     @endforeach
+                    @if (Auth::user()->id != $room->user->id)
+                    <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
+                    @endif
                 </div>
-                @if (Auth::user()->id != $room->user->id)
-                <button class="leave-button red-button" onclick="leaveRoom()">Leave Room</button>
-                @endif
 
-                {{-- QR --}}
-                <?php
-                $roomUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/rooms/' . $room->id . '/';
-                $googleChartsApiUrl = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" . $roomUrl;
-                ?>
-                <div class="room-qr">
-                    <img src="{{ $googleChartsApiUrl }}" alt="Room QR Code">
-                    <p>Scan this QR code to join the room</p>
-                    <p>Or copy this link: <a href="{{ $roomUrl }}">{{ $roomUrl }}</a></p>
-                </div>
+
             </div>
 
                 

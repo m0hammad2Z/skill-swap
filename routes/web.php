@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('wallet')->group(function(){
         Route::get('/', [WalletTransactionController::class, 'index'])->name('wallet.index');
         Route::post('/deposit', [WalletTransactionController::class, 'deposit'])->name('wallet.deposit');
+        Route::post('/verify-payment', [WalletTransactionController::class, 'verifyPayment'])->name('wallet.verifyPayment');
     });
 
 

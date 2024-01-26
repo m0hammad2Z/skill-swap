@@ -25,7 +25,7 @@ class VideoSessionController extends Controller
         $lastSession = VideoSession::getLastSession($request->room_id);
 
         // if the room time is not finished yet
-        if ($lastSession && Carbon::parse($lastSession->started_at)->addDays(7)->isFuture()) {
+        if ($lastSession && Carbon::parse($lastSession->started_at)->addDays(6)->isFuture()) {
             return redirect()->back()->withErrors(['error' => 'You cannot create a new session now, please try again later']);
         }
 
@@ -60,11 +60,11 @@ class VideoSessionController extends Controller
     {
         $bearerToken = "Bearer " . $this->wherebyApiKey;
 
-        $endDate = now()->addDays(1)->format('Y-m-d\TH:i:s\Z');
+        $endDate = now()->addDays(6)->format('Y-m-d\TH:i:s\Z');
 
 
         $response = Http::withOptions([
-            'verify' => false, // Disable SSL certificate verification
+            'verify' => false,
         ])->withHeaders([
             'Content-Type' => 'application/json',
             'Authorization' => $bearerToken,

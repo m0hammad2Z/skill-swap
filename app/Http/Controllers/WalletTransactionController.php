@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WalletTransaction;
-use Illuminate\Support\Facades\Http;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use PayPalCheckoutSdk\Orders\OrdersGetRequest;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalHttp\HttpException;
+
 
 class WalletTransactionController extends Controller
 {
@@ -22,60 +28,42 @@ class WalletTransactionController extends Controller
         $request->validate([
             'amount' => 'required|numeric|min:1',
             'type' => 'required|in:deposit,room_creation',
+            'orderID' => 'required|string',
         ]);
+    
+        $user = auth()->user();
+    
+        $orderID = $request->orderID;
+
+
 
         try{
-                // Get access token
-                $response = Http::withBasicAuth($this->clientID, $this->secret)
-                ->asForm()
-                ->post('https://api.sandbox.paypal.com/v1/oauth2/token', [
-                    'grant_type' => 'client_credentials',
-                ]);
-
-                $accessToken = $response->json()['access_token'];
-
-                // Create an order
-                $response = Http::withToken($accessToken)
-                    ->post('https://api.sandbox.paypal.com/v2/checkout/orders', [
-                        'intent' => 'CAPTURE',
-                        'purchase_units' => [
-                            [
-                                'amount' => [
-                                    'currency_code' => 'USD',
-                                    'value' => $request->amount,
-                                ],
-                            ],
-                        ],
-                    ]);
-
-                $orderID = $response->json()['id'];
-
-                // Capture an order
-                $response = Http::withToken($accessToken)
-                    ->post("https://api.sandbox.paypal.com/v2/checkout/orders/{$orderID}/capture");
-
-                $response->json();
-
-
-                $user = auth()->user();
-
-                $walletTransaction = new WalletTransaction();
-                $walletTransaction->user_id = $user->id;
-                $walletTransaction->amount = $request->amount;
-                $walletTransaction->transaction_type = WalletTransaction::$deposit;
-                $walletTransaction->transaction_date = now();
-                $walletTransaction->save();
-
-                $user->sbucks_balance += ($request->amount * 15);
-                $user->save();
-
-                return redirect()->route('wallet.index')->with('success', 'Amount deposited successfully');
-        }catch(\Exception $e){
-            return redirect()->route('wallet.index')->with('error', 'Something went wrong');
+            $environment = new SandboxEnvironment($this->clientID, $this->secret);
+            $client = new PayPalHttpClient($environment);   
+        
+            $response = $client->execute(new OrdersGetRequest($orderID));
+            $order = $response->result;
+        }catch(HttpException $ex){
+            return redirect()->route('wallet.index')->with('error', 'Payment verification failed');
+        }
+    
+        // Verify the payment details
+        if ($order->status === 'COMPLETED' && $order->purchase_units[0]->amount->value == $request->amount) {
+            $walletTransaction = new WalletTransaction();
+            $walletTransaction->user_id = $user->id;
+            $walletTransaction->amount = $request->amount;
+            $walletTransaction->transaction_type = WalletTransaction::$deposit;
+            $walletTransaction->transaction_date = now();
+            $walletTransaction->save();
+    
+            $user->sbucks_balance += ($request->amount * 15);
+            $user->save();
+    
+            return redirect()->route('wallet.index')->with('success', 'Deposit successful');
+        } else {
+            return redirect()->route('wallet.index')->with('error', 'Payment verification failed');
         }
     }
-
     
-
 
 }
