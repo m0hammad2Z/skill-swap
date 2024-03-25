@@ -42,9 +42,9 @@ SkillSwap is a platform that connects users based on their skills, allowing them
    composer install
     ```
 3. Set up your environment variables:
-```bash
-cp .env.example .env
-```
+    ```bash
+    cp .env.example .env
+    ```
 Update the .env file with your database and other configuration details.
 
 4. php artisan migrate
@@ -52,9 +52,9 @@ Update the .env file with your database and other configuration details.
    php artisan migrate
    ```
 5. Start the development server:
-```bash
-php artisan serve
-```
+    ```bash
+    php artisan serve
+    ```
 ## Usage
 - Register an account, create a profile, and explore rooms based on your skills and interests.
 - Create your own virtual rooms or join existing ones.
