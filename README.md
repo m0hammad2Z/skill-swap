@@ -23,7 +23,7 @@ SkillSwap is a platform that connects users based on their skills, allowing them
 
 ## Technologies
 
-- **Frontend**: HTML, CSS, JavaScript (Vue.js)
+- **Frontend**: HTML, CSS, JavaScript
 - **Backend**: PHP (Laravel)
 - **Database**: MySQL
 - **Video Sessions**: [Video Session API]
